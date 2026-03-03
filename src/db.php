@@ -71,12 +71,37 @@ function get_db(): PDO
             UNIQUE(group_id, user_id)
         );
 
+        CREATE TABLE IF NOT EXISTS group_events (
+            id          INTEGER PRIMARY KEY AUTOINCREMENT,
+            group_id    INTEGER NOT NULL REFERENCES user_groups(id) ON DELETE CASCADE,
+            creator_id  INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+            title       TEXT    NOT NULL,
+            description TEXT    NOT NULL DEFAULT '',
+            event_date  TEXT    NOT NULL,
+            event_time  TEXT    NOT NULL,
+            location    TEXT    NOT NULL DEFAULT '',
+            meeting_url TEXT    NOT NULL DEFAULT '',
+            created_at  TEXT    NOT NULL DEFAULT (datetime('now'))
+        );
+
+        CREATE TABLE IF NOT EXISTS event_rsvps (
+            id         INTEGER PRIMARY KEY AUTOINCREMENT,
+            event_id   INTEGER NOT NULL REFERENCES group_events(id) ON DELETE CASCADE,
+            user_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+            created_at TEXT    NOT NULL DEFAULT (datetime('now')),
+            UNIQUE(event_id, user_id)
+        );
+
         CREATE INDEX IF NOT EXISTS idx_remember_selector   ON remember_tokens(selector);
         CREATE INDEX IF NOT EXISTS idx_users_email         ON users(email);
         CREATE INDEX IF NOT EXISTS idx_group_members_group ON group_members(group_id);
         CREATE INDEX IF NOT EXISTS idx_group_members_user  ON group_members(user_id);
         CREATE INDEX IF NOT EXISTS idx_user_groups_city    ON user_groups(city_id);
         CREATE INDEX IF NOT EXISTS idx_user_groups_creator ON user_groups(creator_id);
+        CREATE INDEX IF NOT EXISTS idx_group_events_group  ON group_events(group_id);
+        CREATE INDEX IF NOT EXISTS idx_group_events_date   ON group_events(event_date);
+        CREATE INDEX IF NOT EXISTS idx_event_rsvps_event   ON event_rsvps(event_id);
+        CREATE INDEX IF NOT EXISTS idx_event_rsvps_user    ON event_rsvps(user_id);
     ");
 
     // Seed cities — INSERT OR IGNORE is idempotent (skips rows that already exist)

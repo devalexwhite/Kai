@@ -1,6 +1,67 @@
 <?php
 declare(strict_types=1);
 
+$pdo  = get_db();
+$user = current_user();
+
+// Determine which city to show in the explore section
+$cityId = null;
+if ($user) {
+    $cityId = (int) $user['city_id'];
+} elseif (isset($_GET['city_id'])) {
+    $submitted = (int) $_GET['city_id'];
+    if ($submitted > 0) {
+        $check = $pdo->prepare('SELECT id FROM cities WHERE id = ?');
+        $check->execute([$submitted]);
+        if ($check->fetch()) {
+            $cityId = $submitted;
+        }
+    }
+}
+
+$exploreCity = null;
+if ($cityId !== null) {
+    $stmt = $pdo->prepare('SELECT id, name, state FROM cities WHERE id = ?');
+    $stmt->execute([$cityId]);
+    $exploreCity = $stmt->fetch() ?: null;
+}
+
+// Fall back to the city with the most groups
+if ($exploreCity === null) {
+    $exploreCity = $pdo->query("
+        SELECT c.id, c.name, c.state
+        FROM cities c
+        JOIN user_groups g ON g.city_id = c.id
+        GROUP BY c.id
+        ORDER BY COUNT(g.id) DESC
+        LIMIT 1
+    ")->fetch() ?: null;
+}
+
+// Query up to 6 groups for the explore city
+$groups = [];
+if ($exploreCity !== null) {
+    $userId = $user ? (int) $user['id'] : 0;
+    $stmt   = $pdo->prepare("
+        SELECT g.id, g.name,
+               COUNT(DISTINCT m.id) AS member_count,
+               MIN(e.event_date) AS next_event_date,
+               EXISTS (SELECT 1 FROM group_members WHERE group_id = g.id AND user_id = ?) AS is_member
+        FROM user_groups g
+        LEFT JOIN group_members m ON m.group_id = g.id
+        LEFT JOIN group_events e ON e.group_id = g.id AND e.event_date >= date('now')
+        WHERE g.city_id = ?
+        GROUP BY g.id
+        ORDER BY
+            CASE WHEN MIN(e.event_date) IS NULL THEN 1 ELSE 0 END,
+            MIN(e.event_date) ASC,
+            COUNT(DISTINCT m.id) DESC
+        LIMIT 6
+    ");
+    $stmt->execute([$userId, (int) $exploreCity['id']]);
+    $groups = $stmt->fetchAll();
+}
+
 ob_start();
 ?>
 <section class="hero">
@@ -17,6 +78,33 @@ ob_start();
         </div>
     </div>
 </section>
+
+<?php if ($exploreCity !== null): ?>
+<section class="explore-section">
+    <div class="container">
+        <div class="explore-section__header">
+            <h2>Explore groups in your city</h2>
+            <div id="city-widget" class="city-widget city-widget--has-value">
+                <div class="city-widget__chosen">
+                    <span><?= e($exploreCity['name']) ?>, <?= e($exploreCity['state']) ?></span>
+                    <button type="button" class="btn btn--ghost btn--sm"
+                            hx-get="/?page=city_search&reset=1&mode=explore"
+                            hx-target="#city-widget"
+                            hx-swap="outerHTML">
+                        Change
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <?php $oob = false; include __DIR__ . '/../templates/explore_groups_grid.php'; ?>
+
+        <div class="explore-section__footer">
+            <a href="/?page=groups" class="btn btn--ghost btn--sm">Browse all groups</a>
+        </div>
+    </div>
+</section>
+<?php endif; ?>
 
 <section class="how-it-works">
     <div class="container">

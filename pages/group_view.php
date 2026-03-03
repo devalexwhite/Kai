@@ -67,6 +67,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     redirect('/?page=group_view&id=' . $id);
 }
 
+// Events
+$showPast = isset($_GET['show_past']);
+$today    = date('Y-m-d');
+$now      = date('H:i');
+
+$eventsStmt = $pdo->prepare("
+    SELECT e.id, e.title, e.event_date, e.event_time, e.location, e.meeting_url,
+           COUNT(r.id) AS rsvp_count
+    FROM group_events e
+    LEFT JOIN event_rsvps r ON r.event_id = e.id
+    WHERE e.group_id = ?
+    GROUP BY e.id
+    ORDER BY e.event_date ASC, e.event_time ASC
+");
+$eventsStmt->execute([$id]);
+$allEvents = $eventsStmt->fetchAll();
+
+$upcomingEvents = [];
+$pastEvents     = [];
+
+foreach ($allEvents as $ev) {
+    if ($ev['event_date'] > $today || ($ev['event_date'] === $today && $ev['event_time'] >= $now)) {
+        $upcomingEvents[] = $ev;
+    } else {
+        $pastEvents[] = $ev;
+    }
+}
+$pastEvents = array_reverse($pastEvents); // most recent past first
+$pastCount  = count($pastEvents);
+
 $color = group_color((int) $group['id']);
 
 ob_start();
@@ -119,6 +149,110 @@ ob_start();
                     <?php endif; ?>
                 </div>
             </div>
+        </div>
+
+        <div class="group-events">
+            <div class="group-events__header">
+                <h2>Events</h2>
+                <?php if ($isCreator): ?>
+                    <a href="/?page=event_create&group_id=<?= (int) $id ?>" class="btn btn--primary btn--sm">Create event</a>
+                <?php endif; ?>
+            </div>
+
+            <?php if (empty($upcomingEvents)): ?>
+                <div class="placeholder-card placeholder-card--empty">
+                    <p>No upcoming events.<?php if ($isCreator): ?> Create one to get started.<?php endif; ?></p>
+                    <?php if ($isCreator): ?>
+                        <a href="/?page=event_create&group_id=<?= (int) $id ?>" class="btn btn--primary btn--sm">Create event</a>
+                    <?php endif; ?>
+                </div>
+            <?php else: ?>
+                <div class="event-list">
+                    <?php foreach ($upcomingEvents as $ev): ?>
+                        <?php
+                        $dt   = new DateTimeImmutable($ev['event_date'] . ' ' . $ev['event_time']);
+                        $date = $dt->format('M j, Y');
+                        $time = $dt->format('g:i A');
+                        $countdown = event_countdown($dt);
+                        ?>
+                        <article class="event-card">
+                            <div class="event-card__datetime">
+                                <span class="event-card__date"><?= e($date) ?></span>
+                                <span class="event-card__time"><?= e($time) ?></span>
+                            </div>
+                            <div class="event-card__body">
+                                <h3 class="event-card__title">
+                                    <a href="/?page=event_view&id=<?= (int) $ev['id'] ?>"><?= e($ev['title']) ?></a>
+                                </h3>
+                                <p class="event-card__meta">
+                                    <?= (int) $ev['rsvp_count'] ?> going
+                                    <?php if ($ev['location'] !== ''): ?>
+                                        &middot; <?= e($ev['location']) ?>
+                                    <?php endif; ?>
+                                    <?php if ($ev['meeting_url'] !== ''): ?>
+                                        &middot; Online
+                                    <?php endif; ?>
+                                </p>
+                            </div>
+                            <div class="event-card__actions">
+                                <a href="/?page=event_view&id=<?= (int) $ev['id'] ?>">
+                                    View 
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                      <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                    </svg>
+                                </a>
+                                <span class="event-card__countdown"><?= e($countdown) ?></span>
+                            </div>
+                            
+                        </article>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($pastCount > 0): ?>
+                <div id="past-events-section" class="group-events__past">
+                    <?php if ($showPast): ?>
+                        <h3 class="group-events__past-heading">Past events</h3>
+                        <div class="event-list">
+                            <?php foreach ($pastEvents as $ev): ?>
+                                <?php
+                                $dt   = new DateTimeImmutable($ev['event_date'] . ' ' . $ev['event_time']);
+                                $date = $dt->format('M j, Y');
+                                $time = $dt->format('g:i A');
+                                ?>
+                                <article class="event-card event-card--past">
+                                    <div class="event-card__datetime">
+                                        <span class="event-card__date"><?= e($date) ?></span>
+                                        <span class="event-card__time"><?= e($time) ?></span>
+                                    </div>
+                                    <div class="event-card__body">
+                                        <h3 class="event-card__title">
+                                            <a href="/?page=event_view&id=<?= (int) $ev['id'] ?>"><?= e($ev['title']) ?></a>
+                                        </h3>
+                                        <p class="event-card__meta">
+                                            <?= (int) $ev['rsvp_count'] ?> <?= (int) $ev['rsvp_count'] === 1 ? 'attendee' : 'attendees' ?>
+                                            <?php if ($ev['location'] !== ''): ?>
+                                                &middot; <?= e($ev['location']) ?>
+                                            <?php endif; ?>
+                                            <?php if ($ev['meeting_url'] !== ''): ?>
+                                                &middot; Online
+                                            <?php endif; ?>
+                                        </p>
+                                    </div>
+                                </article>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php else: ?>
+                        <a href="/?page=group_view&id=<?= (int) $id ?>&show_past=1"
+                           class="btn btn--ghost btn--sm"
+                           hx-get="/?page=past_events&group_id=<?= (int) $id ?>"
+                           hx-target="#past-events-section"
+                           hx-swap="outerHTML">
+                            Show past events (<?= $pastCount ?>)
+                        </a>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>

@@ -66,6 +66,29 @@ function group_color(int $id): string
 }
 
 /**
+ * Return a human-readable countdown string for an upcoming event.
+ * Examples: "In 2 months", "In 5 days", "In 3 hours", "In 45 minutes"
+ */
+function event_countdown(DateTimeImmutable $eventDt): string
+{
+    $now  = new DateTimeImmutable();
+    $diff = $now->diff($eventDt);
+
+    $months = $diff->y * 12 + $diff->m;
+    if ($months >= 1) {
+        return 'In ' . $months . ' ' . ($months === 1 ? 'month' : 'months');
+    }
+    if ($diff->d >= 1) {
+        return 'In ' . $diff->d . ' ' . ($diff->d === 1 ? 'day' : 'days');
+    }
+    if ($diff->h >= 1) {
+        return 'In ' . $diff->h . ' ' . ($diff->h === 1 ? 'hour' : 'hours');
+    }
+    $mins = max(1, $diff->i);
+    return 'In ' . $mins . ' ' . ($mins === 1 ? 'minute' : 'minutes');
+}
+
+/**
  * Finish rendering a page.
  * Call after ob_start() and the page's HTML output.
  * - HTMX requests: echoes the captured fragment directly.

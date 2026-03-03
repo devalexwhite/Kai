@@ -12,6 +12,20 @@ $pdo    = get_db();
 // Resolve preselected city for widget (set after a failed submission that had a city chosen)
 $preselected = null;
 
+// Capture and validate the post-signup redirect target
+$next = '';
+$rawNext = $_GET['next'] ?? '';
+$parsedNext = parse_url($rawNext);
+if (
+    $rawNext !== ''
+    && str_starts_with($rawNext, '/')
+    && !str_starts_with($rawNext, '//')
+    && empty($parsedNext['host'])
+    && empty($parsedNext['scheme'])
+) {
+    $next = $rawNext;
+}
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_verify();
@@ -21,6 +35,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     $city_id  = (int) ($_POST['city_id'] ?? 0);
     $remember = !empty($_POST['remember']);
+
+    // Re-read next from POST so it survives a failed submission
+    if ($next === '') {
+        $rawNext = $_POST['next'] ?? '';
+        $parsedNext = parse_url($rawNext);
+        if (
+            $rawNext !== ''
+            && str_starts_with($rawNext, '/')
+            && !str_starts_with($rawNext, '//')
+            && empty($parsedNext['host'])
+            && empty($parsedNext['scheme'])
+        ) {
+            $next = $rawNext;
+        }
+    }
 
     $old = ['name' => $name, 'email' => $email];
 
@@ -55,8 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($remember) {
                 set_remember_me_cookie($userId);
             }
-            flash('success', 'Welcome to Kai, ' . e($name) . '!');
-            redirect('/?page=dashboard');
+            flash('success', 'Welcome to Kai, ' . $name . '!');
+            redirect($next !== '' ? $next : '/?page=dashboard');
         } catch (PDOException $e) {
             if (str_contains($e->getMessage(), 'UNIQUE constraint')) {
                 $errors['email'] = 'An account with this email already exists.';
@@ -76,6 +105,9 @@ ob_start();
 
         <form method="post" action="/?page=signup" novalidate>
             <?= csrf_field() ?>
+            <?php if ($next !== ''): ?>
+                <input type="hidden" name="next" value="<?= e($next) ?>">
+            <?php endif; ?>
 
             <div class="form-group <?= !empty($errors['name']) ? 'form-group--error' : '' ?>">
                 <label for="name">Full name</label>
