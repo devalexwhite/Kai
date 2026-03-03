@@ -1,0 +1,10 @@
+{
+    "name": "alexwhite/kai",
+    "authors": [
+        {
+            "name": "Alex White",
+            "email": "alex.white@hey.com"
+        }
+    ],
+    "require": {}
+}
