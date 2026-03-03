@@ -57,6 +57,15 @@ function get_flash(string $key): ?string
 }
 
 /**
+ * Return a deterministic pastel cover color for a group based on its ID.
+ */
+function group_color(int $id): string
+{
+    $palette = ['#ddd6fe', '#bbf7d0', '#fed7aa', '#bae6fd', '#fde68a', '#fbcfe8'];
+    return $palette[$id % count($palette)];
+}
+
+/**
  * Finish rendering a page.
  * Call after ob_start() and the page's HTML output.
  * - HTMX requests: echoes the captured fragment directly.

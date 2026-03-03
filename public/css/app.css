@@ -566,6 +566,251 @@ input:focus-visible {
     margin-bottom: .85rem;
 }
 
+/* --- Forms: select + textarea -------------------------------- */
+
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: .6rem .85rem;
+    border: 1.5px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: #111827;
+    background: #fff;
+    transition: border-color .15s, box-shadow .15s;
+}
+
+.form-group select:focus-visible,
+.form-group textarea:focus-visible {
+    outline: none;
+    border-color: #5b21b6;
+    box-shadow: 0 0 0 3px rgba(91, 33, 182, .15);
+}
+
+.form-group--error select,
+.form-group--error textarea {
+    border-color: #ef4444;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-actions {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* --- Danger button ------------------------------------------- */
+
+.btn--danger {
+    background: transparent;
+    color: #dc2626;
+    border-color: #dc2626;
+}
+
+.btn--danger:hover {
+    background: #fee2e2;
+}
+
+/* --- City search widget -------------------------------------- */
+
+.city-widget {
+    position: relative;
+}
+
+.city-widget__input {
+    width: 100%;
+    padding: .6rem .85rem;
+    border: 1.5px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: #111827;
+    background: #fff;
+    transition: border-color .15s, box-shadow .15s;
+}
+
+.city-widget__input:focus-visible {
+    outline: none;
+    border-color: #5b21b6;
+    box-shadow: 0 0 0 3px rgba(91, 33, 182, .15);
+}
+
+.form-group--error .city-widget__input {
+    border-color: #ef4444;
+}
+
+.city-widget__results {
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0;
+    right: 0;
+    z-index: 20;
+    background: #fff;
+    border: 1.5px solid #d1d5db;
+    border-radius: 6px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, .1);
+    overflow: hidden;
+    max-height: 260px;
+    overflow-y: auto;
+}
+
+.city-widget__results:empty {
+    display: none;
+}
+
+.city-widget__results--empty {
+    padding: .65rem 1rem;
+    color: #6b7280;
+    font-size: .9375rem;
+    font-style: italic;
+}
+
+.city-widget__option {
+    display: block;
+    width: 100%;
+    padding: .6rem 1rem;
+    text-align: left;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: .9375rem;
+    font-family: inherit;
+    color: #111827;
+    cursor: pointer;
+    line-height: 1.5;
+}
+
+.city-widget__option:last-child {
+    border-bottom: none;
+}
+
+.city-widget__option:hover,
+.city-widget__option:focus-visible {
+    background: #f5f3ff;
+    color: #5b21b6;
+    outline: none;
+}
+
+/* Selected state */
+.city-widget--has-value .city-widget__chosen {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .6rem .85rem;
+    border: 1.5px solid #d1d5db;
+    border-radius: 6px;
+    background: #f9fafb;
+    font-size: 1rem;
+    flex-wrap: wrap;
+}
+
+.city-widget__chosen span {
+    color: #111827;
+    font-weight: 500;
+}
+
+/* --- Error / not-found page ---------------------------------- */
+
+.error-page {
+    padding: 4rem 1.25rem;
+}
+
+/* --- Groups list page ---------------------------------------- */
+
+.groups-page {
+    padding: 2.5rem 0 4rem;
+}
+
+.groups-page__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.groups-page__header h1 {
+    font-size: 1.75rem;
+}
+
+/* --- Group detail page --------------------------------------- */
+
+.group-detail {
+    padding: 2.5rem 0 4rem;
+}
+
+.group-detail__card {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    max-width: 760px;
+}
+
+.group-detail__cover {
+    height: 160px;
+}
+
+.group-detail__body {
+    padding: 1.75rem;
+}
+
+.group-detail__body h1 {
+    font-size: 1.75rem;
+    margin-bottom: .5rem;
+}
+
+.group-detail__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem .85rem;
+    color: #6b7280;
+    font-size: .9375rem;
+    margin-bottom: .25rem;
+    list-style: none;
+}
+
+.group-detail__description {
+    margin-top: 1.25rem;
+    line-height: 1.7;
+    color: #374151;
+}
+
+.group-detail__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    margin-top: 1.75rem;
+}
+
+/* --- Create / Edit group form page --------------------------- */
+
+.form-page {
+    padding: 2.5rem 0 4rem;
+}
+
+.form-card {
+    max-width: 640px;
+}
+
+.form-card h1 {
+    font-size: 1.625rem;
+    margin-bottom: .35rem;
+}
+
+.form-card__sub {
+    color: #6b7280;
+    font-size: .9375rem;
+    margin-bottom: 2rem;
+}
+
 /* --- Footer -------------------------------------------------- */
 
 .site-footer {

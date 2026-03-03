@@ -19,7 +19,7 @@ csrf_token();
 resolve_remember_me();
 
 // Route dispatch
-$routes = ['home', 'signup', 'signin', 'signout', 'dashboard'];
+$routes = ['home', 'signup', 'signin', 'signout', 'dashboard', 'groups', 'group_create', 'group_view', 'group_edit', 'group_delete', 'city_search'];
 $page   = $_GET['page'] ?? 'home';
 
 if (!in_array($page, $routes, true)) {

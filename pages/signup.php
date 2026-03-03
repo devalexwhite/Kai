@@ -8,6 +8,10 @@ if (current_user() !== null) {
 
 $errors = [];
 $old    = ['name' => '', 'email' => ''];
+$pdo    = get_db();
+// Resolve preselected city for widget (set after a failed submission that had a city chosen)
+$preselected = null;
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_verify();
@@ -15,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name     = trim($_POST['name'] ?? '');
     $email    = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
+    $city_id  = (int) ($_POST['city_id'] ?? 0);
     $remember = !empty($_POST['remember']);
 
     $old = ['name' => $name, 'email' => $email];
@@ -32,10 +37,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (mb_strlen($password) < 6) {
         $errors['password'] = 'Password must be at least 6 characters.';
     }
+    
+    if ($city_id === 0) {
+        $errors['city_id'] = 'Please select a city.';
+    } else {
+        $cityCheck = $pdo->prepare('SELECT id FROM cities WHERE id = ?');
+        $cityCheck->execute([$city_id]);
+        if (!$cityCheck->fetch()) {
+            $errors['city_id'] = 'Please select a valid city.';
+        }
+    }
 
     if (empty($errors)) {
         try {
-            $userId = register_user($name, $email, $password);
+            $userId = register_user($name, $email, $password, $city_id);
             login_user($userId);
             if ($remember) {
                 set_remember_me_cookie($userId);
@@ -111,13 +126,15 @@ ob_start();
                 <?php endif; ?>
             </div>
 
+            <?php include __DIR__ . '/../templates/city_widget.php'; ?>
+            
             <div class="form-group form-group--checkbox">
                 <label>
                     <input type="checkbox" name="remember" value="1">
                     Remember me for 30 days
                 </label>
             </div>
-
+            
             <button type="submit" class="btn btn--primary btn--full">Create account</button>
         </form>
     </div>

@@ -5,6 +5,7 @@
         <div class="nav__links">
             <?php $user = current_user(); ?>
             <?php if ($user): ?>
+                <a href="/?page=groups">Groups</a>
                 <a href="/?page=dashboard">Dashboard</a>
                 <form method="post" action="/?page=signout" class="inline-form">
                     <?= csrf_field() ?>

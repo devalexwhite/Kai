@@ -18,7 +18,7 @@ function current_user(): ?array
         return null;
     }
 
-    $stmt = get_db()->prepare('SELECT id, name, email, created_at FROM users WHERE id = ?');
+    $stmt = get_db()->prepare('SELECT id, name, email, city_id, created_at FROM users WHERE id = ?');
     $stmt->execute([$_SESSION['user_id']]);
     $user = $stmt->fetch() ?: null;
     return $user;
@@ -114,11 +114,11 @@ function attempt_login(string $email, string $password): ?array
  * Register a new user. Returns the new user's ID.
  * Throws PDOException on duplicate email (SQLSTATE 23000).
  */
-function register_user(string $name, string $email, string $password): int
+function register_user(string $name, string $email, string $password, int $city_id): int
 {
     $hash = password_hash($password, PASSWORD_ARGON2ID);
-    $stmt = get_db()->prepare('INSERT INTO users (name, email, password) VALUES (?, ?, ?)');
-    $stmt->execute([trim($name), strtolower(trim($email)), $hash]);
+    $stmt = get_db()->prepare('INSERT INTO users (name, email, password, city_id) VALUES (?, ?, ?, ?)');
+    $stmt->execute([trim($name), strtolower(trim($email)), $hash, $city_id]);
     return (int) get_db()->lastInsertId();
 }
 
