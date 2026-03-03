@@ -51,12 +51,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Resolve preselected city for widget (set after a failed submission that had a city chosen)
-$preselected = null;
-if ((int) $old['city_id'] > 0) {
-    $cityStmt = $pdo->prepare('SELECT id, name, state FROM cities WHERE id = ?');
-    $cityStmt->execute([(int) $old['city_id']]);
-    $preselected = $cityStmt->fetch() ?: null;
-}
+$preselected = $old['city_id'] ?: current_user()['city_id'];
+
+$cityStmt = $pdo->prepare('SELECT id, name, state FROM cities WHERE id = ?');
+$cityStmt->execute([$preselected]);
+$preselected = $cityStmt->fetch() ?: null;
+
 
 ob_start();
 ?>
