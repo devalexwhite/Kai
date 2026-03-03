@@ -1,3 +1,5 @@
+<img src="/public/images/logo.webp" width="50"/>
+
 # Kai
 
 The place for hosting community gatherings.
