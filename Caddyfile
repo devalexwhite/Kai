@@ -7,22 +7,25 @@
 
     encode gzip
 
-    # Block sensitive paths — belt-and-suspenders alongside volume-only database
-    @blocked {
-        path /database /database/*
-        path /src /src/*
-        path /templates /templates/*
-        path /pages /pages/*
-        path /vendor /vendor/*
-        path /composer.json
-        path /composer.lock
-        path_regexp sensitive (\.env|\.sqlite|\.sqlite-wal|\.sqlite-shm)
+    # Block sensitive directory/file paths
+    @blockedPaths path /database /database/* /src /src/* /templates /templates/* /pages /pages/* /vendor /vendor/* /composer.json /composer.lock
+    handle @blockedPaths {
+        respond 403
     }
-    respond @blocked 403
 
-    # Proxy PHP to app container; file_server handles everything else
-    php_fastcgi app:9000 {
-        try_files {path} index.php
+    # Block sensitive file patterns (.env, .sqlite, etc.)
+    @blockedFiles path_regexp sensitive (\.env|\.sqlite|\.sqlite-wal|\.sqlite-shm)
+    handle @blockedFiles {
+        respond 403
     }
-    file_server
+
+    # Serve static assets from /public; everything else goes to PHP
+    handle /public/* {
+        file_server
+    }
+
+    handle {
+        rewrite * /index.php
+        php_fastcgi app:9000
+    }
 }
