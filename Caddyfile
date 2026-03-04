@@ -9,11 +9,11 @@
 
     # Block sensitive paths — belt-and-suspenders alongside volume-only database
     @blocked {
-        path /database/*
-        path /src/*
-        path /templates/*
-        path /pages/*
-        path /vendor/*
+        path /database /database/*
+        path /src /src/*
+        path /templates /templates/*
+        path /pages /pages/*
+        path /vendor /vendor/*
         path /composer.json
         path /composer.lock
         path_regexp sensitive (\.env|\.sqlite|\.sqlite-wal|\.sqlite-shm)
@@ -21,6 +21,8 @@
     respond @blocked 403
 
     # Proxy PHP to app container; file_server handles everything else
-    php_fastcgi app:9000
+    php_fastcgi app:9000 {
+        try_files {path} index.php
+    }
     file_server
 }
