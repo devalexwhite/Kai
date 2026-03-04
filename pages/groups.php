@@ -39,7 +39,7 @@ ob_start();
             <div class="group-grid">
                 <?php foreach ($groups as $group): ?>
                     <article class="group-card">
-                        <div class="group-card__cover" style="background: <?= group_color((int) $group['id']) ?>;" aria-hidden="true"></div>
+                        <div class="group-card__cover" style="background-size: 40px;background-image: url('<?= group_background((int) $group['id']) ?>');" aria-hidden="true"></div>
                         <div class="group-card__body">
                             <h3><?= e($group['name']) ?></h3>
                             <p>

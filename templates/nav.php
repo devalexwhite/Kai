@@ -1,9 +1,9 @@
 <?php declare(strict_types=1); ?>
 <header class="site-header">
     <nav class="nav container">
-        <a href="/" class="nav__brand">
-            <img src="/public/images/logo.webp" width="50" height="50" />
-        </a>
+        
+        <a href="/" class="nav__brand">Kai</a>
+        
         <div class="nav__links">
             <?php $user = current_user(); ?>
             <?php if ($user): ?>

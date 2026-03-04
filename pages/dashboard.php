@@ -149,9 +149,9 @@ ob_start();
             <?php else: ?>
                 <div class="group-grid">
                     <?php foreach ($joinedGroups as $group): ?>
-                        <?php $color = group_color((int) $group['id']); ?>
+                        <?php $bg = group_background((int) $group['id']); ?>
                         <article class="group-card">
-                            <div class="group-card__cover" style="background: <?= $color ?>;" aria-hidden="true"></div>
+                            <div class="group-card__cover" style="background-size: 40px; background-image: url('<?= $bg ?>');" aria-hidden="true"></div>
                             <div class="group-card__body">
                                 <h3><?= e($group['name']) ?></h3>
                                 <p>
@@ -175,9 +175,9 @@ ob_start();
             </div>
             <div class="group-grid">
                 <?php foreach ($suggestedGroups as $group): ?>
-                    <?php $color = group_color((int) $group['id']); ?>
+                    <?php $bg = group_background((int) $group['id']); ?>
                     <article class="group-card">
-                        <div class="group-card__cover" style="background: <?= $color ?>;" aria-hidden="true"></div>
+                        <div class="group-card__cover" style="background-size: 40px; background-image: url('<?= $bg ?>');" aria-hidden="true"></div>
                         <div class="group-card__body">
                             <h3><?= e($group['name']) ?></h3>
                             <p>

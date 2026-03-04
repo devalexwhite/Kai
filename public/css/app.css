@@ -178,6 +178,7 @@ button.btn {
     color: var(--color-forest);
     text-decoration: none;
     letter-spacing: -.01em;
+    text-align: left;
 }
 
 .nav__brand:hover {
@@ -660,7 +661,8 @@ input:focus-visible {
 
 .group-card__cover {
     height: 80px;
-    background: linear-gradient(135deg, var(--color-forest) 0%, var(--color-moss-mid) 100%);
+    color: var(--color-bark);
+    background-color: var(--color-sage);
 }
 
 .group-card__body {
@@ -885,7 +887,8 @@ input:focus-visible {
 
 .group-detail__cover {
     height: 160px;
-    background: linear-gradient(135deg, var(--color-forest-deep) 0%, var(--color-moss) 100%);
+    color: var(--color-bark);
+    background-color: var(--color-sage);
 }
 
 .group-detail__body {

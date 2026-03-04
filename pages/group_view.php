@@ -97,14 +97,14 @@ foreach ($allEvents as $ev) {
 $pastEvents = array_reverse($pastEvents); // most recent past first
 $pastCount  = count($pastEvents);
 
-$color = group_color((int) $group['id']);
+$bg = group_background((int) $group['id']);
 
 ob_start();
 ?>
 <section class="group-detail">
     <div class="container">
         <div class="group-detail__card">
-            <div class="group-detail__cover" style="background: <?= $color ?>;" aria-hidden="true"></div>
+            <div class="group-detail__cover" style="background-size: 40px;background-image: url('<?= $bg ?>');" aria-hidden="true"></div>
             <div class="group-detail__body">
                 <h1><?= e($group['name']) ?></h1>
                 <div class="group-detail__meta">
