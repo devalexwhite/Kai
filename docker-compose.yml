@@ -1,0 +1,37 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    networks:
+      - internal
+    volumes:
+      - db-data:/var/www/html/database
+      - sessions:/tmp/php-sessions
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"   # HTTP/3
+    networks:
+      - internal
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./public:/var/www/html/public:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    env_file: .env
+    depends_on:
+      - app
+
+networks:
+  internal:
+    driver: bridge
+
+volumes:
+  db-data:
+  sessions:
+  caddy-data:
+  caddy-config:
