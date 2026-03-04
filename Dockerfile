@@ -13,8 +13,8 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Copy composer manifest first for layer caching
-COPY composer.json ./
+# Copy composer manifests first for layer caching (lock file pinned to reproducible builds)
+COPY composer.json composer.lock* ./
 
 # Install PHP dependencies (no dev, optimized autoloader)
 RUN composer install \
@@ -27,6 +27,7 @@ RUN composer install \
 COPY . .
 
 # Create runtime directories and set permissions
+# /tmp/php-sessions is mounted as a named volume at runtime (see docker-compose.yml)
 RUN mkdir -p database /tmp/php-sessions \
     && chown -R www-data:www-data /var/www/html /tmp/php-sessions
 
