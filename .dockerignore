@@ -8,3 +8,7 @@ docs/
 *.sqlite
 *.sqlite-wal
 *.sqlite-shm
+.nova/
+.claude/
+CLAUDE.md
+README.md
