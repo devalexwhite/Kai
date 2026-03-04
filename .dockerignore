@@ -4,7 +4,8 @@ database/
 .git/
 docs/
 .env
-*.DS_Store
+**/.DS_Store
+# Belt-and-suspenders: database/ covers the main location, but catch any strays
 *.sqlite
 *.sqlite-wal
 *.sqlite-shm
