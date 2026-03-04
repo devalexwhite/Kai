@@ -1,0 +1,26 @@
+{
+    email {$ACME_EMAIL}
+}
+
+{$APP_DOMAIN} {
+    root * /var/www/html
+
+    encode gzip
+
+    # Block sensitive paths — belt-and-suspenders alongside volume-only database
+    @blocked {
+        path /database/*
+        path /src/*
+        path /templates/*
+        path /pages/*
+        path /vendor/*
+        path /composer.json
+        path /composer.lock
+        path_regexp sensitive (\.env|\.sqlite|\.sqlite-wal|\.sqlite-shm)
+    }
+    respond @blocked 403
+
+    # Proxy PHP to app container; file_server handles everything else
+    php_fastcgi app:9000
+    file_server
+}
