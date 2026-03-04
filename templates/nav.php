@@ -7,8 +7,8 @@
         <div class="nav__links">
             <?php $user = current_user(); ?>
             <?php if ($user): ?>
-                <a href="/?page=groups">Groups</a>
                 <a href="/?page=dashboard">Dashboard</a>
+                <a href="/?page=groups">Groups</a>
                 <form method="post" action="/?page=signout" class="inline-form">
                     <?= csrf_field() ?>
                     <button type="submit" class="btn btn--ghost">Sign out</button>

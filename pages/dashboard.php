@@ -141,12 +141,10 @@ ob_start();
                 <h2>Your groups</h2>
                 <a href="/?page=groups" class="btn btn--ghost btn--sm">Explore groups</a>
             </div>
-            <?php if (empty($joinedGroups)): ?>
-                <div class="group-grid">
-                    <div class="placeholder-card placeholder-card--empty">
-                        <p>You haven&rsquo;t joined any groups yet.</p>
-                        <a href="/?page=groups" class="btn btn--primary btn--sm">Find groups</a>
-                    </div>
+            <?php if (empty($joinedGroups)): ?>                
+                <div class="placeholder-card placeholder-card--empty">
+                    <p>You haven&rsquo;t joined any groups yet.</p>
+                    <a href="/?page=groups" class="btn btn--primary btn--sm">Find groups</a>
                 </div>
             <?php else: ?>
                 <div class="group-grid">
