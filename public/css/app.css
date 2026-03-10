@@ -375,7 +375,7 @@ input:focus-visible {
 /* --- Homepage ----------------------------------------------- */
 
 .hero {
-    background-image: url("/public/images/header-banner.webp");
+    background-image: url("/images/header-banner.webp");
     background-size: cover;
     background-position: center center;
     padding: 5rem 0 4.5rem;
