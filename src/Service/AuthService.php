@@ -125,7 +125,7 @@ class AuthService
      * Create a remember-me token using the split-token pattern.
      * Selector stored in plaintext; raw token stored as SHA-256 hash.
      */
-    public function setRememberMeCookie(int $userId): void
+    public function setRememberMeCookie(int $userId, bool $secure = false): void
     {
         $selector  = bin2hex(random_bytes(12));  // 24 hex chars
         $rawToken  = bin2hex(random_bytes(32));  // 64 hex chars
@@ -140,7 +140,7 @@ class AuthService
             'expires'  => time() + 60 * 60 * 24 * 30,
             'path'     => '/',
             'httponly' => true,
-            'secure'   => false, // Set to true in production (HTTPS)
+            'secure'   => $secure,
             'samesite' => 'Lax',
         ]);
     }
@@ -150,7 +150,7 @@ class AuthService
      * Rotates the token on each use to limit stolen-cookie abuse window.
      * Called once per request in SessionMiddleware.
      */
-    public function resolveRememberMe(): void
+    public function resolveRememberMe(bool $secure = false): void
     {
         if (!empty($_SESSION['user_id'])) {
             return;
@@ -206,6 +206,6 @@ class AuthService
             ->execute([$row['id']]);
 
         $this->loginUser((int) $row['user_id']);
-        $this->setRememberMeCookie((int) $row['user_id']);
+        $this->setRememberMeCookie((int) $row['user_id'], $secure);
     }
 }

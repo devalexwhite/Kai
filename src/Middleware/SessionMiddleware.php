@@ -15,13 +15,13 @@ class SessionMiddleware implements MiddlewareInterface
 
     public function process(Request $request, RequestHandler $handler): Response
     {
+        $isHttps = ($request->getUri()->getScheme() === 'https');
         ini_set('session.use_strict_mode', '1');
         ini_set('session.cookie_httponly', '1');
         ini_set('session.cookie_samesite', 'Lax');
         ini_set('session.use_only_cookies', '1');
         ini_set('session.gc_maxlifetime', '7200');
-        // Set to '1' when serving over HTTPS in production
-        ini_set('session.cookie_secure', '0');
+        ini_set('session.cookie_secure', $isHttps ? '1' : '0');
 
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -33,7 +33,7 @@ class SessionMiddleware implements MiddlewareInterface
         }
 
         // Resolve remember-me cookie — may set $_SESSION['user_id'] via session_regenerate_id
-        $this->authService->resolveRememberMe();
+        $this->authService->resolveRememberMe($isHttps);
 
         // Attach the authenticated user to the request for downstream middleware and actions
         $userId = $_SESSION['user_id'] ?? null;

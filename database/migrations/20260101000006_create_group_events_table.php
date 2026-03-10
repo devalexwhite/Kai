@@ -18,7 +18,7 @@ final class CreateGroupEventsTable extends AbstractMigration
             ->addColumn('event_time', 'string', ['null' => false])
             ->addColumn('location', 'string', ['null' => false, 'default' => ''])
             ->addColumn('meeting_url', 'string', ['null' => false, 'default' => ''])
-            ->addColumn('created_at', 'string', ['null' => false, 'default' => 'datetime(\'now\')'])
+            ->addColumn('created_at', 'datetime', ['null' => false, 'default' => 'CURRENT_TIMESTAMP'])
             ->addIndex(['group_id'])
             ->addIndex(['event_date'])
             ->addForeignKey('group_id', 'user_groups', 'id', ['delete' => 'CASCADE', 'update' => 'NO_ACTION'])

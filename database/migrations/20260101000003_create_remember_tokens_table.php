@@ -14,7 +14,7 @@ final class CreateRememberTokensTable extends AbstractMigration
             ->addColumn('selector', 'string', ['null' => false])
             ->addColumn('token_hash', 'string', ['null' => false])
             ->addColumn('expires_at', 'string', ['null' => false])
-            ->addColumn('created_at', 'string', ['null' => false, 'default' => 'datetime(\'now\')'])
+            ->addColumn('created_at', 'datetime', ['null' => false, 'default' => 'CURRENT_TIMESTAMP'])
             ->addIndex(['selector'], ['unique' => true])
             ->addForeignKey('user_id', 'users', 'id', ['delete' => 'CASCADE', 'update' => 'NO_ACTION'])
             ->create();

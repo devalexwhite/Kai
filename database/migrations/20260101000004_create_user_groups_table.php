@@ -14,7 +14,7 @@ final class CreateUserGroupsTable extends AbstractMigration
             ->addColumn('description', 'text', ['null' => false, 'default' => ''])
             ->addColumn('city_id', 'integer', ['null' => false])
             ->addColumn('creator_id', 'integer', ['null' => false])
-            ->addColumn('created_at', 'string', ['null' => false, 'default' => 'datetime(\'now\')'])
+            ->addColumn('created_at', 'datetime', ['null' => false, 'default' => 'CURRENT_TIMESTAMP'])
             ->addIndex(['city_id'])
             ->addIndex(['creator_id'])
             ->addForeignKey('city_id', 'cities', 'id', ['delete' => 'RESTRICT', 'update' => 'NO_ACTION'])
