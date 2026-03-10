@@ -19,26 +19,15 @@
                     <p class="group-detail__description">{{ group.description|nl2br }}</p>
                 {% endif %}
 
-                {% if links is not empty or isCreator %}
+                {% if links is not empty %}
                     <div class="group-detail__links">
-                        {% if links is not empty %}
-                            <ul class="group-links">
-                                {% for link in links %}
-                                    <li class="group-links__item">
-                                        <a href="{{ link.url }}" rel="noopener noreferrer nofollow" target="_blank">{{ link.title }}</a>
-                                        {% if isCreator %}
-                                            <form method="post" action="/groups/{{ group.id }}/links/{{ link.id }}/delete" class="group-links__delete">
-                                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                                                <button type="submit" class="btn-link btn-link--danger" aria-label="Remove link {{ link.title }}">Remove</button>
-                                            </form>
-                                        {% endif %}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-                        {% if isCreator %}
-                            <a href="/groups/{{ group.id }}/links/add" class="btn btn--ghost btn--sm">Add link</a>
-                        {% endif %}
+                        <ul class="group-links">
+                            {% for link in links %}
+                                <li class="group-links__item">
+                                    <a href="{{ link.url }}" rel="noopener noreferrer nofollow" target="_blank">{{ link.title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 {% endif %}
 

@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Group — Kai</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body hx-headers='{"X-CSRF-Token": "5d9ba0d3346fdbe57dfad20d0382807cdcae4ff366c6e517236a2e0f0ba5a45b"}'>
+
+    <header class="site-header">
+    <nav class="nav container">
+
+        <a href="/" class="nav__brand">Kai</a>
+
+        <div class="nav__links">
+                            <a href="/dashboard">Dashboard</a>
+                <a href="/groups">Groups</a>
+                <form method="post" action="/signout" class="inline-form">
+                    <input type="hidden" name="csrf_token" value="5d9ba0d3346fdbe57dfad20d0382807cdcae4ff366c6e517236a2e0f0ba5a45b">
+                    <button type="submit" class="btn btn--ghost">Sign out</button>
+                </form>
+                    </div>
+    </nav>
+</header>
+
+                                            
+    <main>
+        <section class="form-page">
+    <div class="container">
+        <div class="form-card">
+            <h1>Edit group</h1>
+            <p class="form-card__sub"><a href="/groups/1">← Back to group</a></p>
+
+            <form method="post" action="/groups/1/edit" novalidate>
+                <input type="hidden" name="csrf_token" value="5d9ba0d3346fdbe57dfad20d0382807cdcae4ff366c6e517236a2e0f0ba5a45b">
+
+                <div class="form-group ">
+                    <label for="name">Group name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="HTMX Test Group"
+                        maxlength="100"
+                        required
+                                            >
+                                    </div>
+
+                <div class="form-group ">
+                    <label for="description">Description</label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        maxlength="2000"
+                                            >Testing links</textarea>
+                    <span class="form-hint">Up to 2000 characters.</span>
+                                    </div>
+
+                <div class="form-group ">
+    <label>City</label>
+
+                    <div id="city-widget" class="city-widget city-widget--has-value">
+            <input type="hidden" name="city_id" value="1">
+            <div class="city-widget__chosen">
+                <span>Birmingham, AL</span>
+                <button type="button" class="btn btn--ghost btn--sm"
+                        hx-get="/city-search?reset=1"
+                        hx-target="#city-widget"
+                        hx-swap="outerHTML">
+                    Change
+                </button>
+            </div>
+        </div>
+    
+    
+        <noscript>
+        <style>#city-widget { display: none !important; }</style>
+        <select name="city_id" >
+            <option value="">— Select a city —</option>
+                            <option value="5"
+                                    >Anchorage, AK</option>
+                            <option value="1"
+                    selected                >Birmingham, AL</option>
+                            <option value="2"
+                                    >Huntsville, AL</option>
+                            <option value="3"
+                                    >Mobile, AL</option>
+                            <option value="4"
+                                    >Montgomery, AL</option>
+                            <option value="16"
+                                    >Fayetteville, AR</option>
+                            <option value="17"
+                                    >Fort Smith, AR</option>
+                            <option value="18"
+                                    >Little Rock, AR</option>
+                            <option value="6"
+                                    >Chandler, AZ</option>
+                            <option value="7"
+                                    >Gilbert, AZ</option>
+                            <option value="8"
+                                    >Glendale, AZ</option>
+                            <option value="9"
+                                    >Mesa, AZ</option>
+                            <option value="10"
+                                    >Peoria, AZ</option>
+                            <option value="11"
+                                    >Phoenix, AZ</option>
+                            <option value="12"
+                                    >Scottsdale, AZ</option>
+                            <option value="13"
+                                    >Surprise, AZ</option>
+                            <option value="14"
+                                    >Tempe, AZ</option>
+                            <option value="15"
+                                    >Tucson, AZ</option>
+                            <option value="19"
+                                    >Anaheim, CA</option>
+                            <option value="20"
+                                    >Antioch, CA</option>
+                            <option value="21"
+                                    >Bakersfield, CA</option>
+                            <option value="22"
+                                    >Berkeley, CA</option>
+                            <option value="23"
+                                    >Chula Vista, CA</option>
+                            <option value="24"
+                                    >Clovis, CA</option>
+                            <option value="25"
+                                    >Concord, CA</option>
+                            <option value="26"
+                                    >Corona, CA</option>
+                            <option value="27"
+                                    >Costa Mesa, CA</option>
+                            <option value="28"
+                                    >Downey, CA</option>
+                            <option value="29"
+                                    >El Monte, CA</option>
+                            <option value="30"
+                                    >Elk Grove, CA</option>
+                            <option value="31"
+                                    >Escondido, CA</option>
+                            <option value="32"
+                                    >Fontana, CA</option>
+                            <option value="33"
+                                    >Fremont, CA</option>
+                            <option value="34"
+                                    >Fresno, CA</option>
+                            <option value="35"
+                                    >Fullerton, CA</option>
+                            <option value="36"
+                                    >Garden Grove, CA</option>
+                            <option value="37"
+                                    >Glendale, CA</option>
+                            <option value="38"
+                                    >Hayward, CA</option>
+                            <option value="39"
+                                    >Huntington Beach, CA</option>
+                            <option value="40"
+                                    >Inglewood, CA</option>
+                            <option value="41"
+                                    >Irvine, CA</option>
+                            <option value="42"
+                                    >Lancaster, CA</option>
+                            <option value="43"
+                                    >Long Beach, CA</option>
+                            <option value="44"
+                                    >Los Angeles, CA</option>
+                            <option value="45"
+                                    >Modesto, CA</option>
+                            <option value="46"
+                                    >Moreno Valley, CA</option>
+                            <option value="47"
+                                    >Norwalk, CA</option>
+                            <option value="48"
+                                    >Oakland, CA</option>
+                            <option value="49"
+                                    >Oceanside, CA</option>
+                            <option value="50"
+                                    >Ontario, CA</option>
+                            <option value="51"
+                                    >Orange, CA</option>
+                            <option value="52"
+                                    >Oxnard, CA</option>
+                            <option value="53"
+                                    >Palmdale, CA</option>
+                            <option value="54"
+                                    >Pasadena, CA</option>
+                            <option value="55"
+                                    >Pomona, CA</option>
+                            <option value="56"
+                                    >Rancho Cucamonga, CA</option>
+                            <option value="57"
+                                    >Riverside, CA</option>
+                            <option value="58"
+                                    >Roseville, CA</option>
+                            <option value="59"
+                                    >Sacramento, CA</option>
+                            <option value="60"
+                                    >Salinas, CA</option>
+                            <option value="61"
+                                    >San Bernardino, CA</option>
+                            <option value="62"
+                                    >San Diego, CA</option>
+                            <option value="63"
+                                    >San Francisco, CA</option>
+                            <option value="64"
+                                    >San Jose, CA</option>
+                            <option value="65"
+                                    >Santa Ana, CA</option>
+                            <option value="66"
+                                    >Santa Clara, CA</option>
+                            <option value="67"
+                                    >Santa Clarita, CA</option>
+                            <option value="68"
+                                    >Santa Rosa, CA</option>
+                            <option value="69"
+                                    >Simi Valley, CA</option>
+                            <option value="70"
+                                    >Stockton, CA</option>
+                            <option value="71"
+                                    >Sunnyvale, CA</option>
+                            <option value="72"
+                                    >Thousand Oaks, CA</option>
+                            <option value="73"
+                                    >Torrance, CA</option>
+                            <option value="74"
+                                    >Visalia, CA</option>
+                            <option value="75"
+                                    >Arvada, CO</option>
+                            <option value="76"
+                                    >Aurora, CO</option>
+                            <option value="77"
+                                    >Centennial, CO</option>
+                            <option value="78"
+                                    >Colorado Springs, CO</option>
+                            <option value="79"
+                                    >Denver, CO</option>
+                            <option value="80"
+                                    >Fort Collins, CO</option>
+                            <option value="81"
+                                    >Lakewood, CO</option>
+                            <option value="82"
+                                    >Pueblo, CO</option>
+                            <option value="83"
+                                    >Thornton, CO</option>
+                            <option value="84"
+                                    >Westminster, CO</option>
+                            <option value="85"
+                                    >Bridgeport, CT</option>
+                            <option value="86"
+                                    >Hartford, CT</option>
+                            <option value="87"
+                                    >New Haven, CT</option>
+                            <option value="88"
+                                    >Stamford, CT</option>
+                            <option value="89"
+                                    >Waterbury, CT</option>
+                            <option value="90"
+                                    >Washington, DC</option>
+                            <option value="91"
+                                    >Cape Coral, FL</option>
+                            <option value="92"
+                                    >Clearwater, FL</option>
+                            <option value="93"
+                                    >Coral Springs, FL</option>
+                            <option value="94"
+                                    >Fort Lauderdale, FL</option>
+                            <option value="95"
+                                    >Gainesville, FL</option>
+                            <option value="96"
+                                    >Hialeah, FL</option>
+                            <option value="97"
+                                    >Hollywood, FL</option>
+                            <option value="98"
+                                    >Jacksonville, FL</option>
+                            <option value="99"
+                                    >Lakeland, FL</option>
+                            <option value="100"
+                                    >Miami, FL</option>
+                            <option value="101"
+                                    >Miramar, FL</option>
+                            <option value="102"
+                                    >Orlando, FL</option>
+                            <option value="103"
+                                    >Palm Bay, FL</option>
+                            <option value="104"
+                                    >Pembroke Pines, FL</option>
+                            <option value="105"
+                                    >Pompano Beach, FL</option>
+                            <option value="106"
+                                    >Port St. Lucie, FL</option>
+                            <option value="107"
+                                    >St. Petersburg, FL</option>
+                            <option value="108"
+                                    >Tallahassee, FL</option>
+                            <option value="109"
+                                    >Tampa, FL</option>
+                            <option value="110"
+                                    >West Palm Beach, FL</option>
+                            <option value="111"
+                                    >Albany, GA</option>
+                            <option value="112"
+                                    >Athens, GA</option>
+                            <option value="113"
+                                    >Atlanta, GA</option>
+                            <option value="114"
+                                    >Augusta, GA</option>
+                            <option value="115"
+                                    >Columbus, GA</option>
+                            <option value="116"
+                                    >Macon, GA</option>
+                            <option value="117"
+                                    >Roswell, GA</option>
+                            <option value="118"
+                                    >Sandy Springs, GA</option>
+                            <option value="119"
+                                    >Savannah, GA</option>
+                            <option value="120"
+                                    >Honolulu, HI</option>
+                            <option value="140"
+                                    >Cedar Rapids, IA</option>
+                            <option value="141"
+                                    >Davenport, IA</option>
+                            <option value="142"
+                                    >Des Moines, IA</option>
+                            <option value="143"
+                                    >Sioux City, IA</option>
+                            <option value="121"
+                                    >Boise, ID</option>
+                            <option value="122"
+                                    >Meridian, ID</option>
+                            <option value="123"
+                                    >Nampa, ID</option>
+                            <option value="124"
+                                    >Aurora, IL</option>
+                            <option value="125"
+                                    >Chicago, IL</option>
+                            <option value="126"
+                                    >Elgin, IL</option>
+                            <option value="127"
+                                    >Joliet, IL</option>
+                            <option value="128"
+                                    >Naperville, IL</option>
+                            <option value="129"
+                                    >Peoria, IL</option>
+                            <option value="130"
+                                    >Rockford, IL</option>
+                            <option value="131"
+                                    >Springfield, IL</option>
+                            <option value="132"
+                                    >Waukegan, IL</option>
+                            <option value="133"
+                                    >Bloomington, IN</option>
+                            <option value="134"
+                                    >Carmel, IN</option>
+                            <option value="135"
+                                    >Evansville, IN</option>
+                            <option value="136"
+                                    >Fishers, IN</option>
+                            <option value="137"
+                                    >Fort Wayne, IN</option>
+                            <option value="138"
+                                    >Indianapolis, IN</option>
+                            <option value="139"
+                                    >South Bend, IN</option>
+                            <option value="144"
+                                    >Kansas City, KS</option>
+                            <option value="145"
+                                    >Olathe, KS</option>
+                            <option value="146"
+                                    >Overland Park, KS</option>
+                            <option value="147"
+                                    >Topeka, KS</option>
+                            <option value="148"
+                                    >Wichita, KS</option>
+                            <option value="149"
+                                    >Bowling Green, KY</option>
+                            <option value="150"
+                                    >Lexington, KY</option>
+                            <option value="151"
+                                    >Louisville, KY</option>
+                            <option value="152"
+                                    >Baton Rouge, LA</option>
+                            <option value="153"
+                                    >Lafayette, LA</option>
+                            <option value="154"
+                                    >Metairie, LA</option>
+                            <option value="155"
+                                    >New Orleans, LA</option>
+                            <option value="156"
+                                    >Shreveport, LA</option>
+                            <option value="160"
+                                    >Boston, MA</option>
+                            <option value="161"
+                                    >Cambridge, MA</option>
+                            <option value="162"
+                                    >Lowell, MA</option>
+                            <option value="163"
+                                    >Springfield, MA</option>
+                            <option value="164"
+                                    >Worcester, MA</option>
+                            <option value="157"
+                                    >Baltimore, MD</option>
+                            <option value="158"
+                                    >Frederick, MD</option>
+                            <option value="159"
+                                    >Rockville, MD</option>
+                            <option value="165"
+                                    >Ann Arbor, MI</option>
+                            <option value="166"
+                                    >Clinton Township, MI</option>
+                            <option value="167"
+                                    >Dearborn, MI</option>
+                            <option value="168"
+                                    >Detroit, MI</option>
+                            <option value="169"
+                                    >Flint, MI</option>
+                            <option value="170"
+                                    >Grand Rapids, MI</option>
+                            <option value="171"
+                                    >Lansing, MI</option>
+                            <option value="172"
+                                    >Livonia, MI</option>
+                            <option value="173"
+                                    >Sterling Heights, MI</option>
+                            <option value="174"
+                                    >Warren, MI</option>
+                            <option value="175"
+                                    >Bloomington, MN</option>
+                            <option value="176"
+                                    >Duluth, MN</option>
+                            <option value="177"
+                                    >Minneapolis, MN</option>
+                            <option value="178"
+                                    >Rochester, MN</option>
+                            <option value="179"
+                                    >St. Paul, MN</option>
+                            <option value="182"
+                                    >Columbia, MO</option>
+                            <option value="183"
+                                    >Independence, MO</option>
+                            <option value="184"
+                                    >Kansas City, MO</option>
+                            <option value="185"
+                                    >Springfield, MO</option>
+                            <option value="186"
+                                    >St. Louis, MO</option>
+                            <option value="180"
+                                    >Gulfport, MS</option>
+                            <option value="181"
+                                    >Jackson, MS</option>
+                            <option value="214"
+                                    >Cary, NC</option>
+                            <option value="215"
+                                    >Charlotte, NC</option>
+                            <option value="216"
+                                    >Concord, NC</option>
+                            <option value="217"
+                                    >Durham, NC</option>
+                            <option value="218"
+                                    >Fayetteville, NC</option>
+                            <option value="219"
+                                    >Greensboro, NC</option>
+                            <option value="220"
+                                    >High Point, NC</option>
+                            <option value="221"
+                                    >Raleigh, NC</option>
+                            <option value="222"
+                                    >Wilmington, NC</option>
+                            <option value="223"
+                                    >Winston-Salem, NC</option>
+                            <option value="224"
+                                    >Bismarck, ND</option>
+                            <option value="225"
+                                    >Fargo, ND</option>
+                            <option value="187"
+                                    >Bellevue, NE</option>
+                            <option value="188"
+                                    >Lincoln, NE</option>
+                            <option value="189"
+                                    >Omaha, NE</option>
+                            <option value="195"
+                                    >Manchester, NH</option>
+                            <option value="196"
+                                    >Nashua, NH</option>
+                            <option value="197"
+                                    >Camden, NJ</option>
+                            <option value="198"
+                                    >Clifton, NJ</option>
+                            <option value="199"
+                                    >Edison, NJ</option>
+                            <option value="200"
+                                    >Elizabeth, NJ</option>
+                            <option value="201"
+                                    >Jersey City, NJ</option>
+                            <option value="202"
+                                    >Newark, NJ</option>
+                            <option value="203"
+                                    >Paterson, NJ</option>
+                            <option value="204"
+                                    >Trenton, NJ</option>
+                            <option value="205"
+                                    >Albuquerque, NM</option>
+                            <option value="206"
+                                    >Las Cruces, NM</option>
+                            <option value="207"
+                                    >Rio Rancho, NM</option>
+                            <option value="190"
+                                    >Henderson, NV</option>
+                            <option value="191"
+                                    >Las Vegas, NV</option>
+                            <option value="192"
+                                    >North Las Vegas, NV</option>
+                            <option value="193"
+                                    >Reno, NV</option>
+                            <option value="194"
+                                    >Sparks, NV</option>
+                            <option value="208"
+                                    >Albany, NY</option>
+                            <option value="209"
+                                    >Buffalo, NY</option>
+                            <option value="210"
+                                    >New York, NY</option>
+                            <option value="211"
+                                    >Rochester, NY</option>
+                            <option value="212"
+                                    >Syracuse, NY</option>
+                            <option value="213"
+                                    >Yonkers, NY</option>
+                            <option value="226"
+                                    >Akron, OH</option>
+                            <option value="227"
+                                    >Canton, OH</option>
+                            <option value="228"
+                                    >Cincinnati, OH</option>
+                            <option value="229"
+                                    >Cleveland, OH</option>
+                            <option value="230"
+                                    >Columbus, OH</option>
+                            <option value="231"
+                                    >Dayton, OH</option>
+                            <option value="232"
+                                    >Parma, OH</option>
+                            <option value="233"
+                                    >Toledo, OH</option>
+                            <option value="234"
+                                    >Broken Arrow, OK</option>
+                            <option value="235"
+                                    >Lawton, OK</option>
+                            <option value="236"
+                                    >Norman, OK</option>
+                            <option value="237"
+                                    >Oklahoma City, OK</option>
+                            <option value="238"
+                                    >Tulsa, OK</option>
+                            <option value="239"
+                                    >Bend, OR</option>
+                            <option value="240"
+                                    >Eugene, OR</option>
+                            <option value="241"
+                                    >Gresham, OR</option>
+                            <option value="242"
+                                    >Hillsboro, OR</option>
+                            <option value="243"
+                                    >Medford, OR</option>
+                            <option value="244"
+                                    >Portland, OR</option>
+                            <option value="245"
+                                    >Salem, OR</option>
+                            <option value="246"
+                                    >Allentown, PA</option>
+                            <option value="247"
+                                    >Erie, PA</option>
+                            <option value="248"
+                                    >Philadelphia, PA</option>
+                            <option value="249"
+                                    >Pittsburgh, PA</option>
+                            <option value="250"
+                                    >Reading, PA</option>
+                            <option value="251"
+                                    >Scranton, PA</option>
+                            <option value="252"
+                                    >Cranston, RI</option>
+                            <option value="253"
+                                    >Providence, RI</option>
+                            <option value="254"
+                                    >Warwick, RI</option>
+                            <option value="255"
+                                    >Charleston, SC</option>
+                            <option value="256"
+                                    >Columbia, SC</option>
+                            <option value="257"
+                                    >Mount Pleasant, SC</option>
+                            <option value="258"
+                                    >North Charleston, SC</option>
+                            <option value="259"
+                                    >Rock Hill, SC</option>
+                            <option value="260"
+                                    >Rapid City, SD</option>
+                            <option value="261"
+                                    >Sioux Falls, SD</option>
+                            <option value="262"
+                                    >Chattanooga, TN</option>
+                            <option value="263"
+                                    >Clarksville, TN</option>
+                            <option value="264"
+                                    >Franklin, TN</option>
+                            <option value="265"
+                                    >Jackson, TN</option>
+                            <option value="266"
+                                    >Knoxville, TN</option>
+                            <option value="267"
+                                    >Memphis, TN</option>
+                            <option value="268"
+                                    >Murfreesboro, TN</option>
+                            <option value="269"
+                                    >Nashville, TN</option>
+                            <option value="270"
+                                    >Abilene, TX</option>
+                            <option value="271"
+                                    >Amarillo, TX</option>
+                            <option value="272"
+                                    >Arlington, TX</option>
+                            <option value="273"
+                                    >Austin, TX</option>
+                            <option value="274"
+                                    >Beaumont, TX</option>
+                            <option value="275"
+                                    >Brownsville, TX</option>
+                            <option value="276"
+                                    >Carrollton, TX</option>
+                            <option value="277"
+                                    >Corpus Christi, TX</option>
+                            <option value="278"
+                                    >Dallas, TX</option>
+                            <option value="279"
+                                    >Denton, TX</option>
+                            <option value="280"
+                                    >El Paso, TX</option>
+                            <option value="281"
+                                    >Fort Worth, TX</option>
+                            <option value="282"
+                                    >Frisco, TX</option>
+                            <option value="283"
+                                    >Garland, TX</option>
+                            <option value="284"
+                                    >Grand Prairie, TX</option>
+                            <option value="285"
+                                    >Houston, TX</option>
+                            <option value="286"
+                                    >Irving, TX</option>
+                            <option value="287"
+                                    >Killeen, TX</option>
+                            <option value="288"
+                                    >Laredo, TX</option>
+                            <option value="289"
+                                    >Lewisville, TX</option>
+                            <option value="290"
+                                    >Lubbock, TX</option>
+                            <option value="291"
+                                    >McAllen, TX</option>
+                            <option value="292"
+                                    >McKinney, TX</option>
+                            <option value="293"
+                                    >Mesquite, TX</option>
+                            <option value="294"
+                                    >Midland, TX</option>
+                            <option value="295"
+                                    >Odessa, TX</option>
+                            <option value="296"
+                                    >Pasadena, TX</option>
+                            <option value="297"
+                                    >Pearland, TX</option>
+                            <option value="298"
+                                    >Plano, TX</option>
+                            <option value="299"
+                                    >Richardson, TX</option>
+                            <option value="300"
+                                    >Round Rock, TX</option>
+                            <option value="301"
+                                    >San Antonio, TX</option>
+                            <option value="302"
+                                    >Waco, TX</option>
+                            <option value="303"
+                                    >Layton, UT</option>
+                            <option value="304"
+                                    >Orem, UT</option>
+                            <option value="305"
+                                    >Provo, UT</option>
+                            <option value="306"
+                                    >Salt Lake City, UT</option>
+                            <option value="307"
+                                    >Sandy, UT</option>
+                            <option value="308"
+                                    >St. George, UT</option>
+                            <option value="309"
+                                    >West Jordan, UT</option>
+                            <option value="310"
+                                    >West Valley City, UT</option>
+                            <option value="311"
+                                    >Alexandria, VA</option>
+                            <option value="312"
+                                    >Chesapeake, VA</option>
+                            <option value="313"
+                                    >Fredericksburg, VA</option>
+                            <option value="314"
+                                    >Hampton, VA</option>
+                            <option value="315"
+                                    >Newport News, VA</option>
+                            <option value="316"
+                                    >Norfolk, VA</option>
+                            <option value="317"
+                                    >Richmond, VA</option>
+                            <option value="318"
+                                    >Roanoke, VA</option>
+                            <option value="319"
+                                    >Virginia Beach, VA</option>
+                            <option value="321"
+                                    >Bellevue, WA</option>
+                            <option value="320"
+                                    >Bellingham, WA</option>
+                            <option value="322"
+                                    >Everett, WA</option>
+                            <option value="323"
+                                    >Kent, WA</option>
+                            <option value="324"
+                                    >Kirkland, WA</option>
+                            <option value="325"
+                                    >Renton, WA</option>
+                            <option value="326"
+                                    >Seattle, WA</option>
+                            <option value="327"
+                                    >Spokane, WA</option>
+                            <option value="328"
+                                    >Spokane Valley, WA</option>
+                            <option value="329"
+                                    >Tacoma, WA</option>
+                            <option value="330"
+                                    >Vancouver, WA</option>
+                            <option value="333"
+                                    >Appleton, WI</option>
+                            <option value="334"
+                                    >Green Bay, WI</option>
+                            <option value="335"
+                                    >Kenosha, WI</option>
+                            <option value="336"
+                                    >Madison, WI</option>
+                            <option value="337"
+                                    >Milwaukee, WI</option>
+                            <option value="338"
+                                    >Racine, WI</option>
+                            <option value="339"
+                                    >Waukesha, WI</option>
+                            <option value="331"
+                                    >Charleston, WV</option>
+                            <option value="332"
+                                    >Huntington, WV</option>
+                            <option value="340"
+                                    >Casper, WY</option>
+                            <option value="341"
+                                    >Cheyenne, WY</option>
+                    </select>
+    </noscript>
+</div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn--primary">Save changes</button>
+                    <a href="/groups/1" class="btn btn--ghost">Cancel</a>
+                </div>
+            </form>
+
+            <div class="form-section">
+                <h2 class="form-section__heading">Links</h2>
+                <p class="form-section__hint">Add external links to display on your group page.</p>
+                <div id="group-links-section">
+            <ul class="group-links group-links--edit">
+                            <li class="group-links__item">
+                    <span class="group-links__label">
+                        <strong>GitHub</strong>
+                        <span class="group-links__url-preview">https://github.com</span>
+                    </span>
+                    <form method="post"
+                          action="/groups/1/links/2/delete"
+                          hx-post="/groups/1/links/2/delete"
+                          hx-target="#group-links-section"
+                          hx-swap="outerHTML"
+                          class="group-links__delete">
+                        <input type="hidden" name="csrf_token" value="5d9ba0d3346fdbe57dfad20d0382807cdcae4ff366c6e517236a2e0f0ba5a45b">
+                        <button type="submit" class="btn-link btn-link--danger" aria-label="Remove GitHub">Remove</button>
+                    </form>
+                </li>
+                            <li class="group-links__item">
+                    <span class="group-links__label">
+                        <strong>Documentation</strong>
+                        <span class="group-links__url-preview">https://docs.example.com</span>
+                    </span>
+                    <form method="post"
+                          action="/groups/1/links/3/delete"
+                          hx-post="/groups/1/links/3/delete"
+                          hx-target="#group-links-section"
+                          hx-swap="outerHTML"
+                          class="group-links__delete">
+                        <input type="hidden" name="csrf_token" value="5d9ba0d3346fdbe57dfad20d0382807cdcae4ff366c6e517236a2e0f0ba5a45b">
+                        <button type="submit" class="btn-link btn-link--danger" aria-label="Remove Documentation">Remove</button>
+                    </form>
+                </li>
+                    </ul>
+    
+    <div class="group-links__add">
+        <form method="post"
+              action="/groups/1/links"
+              hx-post="/groups/1/links"
+              hx-target="#group-links-section"
+              hx-swap="outerHTML"
+              novalidate>
+            <input type="hidden" name="csrf_token" value="5d9ba0d3346fdbe57dfad20d0382807cdcae4ff366c6e517236a2e0f0ba5a45b">
+            <div class="form-row">
+                <div class="form-group ">
+                    <label for="link-title">Title</label>
+                    <input
+                        type="text"
+                        id="link-title"
+                        name="title"
+                        value=""
+                        maxlength="100"
+                                            >
+                                    </div>
+                <div class="form-group ">
+                    <label for="link-url">URL</label>
+                    <input
+                        type="url"
+                        id="link-url"
+                        name="url"
+                        value=""
+                        maxlength="2048"
+                        placeholder="https://"
+                                            >
+                                    </div>
+            </div>
+            <button type="submit" class="btn btn--ghost btn--sm">Add link</button>
+        </form>
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+</section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Kai &mdash; Find your people.</p>
+        </div>
+    </footer>
+
+    <script src="/htmx.min.js"></script>
+</body>
+</html>

@@ -39,7 +39,7 @@ class GroupLinkAddAction
 
         if ((int) $group['creator_id'] !== (int) $user['id']) {
             $this->flash->addMessage('error', 'You do not have permission to add links to this group.');
-            return $this->redirect($response, $request, '/groups/' . $id);
+            return $this->redirect($response, $request, '/groups/' . $id . '/edit');
         }
 
         $body   = (array) $request->getParsedBody();
@@ -64,19 +64,43 @@ class GroupLinkAddAction
             }
         }
 
+        $isHtmx = $request->getHeaderLine('HX-Request') === 'true';
+
         if (!empty($errors)) {
-            return $this->twig->render($response, 'groups/link_add.html.twig', [
-                'group'  => $group,
-                'errors' => $errors,
-                'old'    => ['title' => $title, 'url' => $url],
-            ]);
+            if ($isHtmx) {
+                $linksStmt = $this->db->prepare(
+                    'SELECT id, title, url FROM group_links WHERE group_id = ? ORDER BY created_at ASC'
+                );
+                $linksStmt->execute([$id]);
+                return $this->twig->render($response, 'partials/group_links_edit.html.twig', [
+                    'group_id' => $id,
+                    'links'    => $linksStmt->fetchAll(),
+                    'errors'   => $errors,
+                    'old'      => ['title' => $title, 'url' => $url],
+                ]);
+            }
+            $this->flash->addMessage('error', implode(' ', $errors));
+            return $this->redirect($response, $request, '/groups/' . $id . '/edit');
         }
 
         $this->db->prepare(
             'INSERT INTO group_links (group_id, title, url) VALUES (?, ?, ?)'
         )->execute([$id, $title, $url]);
 
+        if ($isHtmx) {
+            $linksStmt = $this->db->prepare(
+                'SELECT id, title, url FROM group_links WHERE group_id = ? ORDER BY created_at ASC'
+            );
+            $linksStmt->execute([$id]);
+            return $this->twig->render($response, 'partials/group_links_edit.html.twig', [
+                'group_id' => $id,
+                'links'    => $linksStmt->fetchAll(),
+                'errors'   => [],
+                'old'      => [],
+            ]);
+        }
+
         $this->flash->addMessage('success', 'Link added.');
-        return $this->redirect($response, $request, '/groups/' . $id);
+        return $this->redirect($response, $request, '/groups/' . $id . '/edit');
     }
 }

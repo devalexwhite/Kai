@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTMX Test Group — Kai</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body hx-headers='{"X-CSRF-Token": "8565bfc5dfefcf2b0416e795b6c87277a3299e25eeaa76787889610ca3963bcd"}'>
+
+    <header class="site-header">
+    <nav class="nav container">
+
+        <a href="/" class="nav__brand">Kai</a>
+
+        <div class="nav__links">
+                            <a href="/signin">Sign in</a>
+                <a href="/signup" class="btn">Sign up</a>
+                    </div>
+    </nav>
+</header>
+
+                                            
+    <main>
+        <section class="group-detail">
+    <div class="container">
+        <div class="group-detail__card">
+            <div class="group-detail__cover" style="background-size: 40px; background-image: url('/images/patterns/2.svg');" aria-hidden="true"></div>
+            <div class="group-detail__body">
+                <h1>HTMX Test Group</h1>
+                <div class="group-detail__meta">
+                    <span>Birmingham, AL</span>
+                    <span>1 member</span>
+                    <span>Organized by GroupOwner</span>
+                </div>
+
+                                    <p class="group-detail__description">Testing links</p>
+                
+                                    <div class="group-detail__links">
+                        <ul class="group-links">
+                                                            <li class="group-links__item">
+                                    <a href="https://github.com" rel="noopener noreferrer nofollow" target="_blank">GitHub</a>
+                                </li>
+                                                            <li class="group-links__item">
+                                    <a href="https://docs.example.com" rel="noopener noreferrer nofollow" target="_blank">Documentation</a>
+                                </li>
+                                                    </ul>
+                    </div>
+                
+                <div class="group-detail__actions">
+                                            <a href="/signin" class="btn btn--primary">Sign in to join</a>
+                                    </div>
+            </div>
+        </div>
+
+        <div class="group-events">
+            <div class="group-events__header">
+                <h2>Events</h2>
+                            </div>
+
+                            <div class="placeholder-card placeholder-card--empty">
+                    <p>No upcoming events.</p>
+                                    </div>
+            
+                    </div>
+    </div>
+</section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Kai &mdash; Find your people.</p>
+        </div>
+    </footer>
+
+    <script src="/htmx.min.js"></script>
+</body>
+</html>
