@@ -7,35 +7,37 @@
 
 :root {
     /* Forest palette */
-    --color-forest-deep:  #1a2818;
-    --color-forest:       #2d4828;
-    --color-moss:         #3d5c35;
-    --color-moss-mid:     #557a4a;
-    --color-sage:         #7fa370;
-    --color-sage-light:   #b8d4ae;
+    --color-forest-deep: #1a2818;
+    --color-forest: #2d4828;
+    --color-moss: #3d5c35;
+    --color-moss-mid: #557a4a;
+    --color-sage: #7fa370;
+    --color-sage-light: #b8d4ae;
 
     /* Stone & earth */
-    --color-bark:         #7a5c38;
-    --color-gold:         #b08d3c;
-    --color-stone:        #6b6860;
-    --color-stone-light:  #9b9890;
+    --color-bark: #7a5c38;
+    --color-gold: #b08d3c;
+    --color-stone: #6b6860;
+    --color-stone-light: #9b9890;
 
     /* Paper & mist */
-    --color-parchment:    #f2ede3;
-    --color-paper:        #faf8f2;
-    --color-fog:          #ffffff;
-    --color-border:       #d4cec2;
+    --color-parchment: #f2ede3;
+    --color-paper: #faf8f2;
+    --color-fog: #ffffff;
+    --color-border: #d4cec2;
     --color-border-light: #e8e3d8;
 
     /* Text */
-    --color-text:         #1e2b1d;
-    --color-text-muted:   #6b6860;
-    --color-text-dim:     #9b9890;
+    --color-text: #1e2b1d;
+    --color-text-muted: #6b6860;
+    --color-text-dim: #9b9890;
 }
 
 /* --- Reset & Base -------------------------------------------- */
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -47,7 +49,7 @@ html {
 }
 
 body {
-    font-family: 'Lora', Georgia, 'Times New Roman', serif;
+    font-family: "Lora", Georgia, "Times New Roman", serif;
     background: var(--color-parchment);
     color: var(--color-text);
     line-height: 1.7;
@@ -60,7 +62,8 @@ main {
     flex: 1;
 }
 
-img, svg {
+img,
+svg {
     max-width: 100%;
     display: block;
 }
@@ -74,8 +77,11 @@ a:hover {
     color: var(--color-forest);
 }
 
-h1, h2, h3, h4 {
-    font-family: 'Shippori Mincho B1', 'Noto Serif JP', Georgia, serif;
+h1,
+h2,
+h3,
+h4 {
+    font-family: "Shippori Mincho B1", "Noto Serif JP", Georgia, serif;
     line-height: 1.25;
     font-weight: 600;
     color: var(--color-forest-deep);
@@ -95,17 +101,20 @@ h1, h2, h3, h4 {
 .btn {
     display: inline-flex;
     align-items: center;
-    gap: .4rem;
-    padding: .55rem 1.2rem;
+    gap: 0.4rem;
+    padding: 0.55rem 1.2rem;
     border-radius: 4px;
-    font-size: .9375rem;
+    font-size: 0.9375rem;
     font-weight: 600;
-    font-family: 'Lora', Georgia, serif;
+    font-family: "Lora", Georgia, serif;
     text-decoration: none;
     cursor: pointer;
     border: 1.5px solid transparent;
-    transition: background .2s, border-color .2s, color .2s;
-    letter-spacing: .01em;
+    transition:
+        background 0.2s,
+        border-color 0.2s,
+        color 0.2s;
+    letter-spacing: 0.01em;
 }
 
 .btn--primary {
@@ -127,18 +136,18 @@ h1, h2, h3, h4 {
 }
 
 .btn--ghost:hover {
-    background: rgba(61, 92, 53, .07);
+    background: rgba(61, 92, 53, 0.07);
     color: var(--color-forest);
 }
 
 .btn--lg {
-    padding: .75rem 1.75rem;
+    padding: 0.75rem 1.75rem;
     font-size: 1.0625rem;
 }
 
 .btn--sm {
-    padding: .35rem .85rem;
-    font-size: .875rem;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.875rem;
 }
 
 .btn--full {
@@ -147,7 +156,7 @@ h1, h2, h3, h4 {
 }
 
 button.btn {
-    font-family: 'Lora', Georgia, serif;
+    font-family: "Lora", Georgia, serif;
     font-size: inherit;
     line-height: inherit;
 }
@@ -160,7 +169,7 @@ button.btn {
     position: sticky;
     top: 0;
     z-index: 10;
-    box-shadow: 0 1px 8px rgba(26, 40, 24, .06);
+    box-shadow: 0 1px 8px rgba(26, 40, 24, 0.06);
 }
 
 .nav {
@@ -172,12 +181,12 @@ button.btn {
 }
 
 .nav__brand {
-    font-family: 'Shippori Mincho B1', Georgia, serif;
+    font-family: "Shippori Mincho B1", Georgia, serif;
     font-size: 1.375rem;
     font-weight: 800;
     color: var(--color-forest);
     text-decoration: none;
-    letter-spacing: -.01em;
+    letter-spacing: -0.01em;
     text-align: left;
 }
 
@@ -195,8 +204,8 @@ button.btn {
     text-decoration: none;
     font-weight: 600;
     color: var(--color-stone);
-    font-size: .9375rem;
-    transition: color .15s;
+    font-size: 0.9375rem;
+    transition: color 0.15s;
 }
 
 .nav__links a:hover {
@@ -210,8 +219,8 @@ button.btn {
 /* --- Flash messages ------------------------------------------ */
 
 .flash {
-    padding: .75rem 1.25rem;
-    font-size: .9375rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9375rem;
     font-weight: 500;
     text-align: center;
 }
@@ -239,14 +248,14 @@ button.btn {
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: .35rem;
+    gap: 0.35rem;
     margin-bottom: 1.1rem;
 }
 
 .form-group label {
-    font-family: 'Shippori Mincho B1', Georgia, serif;
+    font-family: "Shippori Mincho B1", Georgia, serif;
     font-weight: 600;
-    font-size: .9375rem;
+    font-size: 0.9375rem;
     color: var(--color-forest-deep);
 }
 
@@ -257,20 +266,22 @@ button.btn {
 .form-group input[type="time"],
 .form-group input[type="url"] {
     width: 100%;
-    padding: .6rem .85rem;
+    padding: 0.6rem 0.85rem;
     border: 1.5px solid var(--color-border);
     border-radius: 4px;
     font-size: 1rem;
-    font-family: 'Lora', Georgia, serif;
+    font-family: "Lora", Georgia, serif;
     color: var(--color-text);
     background: var(--color-fog);
-    transition: border-color .15s, box-shadow .15s;
+    transition:
+        border-color 0.15s,
+        box-shadow 0.15s;
 }
 
 .form-group input:focus-visible {
     outline: none;
     border-color: var(--color-moss);
-    box-shadow: 0 0 0 3px rgba(61, 92, 53, .15);
+    box-shadow: 0 0 0 3px rgba(61, 92, 53, 0.15);
 }
 
 .form-group--error input {
@@ -278,7 +289,7 @@ button.btn {
 }
 
 .form-group--error input:focus-visible {
-    box-shadow: 0 0 0 3px rgba(176, 80, 48, .15);
+    box-shadow: 0 0 0 3px rgba(176, 80, 48, 0.15);
 }
 
 /* Keyboard focus ring for interactive elements */
@@ -293,34 +304,34 @@ input:focus-visible {
 .form-group--checkbox {
     flex-direction: row;
     align-items: center;
-    gap: .5rem;
+    gap: 0.5rem;
 }
 
 .form-group--checkbox label {
-    font-family: 'Lora', Georgia, serif;
+    font-family: "Lora", Georgia, serif;
     font-weight: 400;
     display: flex;
     align-items: center;
-    gap: .5rem;
+    gap: 0.5rem;
     cursor: pointer;
 }
 
 .form-hint {
-    font-size: .8125rem;
+    font-size: 0.8125rem;
     color: var(--color-stone-light);
     font-style: italic;
 }
 
 .form-error {
-    font-size: .875rem;
+    font-size: 0.875rem;
     color: #b05030;
     font-weight: 600;
 }
 
 .alert {
-    padding: .7rem 1rem;
+    padding: 0.7rem 1rem;
     border-radius: 4px;
-    font-size: .9375rem;
+    font-size: 0.9375rem;
     margin-bottom: 1rem;
 }
 
@@ -346,17 +357,17 @@ input:focus-visible {
     border: 1px solid var(--color-border);
     border-radius: 6px;
     padding: 2.25rem 2rem;
-    box-shadow: 0 2px 16px rgba(26, 40, 24, .07);
+    box-shadow: 0 2px 16px rgba(26, 40, 24, 0.07);
 }
 
 .auth-card__title {
     font-size: 1.5rem;
-    margin-bottom: .35rem;
+    margin-bottom: 0.35rem;
 }
 
 .auth-card__sub {
     color: var(--color-stone);
-    font-size: .9375rem;
+    font-size: 0.9375rem;
     margin-bottom: 1.75rem;
     font-style: italic;
 }
@@ -378,9 +389,9 @@ input:focus-visible {
 }
 
 .hero::after {
-    content: '';
+    content: "";
     z-index: 2;
-    background: rgba(242, 237, 227, .62);
+    background: rgba(242, 237, 227, 0.62);
     backdrop-filter: blur(3px);
     position: absolute;
     top: 0;
@@ -406,7 +417,7 @@ input:focus-visible {
 .hero__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: .85rem;
+    gap: 0.85rem;
     justify-content: center;
 }
 
@@ -443,21 +454,21 @@ input:focus-visible {
     border-radius: 50%;
     background: var(--color-moss);
     color: var(--color-paper);
-    font-family: 'Shippori Mincho B1', Georgia, serif;
+    font-family: "Shippori Mincho B1", Georgia, serif;
     font-size: 1.25rem;
     font-weight: 800;
     margin-bottom: 1rem;
-    box-shadow: 0 2px 8px rgba(61, 92, 53, .25);
+    box-shadow: 0 2px 8px rgba(61, 92, 53, 0.25);
 }
 
 .step h3 {
     font-size: 1.125rem;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
 }
 
 .step p {
     color: var(--color-stone);
-    font-size: .9375rem;
+    font-size: 0.9375rem;
     font-style: italic;
 }
 
@@ -479,27 +490,27 @@ input:focus-visible {
     border: 1px solid var(--color-border);
     border-radius: 6px;
     padding: 1.75rem 1.5rem;
-    box-shadow: 0 1px 6px rgba(26, 40, 24, .05);
-    transition: box-shadow .2s;
+    box-shadow: 0 1px 6px rgba(26, 40, 24, 0.05);
+    transition: box-shadow 0.2s;
 }
 
 .feature-card:hover {
-    box-shadow: 0 4px 16px rgba(26, 40, 24, .1);
+    box-shadow: 0 4px 16px rgba(26, 40, 24, 0.1);
 }
 
 .feature-card__icon {
     font-size: 2rem;
-    margin-bottom: .85rem;
+    margin-bottom: 0.85rem;
 }
 
 .feature-card h3 {
     font-size: 1.125rem;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
 }
 
 .feature-card p {
     color: var(--color-stone);
-    font-size: .9375rem;
+    font-size: 0.9375rem;
     font-style: italic;
 }
 
@@ -513,10 +524,14 @@ input:focus-visible {
 }
 
 .cta-band::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(26, 40, 24, .55) 0%, transparent 60%);
+    background: linear-gradient(
+        135deg,
+        rgba(26, 40, 24, 0.55) 0%,
+        transparent 60%
+    );
     pointer-events: none;
 }
 
@@ -527,7 +542,7 @@ input:focus-visible {
 
 .cta-band h2 {
     font-size: 1.875rem;
-    margin-bottom: .6rem;
+    margin-bottom: 0.6rem;
     color: var(--color-paper);
 }
 
@@ -568,12 +583,12 @@ input:focus-visible {
 
 .dashboard__greeting {
     font-size: 1.75rem;
-    margin-bottom: .25rem;
+    margin-bottom: 0.25rem;
 }
 
 .dashboard__date {
     color: var(--color-stone);
-    font-size: .9375rem;
+    font-size: 0.9375rem;
     font-style: italic;
 }
 
@@ -591,20 +606,20 @@ input:focus-visible {
     padding: 1.25rem;
     display: flex;
     flex-direction: column;
-    gap: .25rem;
-    box-shadow: 0 1px 4px rgba(26, 40, 24, .04);
+    gap: 0.25rem;
+    box-shadow: 0 1px 4px rgba(26, 40, 24, 0.04);
 }
 
 .stat-card__value {
     font-size: 2rem;
     font-weight: 800;
-    font-family: 'Shippori Mincho B1', Georgia, serif;
+    font-family: "Shippori Mincho B1", Georgia, serif;
     color: var(--color-moss);
     line-height: 1;
 }
 
 .stat-card__label {
-    font-size: .875rem;
+    font-size: 0.875rem;
     color: var(--color-stone);
     font-style: italic;
 }
@@ -619,11 +634,18 @@ input:focus-visible {
     justify-content: space-between;
     margin-bottom: 1rem;
     flex-wrap: wrap;
-    gap: .75rem;
+    gap: 0.75rem;
 }
 
 .dashboard-section__header h2 {
     font-size: 1.25rem;
+}
+
+.dashboard-section__actions {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
 }
 
 .placeholder-card {
@@ -632,7 +654,7 @@ input:focus-visible {
     padding: 2rem;
     text-align: center;
     color: var(--color-stone);
-    font-size: .9375rem;
+    font-size: 0.9375rem;
     font-style: italic;
 }
 
@@ -651,12 +673,12 @@ input:focus-visible {
     border: 1px solid var(--color-border);
     border-radius: 6px;
     overflow: hidden;
-    box-shadow: 0 1px 6px rgba(26, 40, 24, .05);
-    transition: box-shadow .2s;
+    box-shadow: 0 1px 6px rgba(26, 40, 24, 0.05);
+    transition: box-shadow 0.2s;
 }
 
 .group-card:hover {
-    box-shadow: 0 4px 16px rgba(26, 40, 24, .1);
+    box-shadow: 0 4px 16px rgba(26, 40, 24, 0.1);
 }
 
 .group-card__cover {
@@ -671,13 +693,13 @@ input:focus-visible {
 
 .group-card__body h3 {
     font-size: 1rem;
-    margin-bottom: .35rem;
+    margin-bottom: 0.35rem;
 }
 
 .group-card__body p {
-    font-size: .8125rem;
+    font-size: 0.8125rem;
     color: var(--color-stone);
-    margin-bottom: .85rem;
+    margin-bottom: 0.85rem;
     font-style: italic;
 }
 
@@ -686,21 +708,23 @@ input:focus-visible {
 .form-group select,
 .form-group textarea {
     width: 100%;
-    padding: .6rem .85rem;
+    padding: 0.6rem 0.85rem;
     border: 1.5px solid var(--color-border);
     border-radius: 4px;
     font-size: 1rem;
-    font-family: 'Lora', Georgia, serif;
+    font-family: "Lora", Georgia, serif;
     color: var(--color-text);
     background: var(--color-fog);
-    transition: border-color .15s, box-shadow .15s;
+    transition:
+        border-color 0.15s,
+        box-shadow 0.15s;
 }
 
 .form-group select:focus-visible,
 .form-group textarea:focus-visible {
     outline: none;
     border-color: var(--color-moss);
-    box-shadow: 0 0 0 3px rgba(61, 92, 53, .15);
+    box-shadow: 0 0 0 3px rgba(61, 92, 53, 0.15);
 }
 
 .form-group--error select,
@@ -715,7 +739,7 @@ input:focus-visible {
 
 .form-actions {
     display: flex;
-    gap: .75rem;
+    gap: 0.75rem;
     flex-wrap: wrap;
     align-items: center;
 }
@@ -740,20 +764,22 @@ input:focus-visible {
 
 .city-widget__input {
     width: 100%;
-    padding: .6rem .85rem;
+    padding: 0.6rem 0.85rem;
     border: 1.5px solid var(--color-border);
     border-radius: 4px;
     font-size: 1rem;
-    font-family: 'Lora', Georgia, serif;
+    font-family: "Lora", Georgia, serif;
     color: var(--color-text);
     background: var(--color-fog);
-    transition: border-color .15s, box-shadow .15s;
+    transition:
+        border-color 0.15s,
+        box-shadow 0.15s;
 }
 
 .city-widget__input:focus-visible {
     outline: none;
     border-color: var(--color-moss);
-    box-shadow: 0 0 0 3px rgba(61, 92, 53, .15);
+    box-shadow: 0 0 0 3px rgba(61, 92, 53, 0.15);
 }
 
 .form-group--error .city-widget__input {
@@ -769,7 +795,7 @@ input:focus-visible {
     background: var(--color-fog);
     border: 1.5px solid var(--color-border);
     border-radius: 4px;
-    box-shadow: 0 6px 20px rgba(26, 40, 24, .12);
+    box-shadow: 0 6px 20px rgba(26, 40, 24, 0.12);
     overflow: hidden;
     max-height: 260px;
     overflow-y: auto;
@@ -780,26 +806,26 @@ input:focus-visible {
 }
 
 .city-widget__results--empty {
-    padding: .65rem 1rem;
+    padding: 0.65rem 1rem;
     color: var(--color-stone);
-    font-size: .9375rem;
+    font-size: 0.9375rem;
     font-style: italic;
 }
 
 .city-widget__option {
     display: block;
     width: 100%;
-    padding: .6rem 1rem;
+    padding: 0.6rem 1rem;
     text-align: left;
     background: none;
     border: none;
     border-bottom: 1px solid var(--color-border-light);
-    font-size: .9375rem;
-    font-family: 'Lora', Georgia, serif;
+    font-size: 0.9375rem;
+    font-family: "Lora", Georgia, serif;
     color: var(--color-text);
     cursor: pointer;
     line-height: 1.5;
-    transition: background .1s;
+    transition: background 0.1s;
 }
 
 .city-widget__option:last-child {
@@ -808,7 +834,7 @@ input:focus-visible {
 
 .city-widget__option:hover,
 .city-widget__option:focus-visible {
-    background: rgba(61, 92, 53, .07);
+    background: rgba(61, 92, 53, 0.07);
     color: var(--color-forest);
     outline: none;
 }
@@ -819,7 +845,7 @@ input:focus-visible {
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding: .6rem .85rem;
+    padding: 0.6rem 0.85rem;
     border: 1.5px solid var(--color-border);
     border-radius: 4px;
     background: var(--color-parchment);
@@ -882,7 +908,7 @@ input:focus-visible {
     border-radius: 6px;
     overflow: hidden;
     max-width: 760px;
-    box-shadow: 0 2px 12px rgba(26, 40, 24, .07);
+    box-shadow: 0 2px 12px rgba(26, 40, 24, 0.07);
 }
 
 .group-detail__cover {
@@ -898,16 +924,16 @@ input:focus-visible {
 
 .group-detail__body h1 {
     font-size: 1.75rem;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
 }
 
 .group-detail__meta {
     display: flex;
     flex-wrap: wrap;
-    gap: .25rem .85rem;
+    gap: 0.25rem 0.85rem;
     color: var(--color-stone);
-    font-size: .9375rem;
-    margin-bottom: .25rem;
+    font-size: 0.9375rem;
+    margin-bottom: 0.25rem;
     list-style: none;
     font-style: italic;
 }
@@ -921,7 +947,7 @@ input:focus-visible {
 .group-detail__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: .75rem;
+    gap: 0.75rem;
     margin-top: 1.75rem;
 }
 
@@ -937,12 +963,12 @@ input:focus-visible {
 
 .form-card h1 {
     font-size: 1.625rem;
-    margin-bottom: .35rem;
+    margin-bottom: 0.35rem;
 }
 
 .form-card__sub {
     color: var(--color-stone);
-    font-size: .9375rem;
+    font-size: 0.9375rem;
     margin-bottom: 2rem;
     font-style: italic;
 }
@@ -973,7 +999,7 @@ input:focus-visible {
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: .75rem;
+    gap: 0.75rem;
     margin-bottom: 1rem;
 }
 
@@ -992,14 +1018,14 @@ input:focus-visible {
 .group-events__past-heading {
     font-size: 1rem;
     color: var(--color-stone);
-    margin-bottom: .75rem;
+    margin-bottom: 0.75rem;
     font-weight: 600;
     font-style: italic;
 }
 
 .group-events__no-past {
     color: var(--color-stone);
-    font-size: .9375rem;
+    font-size: 0.9375rem;
     font-style: italic;
 }
 
@@ -1008,7 +1034,7 @@ input:focus-visible {
 .event-list {
     display: flex;
     flex-direction: column;
-    gap: .75rem;
+    gap: 0.75rem;
 }
 
 /* --- Event card (in group view) ------------------------------ */
@@ -1021,17 +1047,17 @@ input:focus-visible {
     border: 1px solid var(--color-border);
     border-radius: 6px;
     padding: 1rem 1.25rem;
-    box-shadow: 0 1px 4px rgba(26, 40, 24, .04);
-    transition: box-shadow .2s;
+    box-shadow: 0 1px 4px rgba(26, 40, 24, 0.04);
+    transition: box-shadow 0.2s;
 }
 
 .event-card:hover {
-    box-shadow: 0 3px 12px rgba(26, 40, 24, .08);
+    box-shadow: 0 3px 12px rgba(26, 40, 24, 0.08);
 }
 
 .event-card--past {
     background: var(--color-parchment);
-    opacity: .85;
+    opacity: 0.85;
 }
 
 .event-card--past .event-card__title a {
@@ -1044,13 +1070,13 @@ input:focus-visible {
     align-items: flex-start;
     min-width: 72px;
     text-align: left;
-    padding-top: .1rem;
+    padding-top: 0.1rem;
 }
 
 .event-card__date {
-    font-family: 'Shippori Mincho B1', Georgia, serif;
+    font-family: "Shippori Mincho B1", Georgia, serif;
     font-weight: 700;
-    font-size: .9375rem;
+    font-size: 0.9375rem;
     color: var(--color-text);
     line-height: 1.3;
 }
@@ -1060,7 +1086,7 @@ input:focus-visible {
 }
 
 .event-card__time {
-    font-size: .8125rem;
+    font-size: 0.8125rem;
     color: var(--color-stone);
     font-style: italic;
 }
@@ -1072,7 +1098,7 @@ input:focus-visible {
 
 .event-card__title {
     font-size: 1rem;
-    margin-bottom: .25rem;
+    margin-bottom: 0.25rem;
 }
 
 .event-card__title a {
@@ -1087,41 +1113,41 @@ input:focus-visible {
 }
 
 .event-card__meta {
-    font-size: .8125rem;
+    font-size: 0.8125rem;
     color: var(--color-stone);
     font-style: italic;
 }
 
 .event-card__actions {
-   display: flex;
-   flex-direction: column;
-   align-items: flex-end;
-   gap: 0.15rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.15rem;
 
-   a {
-      text-decoration: none;
-      display: flex;
-      flex-direction: row;
-      gap: 0.15rem;
-      align-items: center;
-      justify-content: center;
+    a {
+        text-decoration: none;
+        display: flex;
+        flex-direction: row;
+        gap: 0.15rem;
+        align-items: center;
+        justify-content: center;
 
-      svg {
-         width: 15px;
-         height: 15px;
-      }
-   }
+        svg {
+            width: 15px;
+            height: 15px;
+        }
+    }
 
-   .event-card__countdown {
-       flex-shrink: 0;
-       align-self: center;
-       font-size: .8125rem;
-       font-weight: 400;
-       color: var(--color-stone);
-       white-space: nowrap;
-       text-align: right;
-       font-style: italic;
-   }
+    .event-card__countdown {
+        flex-shrink: 0;
+        align-self: center;
+        font-size: 0.8125rem;
+        font-weight: 400;
+        color: var(--color-stone);
+        white-space: nowrap;
+        text-align: right;
+        font-style: italic;
+    }
 }
 
 /* --- Event detail page --------------------------------------- */
@@ -1132,7 +1158,7 @@ input:focus-visible {
 
 .event-detail__back {
     margin-bottom: 1.25rem;
-    font-size: .9375rem;
+    font-size: 0.9375rem;
 }
 
 .event-detail__layout {
@@ -1153,25 +1179,25 @@ input:focus-visible {
     border: 1px solid var(--color-border);
     border-radius: 6px;
     padding: 1.75rem;
-    box-shadow: 0 2px 12px rgba(26, 40, 24, .06);
+    box-shadow: 0 2px 12px rgba(26, 40, 24, 0.06);
 }
 
 .event-detail__card h1 {
     font-size: 1.625rem;
     margin-bottom: 1rem;
-    margin-top: .5rem;
+    margin-top: 0.5rem;
 }
 
 .event-badge {
     display: inline-block;
-    font-size: .75rem;
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: .06em;
-    padding: .2rem .55rem;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.55rem;
     border-radius: 3px;
-    margin-bottom: .5rem;
-    font-family: 'Lora', Georgia, serif;
+    margin-bottom: 0.5rem;
+    font-family: "Lora", Georgia, serif;
 }
 
 .event-badge--upcoming {
@@ -1187,19 +1213,19 @@ input:focus-visible {
 .event-detail__meta {
     display: flex;
     flex-direction: column;
-    gap: .6rem;
+    gap: 0.6rem;
     margin-bottom: 1.25rem;
 }
 
 .event-meta-item {
     display: flex;
-    gap: .6rem;
-    font-size: .9375rem;
+    gap: 0.6rem;
+    font-size: 0.9375rem;
     align-items: baseline;
 }
 
 .event-meta-item__label {
-    font-family: 'Shippori Mincho B1', Georgia, serif;
+    font-family: "Shippori Mincho B1", Georgia, serif;
     font-weight: 700;
     min-width: 56px;
     color: var(--color-forest-deep);
@@ -1218,7 +1244,7 @@ input:focus-visible {
 .event-detail__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: .75rem;
+    gap: 0.75rem;
     margin-top: 1.5rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--color-border-light);
@@ -1226,7 +1252,7 @@ input:focus-visible {
 }
 
 .event-attended-note {
-    font-size: .9375rem;
+    font-size: 0.9375rem;
     color: var(--color-stone);
     font-style: italic;
 }
@@ -1234,18 +1260,18 @@ input:focus-visible {
 .event-join-prompt {
     margin-top: 1.25rem;
     padding: 1rem 1.25rem;
-    background: rgba(61, 92, 53, .06);
-    border: 1px solid rgba(61, 92, 53, .2);
+    background: rgba(61, 92, 53, 0.06);
+    border: 1px solid rgba(61, 92, 53, 0.2);
     border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: .75rem;
+    gap: 0.75rem;
 }
 
 .event-join-prompt p {
-    font-size: .9375rem;
+    font-size: 0.9375rem;
     color: var(--color-forest);
     font-style: italic;
 }
@@ -1262,7 +1288,7 @@ input:focus-visible {
     border: 1px solid var(--color-border);
     border-radius: 6px;
     padding: 1.25rem;
-    box-shadow: 0 2px 12px rgba(26, 40, 24, .06);
+    box-shadow: 0 2px 12px rgba(26, 40, 24, 0.06);
 }
 
 .event-attendees__heading {
@@ -1271,7 +1297,7 @@ input:focus-visible {
 }
 
 .event-attendees__empty {
-    font-size: .9375rem;
+    font-size: 0.9375rem;
     color: var(--color-stone);
     font-style: italic;
 }
@@ -1280,15 +1306,15 @@ input:focus-visible {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: .5rem;
+    gap: 0.5rem;
 }
 
 .attendee-card {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: .5rem;
-    padding: .5rem 0;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
     border-bottom: 1px solid var(--color-border-light);
 }
 
@@ -1297,21 +1323,21 @@ input:focus-visible {
 }
 
 .attendee-card__name {
-    font-size: .9375rem;
+    font-size: 0.9375rem;
     color: var(--color-text);
     font-weight: 600;
 }
 
 .attendee-card__badge {
-    font-size: .75rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    padding: .15rem .45rem;
+    padding: 0.15rem 0.45rem;
     border-radius: 3px;
     flex-shrink: 0;
 }
 
 .attendee-card__badge--member {
-    background: rgba(61, 92, 53, .12);
+    background: rgba(61, 92, 53, 0.12);
     color: var(--color-forest);
 }
 
@@ -1323,7 +1349,7 @@ input:focus-visible {
 /* --- Explore section (homepage) ------------------------------ */
 
 .explore-section {
-    background: rgba(61, 92, 53, .05);
+    background: rgba(61, 92, 53, 0.05);
     padding: 3rem 0;
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
@@ -1352,16 +1378,16 @@ input:focus-visible {
 }
 
 .explore-groups__empty {
-    font-size: .9375rem;
+    font-size: 0.9375rem;
     color: var(--color-stone);
     padding: 1.5rem 0;
     font-style: italic;
 }
 
 .group-card__meta {
-    font-size: .8125rem;
+    font-size: 0.8125rem;
     color: var(--color-stone);
-    margin-bottom: .85rem;
+    margin-bottom: 0.85rem;
     font-style: italic;
 }
 
@@ -1373,7 +1399,7 @@ input:focus-visible {
 .group-card__actions {
     display: flex;
     align-items: center;
-    gap: .5rem;
+    gap: 0.5rem;
     flex-wrap: wrap;
 }
 
@@ -1382,7 +1408,7 @@ input:focus-visible {
 }
 
 .group-card__joined-badge {
-    font-size: .875rem;
+    font-size: 0.875rem;
     font-weight: 600;
     color: var(--color-moss);
 }
@@ -1393,7 +1419,7 @@ input:focus-visible {
     border-top: 1px solid var(--color-border);
     padding: 1.5rem 0;
     color: var(--color-stone);
-    font-size: .875rem;
+    font-size: 0.875rem;
     text-align: center;
     margin-top: auto;
     background: var(--color-paper);

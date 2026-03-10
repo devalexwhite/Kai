@@ -4,7 +4,7 @@ declare(strict_types=1);
 require_auth();
 
 $user = current_user();
-$pdo  = get_db();
+$pdo = get_db();
 
 // Upcoming events the user has RSVPd to
 $upcomingEventsStmt = $pdo->prepare("
@@ -17,7 +17,7 @@ $upcomingEventsStmt = $pdo->prepare("
       AND (e.event_date > date('now') OR (e.event_date = date('now') AND e.event_time >= time('now')))
     ORDER BY e.event_date ASC, e.event_time ASC
 ");
-$upcomingEventsStmt->execute([$user['id']]);
+$upcomingEventsStmt->execute([$user["id"]]);
 $upcomingEvents = $upcomingEventsStmt->fetchAll();
 
 // Groups the user has joined
@@ -32,7 +32,7 @@ $joinedStmt = $pdo->prepare("
     GROUP BY g.id
     ORDER BY m.joined_at DESC
 ");
-$joinedStmt->execute([$user['id']]);
+$joinedStmt->execute([$user["id"]]);
 $joinedGroups = $joinedStmt->fetchAll();
 
 // Groups the user has not joined, ordered by popularity
@@ -50,7 +50,7 @@ $suggestedStmt = $pdo->prepare("
     ORDER BY member_count DESC
     LIMIT 3
 ");
-$suggestedStmt->execute([$user['id'], $user['city_id']]);
+$suggestedStmt->execute([$user["id"], $user["city_id"]]);
 $suggestedGroups = $suggestedStmt->fetchAll();
 
 ob_start();
@@ -59,18 +59,24 @@ ob_start();
     <div class="container">
         <div class="dashboard__header">
             <div>
-                <h1 class="dashboard__greeting">Welcome back, <?= e($user['name']) ?>!</h1>
-                <p class="dashboard__date"><?= date('l, F j, Y') ?></p>
+                <h1 class="dashboard__greeting">Welcome back, <?= e(
+                    $user["name"],
+                ) ?>!</h1>
+                <p class="dashboard__date"><?= date("l, F j, Y") ?></p>
             </div>
         </div>
 
         <div class="dashboard__stats">
             <div class="stat-card">
-                <span class="stat-card__value"><?= count($upcomingEvents) ?></span>
+                <span class="stat-card__value"><?= count(
+                    $upcomingEvents,
+                ) ?></span>
                 <span class="stat-card__label">Upcoming events</span>
             </div>
             <div class="stat-card">
-                <span class="stat-card__value"><?= count($joinedGroups) ?></span>
+                <span class="stat-card__value"><?= count(
+                    $joinedGroups,
+                ) ?></span>
                 <span class="stat-card__label">Groups joined</span>
             </div>
             <div class="stat-card">
@@ -97,38 +103,50 @@ ob_start();
                 <div class="event-list">
                     <?php foreach ($upcomingEvents as $ev): ?>
                         <?php
-                        $dt        = new DateTimeImmutable($ev['event_date'] . ' ' . $ev['event_time']);
-                        $date      = $dt->format('M j, Y');
-                        $time      = $dt->format('g:i A');
+                        $dt = new DateTimeImmutable(
+                            $ev["event_date"] . " " . $ev["event_time"],
+                        );
+                        $date = $dt->format("M j, Y");
+                        $time = $dt->format("g:i A");
                         $countdown = event_countdown($dt);
                         ?>
                         <article class="event-card">
                             <div class="event-card__datetime">
-                                <span class="event-card__date"><?= e($date) ?></span>
-                                <span class="event-card__time"><?= e($time) ?></span>
+                                <span class="event-card__date"><?= e(
+                                    $date,
+                                ) ?></span>
+                                <span class="event-card__time"><?= e(
+                                    $time,
+                                ) ?></span>
                             </div>
                             <div class="event-card__body">
                                 <h3 class="event-card__title">
-                                    <a href="/?page=event_view&id=<?= (int) $ev['id'] ?>"><?= e($ev['title']) ?></a>
+                                    <a href="/?page=event_view&id=<?= (int) $ev[
+                                        "id"
+                                    ] ?>"><?= e($ev["title"]) ?></a>
                                 </h3>
                                 <p class="event-card__meta">
-                                    <?= e($ev['group_name']) ?>
-                                    <?php if ($ev['location'] !== ''): ?>
-                                        &middot; <?= e($ev['location']) ?>
+                                    <?= e($ev["group_name"]) ?>
+                                    <?php if ($ev["location"] !== ""): ?>
+                                        &middot; <?= e($ev["location"]) ?>
                                     <?php endif; ?>
-                                    <?php if ($ev['meeting_url'] !== ''): ?>
+                                    <?php if ($ev["meeting_url"] !== ""): ?>
                                         &middot; Online
                                     <?php endif; ?>
                                 </p>
                             </div>
                             <div class="event-card__actions">
-                                <a href="/?page=event_view&id=<?= (int) $ev['id'] ?>">
-                                    View 
+                                <a href="/?page=event_view&id=<?= (int) $ev[
+                                    "id"
+                                ] ?>">
+                                    View
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                       <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                                     </svg>
                                 </a>
-                                <span class="event-card__countdown"><?= e($countdown) ?></span>
+                                <span class="event-card__countdown"><?= e(
+                                    $countdown,
+                                ) ?></span>
                             </div>
                         </article>
                     <?php endforeach; ?>
@@ -139,9 +157,12 @@ ob_start();
         <section class="dashboard-section">
             <div class="dashboard-section__header">
                 <h2>Your groups</h2>
-                <a href="/?page=groups" class="btn btn--ghost btn--sm">Explore groups</a>
+                <div class="dashboard-section__actions">
+                    <a href="/?page=group_create" class="btn btn--ghost btn--sm">Start a group</a>
+                    <a href="/?page=groups" class="btn btn--ghost btn--sm">Explore groups</a>
+                </div>
             </div>
-            <?php if (empty($joinedGroups)): ?>                
+            <?php if (empty($joinedGroups)): ?>
                 <div class="placeholder-card placeholder-card--empty">
                     <p>You haven&rsquo;t joined any groups yet.</p>
                     <a href="/?page=groups" class="btn btn--primary btn--sm">Find groups</a>
@@ -149,17 +170,25 @@ ob_start();
             <?php else: ?>
                 <div class="group-grid">
                     <?php foreach ($joinedGroups as $group): ?>
-                        <?php $bg = group_background((int) $group['id']); ?>
+                        <?php $bg = group_background((int) $group["id"]); ?>
                         <article class="group-card">
                             <div class="group-card__cover" style="background-size: 40px; background-image: url('<?= $bg ?>');" aria-hidden="true"></div>
                             <div class="group-card__body">
-                                <h3><?= e($group['name']) ?></h3>
+                                <h3><?= e($group["name"]) ?></h3>
                                 <p>
-                                    <?= e($group['city_name']) ?>, <?= e($group['city_state']) ?>
+                                    <?= e($group["city_name"]) ?>, <?= e(
+    $group["city_state"],
+) ?>
                                     &middot;
-                                    <?= (int) $group['member_count'] ?> <?= (int) $group['member_count'] === 1 ? 'member' : 'members' ?>
+                                    <?= (int) $group[
+                                        "member_count"
+                                    ] ?> <?= (int) $group["member_count"] === 1
+     ? "member"
+     : "members" ?>
                                 </p>
-                                <a href="/?page=group_view&id=<?= (int) $group['id'] ?>" class="btn btn--ghost btn--sm">View group</a>
+                                <a href="/?page=group_view&id=<?= (int) $group[
+                                    "id"
+                                ] ?>" class="btn btn--ghost btn--sm">View group</a>
                             </div>
                         </article>
                     <?php endforeach; ?>
@@ -175,17 +204,25 @@ ob_start();
             </div>
             <div class="group-grid">
                 <?php foreach ($suggestedGroups as $group): ?>
-                    <?php $bg = group_background((int) $group['id']); ?>
+                    <?php $bg = group_background((int) $group["id"]); ?>
                     <article class="group-card">
                         <div class="group-card__cover" style="background-size: 40px; background-image: url('<?= $bg ?>');" aria-hidden="true"></div>
                         <div class="group-card__body">
-                            <h3><?= e($group['name']) ?></h3>
+                            <h3><?= e($group["name"]) ?></h3>
                             <p>
-                                <?= e($group['city_name']) ?>, <?= e($group['city_state']) ?>
+                                <?= e($group["city_name"]) ?>, <?= e(
+    $group["city_state"],
+) ?>
                                 &middot;
-                                <?= (int) $group['member_count'] ?> <?= (int) $group['member_count'] === 1 ? 'member' : 'members' ?>
+                                <?= (int) $group[
+                                    "member_count"
+                                ] ?> <?= (int) $group["member_count"] === 1
+     ? "member"
+     : "members" ?>
                             </p>
-                            <a href="/?page=group_view&id=<?= (int) $group['id'] ?>" class="btn btn--ghost btn--sm">View group</a>
+                            <a href="/?page=group_view&id=<?= (int) $group[
+                                "id"
+                            ] ?>" class="btn btn--ghost btn--sm">View group</a>
                         </div>
                     </article>
                 <?php endforeach; ?>
@@ -194,5 +231,4 @@ ob_start();
         <?php endif; ?>
     </div>
 </section>
-<?php
-render('Dashboard — Kai');
+<?php render("Dashboard — Kai");
