@@ -23,7 +23,7 @@
                     <div class="event-detail__meta">
                         <div class="event-meta-item">
                             <span class="event-meta-item__label">When</span>
-                            <span>{{ formattedDate }} at {{ formattedTime }}</span>
+                            <a href="/events/{{ event.id }}/ical">{{ formattedDate }} at {{ formattedTime }}</a>
                         </div>
                         {% if event.location != '' %}
                             <div class="event-meta-item">

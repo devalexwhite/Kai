@@ -14,6 +14,7 @@ use App\Action\Events\EventCreateSubmitAction;
 use App\Action\Events\EventDeleteAction;
 use App\Action\Events\EventEditAction;
 use App\Action\Events\EventEditSubmitAction;
+use App\Action\Events\EventIcalAction;
 use App\Action\Events\EventRsvpAction;
 use App\Action\Events\EventViewAction;
 use App\Action\Groups\GroupCreateAction;
@@ -63,6 +64,7 @@ return function (App $app): void {
 
     $app->get('/events', BrowseEventsAction::class);
     $app->get('/events/{id:[0-9]+}',        EventViewAction::class);
+    $app->get('/events/{id:[0-9]+}/ical',   EventIcalAction::class);
     $app->post('/events/{id:[0-9]+}/rsvp',  EventRsvpAction::class)->add(AuthMiddleware::class);
     $app->get('/events/{id:[0-9]+}/edit',   EventEditAction::class)->add(AuthMiddleware::class);
     $app->post('/events/{id:[0-9]+}/edit',  EventEditSubmitAction::class)->add(AuthMiddleware::class);
