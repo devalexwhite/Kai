@@ -6,4 +6,4 @@
 /database/*.sqlite3-wal
 /database/*.sqlite3-shm
 *.DS_Store
-.env
+.env/screenshots/*.html

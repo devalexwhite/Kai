@@ -24,6 +24,8 @@ use App\Action\Groups\GroupEditAction;
 use App\Action\Groups\GroupEditSubmitAction;
 use App\Action\Groups\GroupJoinAction;
 use App\Action\Groups\GroupLeaveAction;
+use App\Action\Groups\GroupLinkAddAction;
+use App\Action\Groups\GroupLinkDeleteAction;
 use App\Action\Groups\GroupListAction;
 use App\Action\Groups\GroupViewAction;
 use App\Action\Groups\PastEventsAction;
@@ -57,6 +59,8 @@ return function (App $app): void {
     $app->post('/groups/{id:[0-9]+}/edit',   GroupEditSubmitAction::class)->add(AuthMiddleware::class);
     $app->post('/groups/{id:[0-9]+}/delete', GroupDeleteAction::class)->add(AuthMiddleware::class);
     $app->get('/groups/{id:[0-9]+}/past-events', PastEventsAction::class);
+    $app->post('/groups/{id:[0-9]+}/links',               GroupLinkAddAction::class)->add(AuthMiddleware::class);
+    $app->post('/groups/{id:[0-9]+}/links/{link_id:[0-9]+}/delete', GroupLinkDeleteAction::class)->add(AuthMiddleware::class);
 
     // Events
     $app->get('/events/create',  EventCreateAction::class)->add(AuthMiddleware::class);

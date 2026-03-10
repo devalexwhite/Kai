@@ -1,0 +1,66 @@
+<div id="group-links-section">
+    {% if links is not empty %}
+        <ul class="group-links group-links--edit">
+            {% for link in links %}
+                <li class="group-links__item">
+                    <span class="group-links__label">
+                        <strong>{{ link.title }}</strong>
+                        <span class="group-links__url-preview">{{ link.url }}</span>
+                    </span>
+                    <form method="post"
+                          action="/groups/{{ group_id }}/links/{{ link.id }}/delete"
+                          hx-post="/groups/{{ group_id }}/links/{{ link.id }}/delete"
+                          hx-target="#group-links-section"
+                          hx-swap="outerHTML"
+                          class="group-links__delete">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="btn-link btn-link--danger" aria-label="Remove {{ link.title }}">Remove</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="group-links__add">
+        <form method="post"
+              action="/groups/{{ group_id }}/links"
+              hx-post="/groups/{{ group_id }}/links"
+              hx-target="#group-links-section"
+              hx-swap="outerHTML"
+              novalidate>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <div class="form-row">
+                <div class="form-group {% if errors.title is defined %}form-group--error{% endif %}">
+                    <label for="link-title">Title</label>
+                    <input
+                        type="text"
+                        id="link-title"
+                        name="title"
+                        value="{{ old.title ?? '' }}"
+                        maxlength="100"
+                        {% if errors.title is defined %}aria-describedby="link-title-error"{% endif %}
+                    >
+                    {% if errors.title is defined %}
+                        <span class="form-error" id="link-title-error">{{ errors.title }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group {% if errors.url is defined %}form-group--error{% endif %}">
+                    <label for="link-url">URL</label>
+                    <input
+                        type="url"
+                        id="link-url"
+                        name="url"
+                        value="{{ old.url ?? '' }}"
+                        maxlength="2048"
+                        placeholder="https://"
+                        {% if errors.url is defined %}aria-describedby="link-url-error"{% endif %}
+                    >
+                    {% if errors.url is defined %}
+                        <span class="form-error" id="link-url-error">{{ errors.url }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <button type="submit" class="btn btn--ghost btn--sm">Add link</button>
+        </form>
+    </div>
+</div>

@@ -951,6 +951,95 @@ input:focus-visible {
     margin-top: 1.75rem;
 }
 
+.group-detail__links {
+    margin-top: 1.25rem;
+}
+
+.group-links {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.group-links__item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9375rem;
+}
+
+.group-links__item a {
+    color: var(--color-moss);
+}
+
+.group-links__delete {
+    display: inline;
+    margin: 0;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 0.8125rem;
+    text-decoration: underline;
+}
+
+.btn-link--danger {
+    color: #9a3020;
+}
+
+.group-links--edit .group-links__item {
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.group-links--edit .group-links__item:first-child {
+    border-top: 1px solid var(--color-border-light);
+}
+
+.group-links__label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+}
+
+.group-links__url-preview {
+    font-size: 0.8125rem;
+    color: var(--color-stone);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.group-links__add {
+    margin-top: 1rem;
+}
+
+.form-section {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.form-section__heading {
+    font-size: 1.125rem;
+    margin-bottom: 0.25rem;
+}
+
+.form-section__hint {
+    font-size: 0.9375rem;
+    color: var(--color-stone);
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
 /* --- Create / Edit group form page --------------------------- */
 
 .form-page {

@@ -51,10 +51,17 @@ class GroupEditAction
 
         $cities = $this->db->query('SELECT id, name, state FROM cities ORDER BY state, name')->fetchAll();
 
+        $linksStmt = $this->db->prepare(
+            'SELECT id, title, url FROM group_links WHERE group_id = ? ORDER BY created_at ASC'
+        );
+        $linksStmt->execute([$id]);
+        $links = $linksStmt->fetchAll();
+
         return $this->twig->render($response, 'groups/edit.html.twig', [
             'group'       => $group,
             'preselected' => $preselected,
             'cities'      => $cities,
+            'links'       => $links,
             'old'         => [
                 'name'        => $group['name'],
                 'description' => $group['description'],

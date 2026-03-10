@@ -83,6 +83,12 @@ class GroupViewAction
         }
         $pastEvents = array_reverse($pastEvents);
 
+        $linksStmt = $this->db->prepare(
+            'SELECT id, title, url FROM group_links WHERE group_id = ? ORDER BY created_at ASC'
+        );
+        $linksStmt->execute([$id]);
+        $links = $linksStmt->fetchAll();
+
         return $this->twig->render($response, 'groups/view.html.twig', [
             'group'          => $group,
             'memberCount'    => $memberCount,
@@ -92,6 +98,7 @@ class GroupViewAction
             'pastEvents'     => $pastEvents,
             'pastCount'      => count($pastEvents),
             'showPast'       => isset($request->getQueryParams()['show_past']),
+            'links'          => $links,
         ]);
     }
 }

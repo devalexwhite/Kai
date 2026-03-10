@@ -49,6 +49,12 @@
                     <a href="/groups/{{ group.id }}" class="btn btn--ghost">Cancel</a>
                 </div>
             </form>
+
+            <div class="form-section">
+                <h2 class="form-section__heading">Links</h2>
+                <p class="form-section__hint">Add external links to display on your group page.</p>
+                {% include 'partials/group_links_edit.html.twig' with { 'group_id': group.id, 'links': links, 'errors': {}, 'old': {} } %}
+            </div>
         </div>
     </div>
 </section>
