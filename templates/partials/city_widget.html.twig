@@ -1,0 +1,56 @@
+<div class="form-group {% if errors.city_id is defined %}form-group--error{% endif %}">
+    <label>City</label>
+
+    {% if preselected %}
+        {# Selected state: city already chosen #}
+        <div id="city-widget" class="city-widget city-widget--has-value">
+            <input type="hidden" name="city_id" value="{{ preselected.id }}">
+            <div class="city-widget__chosen">
+                <span>{{ preselected.name }}, {{ preselected.state }}</span>
+                <button type="button" class="btn btn--ghost btn--sm"
+                        hx-get="/city-search?reset=1"
+                        hx-target="#city-widget"
+                        hx-swap="outerHTML">
+                    Change
+                </button>
+            </div>
+        </div>
+    {% else %}
+        {# Search state: no city selected yet #}
+        <div id="city-widget" class="city-widget">
+            <input
+                type="text"
+                class="city-widget__input"
+                name="city_q"
+                placeholder="Search cities…"
+                autocomplete="off"
+                hx-get="/city-search"
+                hx-trigger="input changed delay:300ms"
+                hx-target="#city-results"
+                hx-swap="outerHTML"
+                aria-label="Search for a city"
+                aria-autocomplete="list"
+                aria-controls="city-results"
+            >
+            <input type="hidden" name="city_id" value="">
+            <div id="city-results" class="city-widget__results" role="listbox"></div>
+        </div>
+    {% endif %}
+
+    {% if errors.city_id is defined %}
+        <span class="form-error" id="city-error">{{ errors.city_id }}</span>
+    {% endif %}
+
+    {# Progressive fallback: only rendered when JavaScript is disabled #}
+    <noscript>
+        <style>#city-widget { display: none !important; }</style>
+        <select name="city_id" {% if errors.city_id is defined %}aria-describedby="city-error"{% endif %}>
+            <option value="">— Select a city —</option>
+            {% for city in cities %}
+                <option value="{{ city.id }}"
+                    {% if old.city_id is defined and old.city_id == city.id %}selected{% endif %}
+                >{{ city.name }}, {{ city.state }}</option>
+            {% endfor %}
+        </select>
+    </noscript>
+</div>

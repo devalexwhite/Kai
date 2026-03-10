@@ -1,0 +1,16 @@
+{% if results is empty %}
+<div id="city-results" class="city-widget__results city-widget__results--empty">
+    No cities match "{{ raw }}"
+</div>
+{% else %}
+<div id="city-results" class="city-widget__results" role="listbox">
+    {% for city in results %}
+        <button type="button" class="city-widget__option" role="option"
+                hx-get="/city-search?select={{ city.id }}{{ modeParam }}"
+                hx-target="#city-widget"
+                hx-swap="outerHTML">
+            {{ city.name }}, {{ city.state }}
+        </button>
+    {% endfor %}
+</div>
+{% endif %}

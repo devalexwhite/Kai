@@ -1,0 +1,55 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Start a Group — Kai{% endblock %}
+
+{% block content %}
+<section class="form-page">
+    <div class="container">
+        <div class="form-card">
+            <h1>Start a group</h1>
+            <p class="form-card__sub">Bring people together around something you care about.</p>
+
+            <form method="post" action="/groups/create" novalidate>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                <div class="form-group {% if errors.name is defined %}form-group--error{% endif %}">
+                    <label for="name">Group name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="{{ old.name ?? '' }}"
+                        maxlength="100"
+                        required
+                        {% if errors.name is defined %}aria-describedby="name-error"{% endif %}
+                    >
+                    {% if errors.name is defined %}
+                        <span class="form-error" id="name-error">{{ errors.name }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group {% if errors.description is defined %}form-group--error{% endif %}">
+                    <label for="description">Description</label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        maxlength="2000"
+                        {% if errors.description is defined %}aria-describedby="description-error"{% endif %}
+                    >{{ old.description ?? '' }}</textarea>
+                    <span class="form-hint">Tell people what your group is about. Up to 2000 characters.</span>
+                    {% if errors.description is defined %}
+                        <span class="form-error" id="description-error">{{ errors.description }}</span>
+                    {% endif %}
+                </div>
+
+                {% include 'partials/city_widget.html.twig' %}
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn--primary">Create group</button>
+                    <a href="/groups" class="btn btn--ghost">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

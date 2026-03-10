@@ -1,0 +1,111 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ group.name }} — Kai{% endblock %}
+
+{% block content %}
+<section class="group-detail">
+    <div class="container">
+        <div class="group-detail__card">
+            <div class="group-detail__cover" style="background-size: 40px; background-image: url('{{ group_background(group.id) }}');" aria-hidden="true"></div>
+            <div class="group-detail__body">
+                <h1>{{ group.name }}</h1>
+                <div class="group-detail__meta">
+                    <span>{{ group.city_name }}, {{ group.city_state }}</span>
+                    <span>{{ memberCount }} {{ memberCount == 1 ? 'member' : 'members' }}</span>
+                    <span>Organized by {{ group.creator_name }}</span>
+                </div>
+
+                {% if group.description != '' %}
+                    <p class="group-detail__description">{{ group.description|nl2br }}</p>
+                {% endif %}
+
+                <div class="group-detail__actions">
+                    {% if current_user %}
+                        {% if isMember and not isCreator %}
+                            <form method="post" action="/groups/{{ group.id }}/leave">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                <button type="submit" class="btn btn--ghost">Leave group</button>
+                            </form>
+                        {% endif %}
+                        {% if not isMember %}
+                            <form method="post" action="/groups/{{ group.id }}/join">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                <button type="submit" class="btn btn--primary">Join group</button>
+                            </form>
+                        {% endif %}
+                        {% if isCreator %}
+                            <a href="/groups/{{ group.id }}/edit" class="btn btn--ghost">Edit group</a>
+                            <form method="post" action="/groups/{{ group.id }}/delete">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                <button type="submit" class="btn btn--danger">Delete group</button>
+                            </form>
+                        {% endif %}
+                    {% else %}
+                        <a href="/signin" class="btn btn--primary">Sign in to join</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="group-events">
+            <div class="group-events__header">
+                <h2>Events</h2>
+                {% if isCreator %}
+                    <a href="/events/create?group_id={{ group.id }}" class="btn btn--primary btn--sm">Create event</a>
+                {% endif %}
+            </div>
+
+            {% if upcomingEvents is empty %}
+                <div class="placeholder-card placeholder-card--empty">
+                    <p>No upcoming events.{% if isCreator %} Create one to get started.{% endif %}</p>
+                    {% if isCreator %}
+                        <a href="/events/create?group_id={{ group.id }}" class="btn btn--primary btn--sm">Create event</a>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="event-list">
+                    {% for ev in upcomingEvents %}
+                        <article class="event-card">
+                            <div class="event-card__datetime">
+                                <span class="event-card__date">{{ (ev.event_date ~ ' ' ~ ev.event_time)|date('M j, Y') }}</span>
+                                <span class="event-card__time">{{ (ev.event_date ~ ' ' ~ ev.event_time)|date('g:i A') }}</span>
+                            </div>
+                            <div class="event-card__body">
+                                <h3 class="event-card__title">
+                                    <a href="/events/{{ ev.id }}">{{ ev.title }}</a>
+                                </h3>
+                                <p class="event-card__meta">
+                                    {{ ev.rsvp_count }} going
+                                    {% if ev.location != '' %}&middot; {{ ev.location }}{% endif %}
+                                    {% if ev.meeting_url != '' %}&middot; Online{% endif %}
+                                </p>
+                            </div>
+                            <div class="event-card__actions">
+                                <a href="/events/{{ ev.id }}">
+                                    View
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                      <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                    </svg>
+                                </a>
+                                <span class="event-card__countdown">{{ event_countdown(ev.event_date, ev.event_time) }}</span>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if pastCount > 0 %}
+                <div id="past-events-section" class="group-events__past">
+                    <a href="/groups/{{ group.id }}?show_past=1"
+                       class="btn btn--ghost btn--sm"
+                       hx-get="/groups/{{ group.id }}/past-events"
+                       hx-target="#past-events-section"
+                       hx-swap="outerHTML">
+                        Show past events ({{ pastCount }})
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

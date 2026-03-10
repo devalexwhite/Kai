@@ -1,0 +1,12 @@
+<div id="city-widget" class="city-widget city-widget--has-value">
+    <input type="hidden" name="city_id" value="{{ city.id }}">
+    <div class="city-widget__chosen">
+        <span>{{ city.name }}, {{ city.state }}</span>
+        <button type="button" class="btn btn--ghost btn--sm"
+                hx-get="/city-search?reset=1{{ modeParam }}"
+                hx-target="#city-widget"
+                hx-swap="outerHTML">
+            Change
+        </button>
+    </div>
+</div>

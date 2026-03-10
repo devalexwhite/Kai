@@ -3,29 +3,11 @@
 }
 
 {$APP_DOMAIN} {
-    root * /var/www/html
+    root * /var/www/html/public
 
     encode gzip
 
-    # Block sensitive directory/file paths
-    @blockedPaths path /database /database/* /src /src/* /templates /templates/* /pages /pages/* /vendor /vendor/* /composer.json /composer.lock
-    handle @blockedPaths {
-        respond 403
-    }
+    php_fastcgi app:9000
 
-    # Block sensitive file patterns (.env, .sqlite, etc.)
-    @blockedFiles path_regexp sensitive (\.env|\.sqlite|\.sqlite-wal|\.sqlite-shm)
-    handle @blockedFiles {
-        respond 403
-    }
-
-    # Serve static assets from /public; everything else goes to PHP
-    handle /public/* {
-        file_server
-    }
-
-    handle {
-        rewrite * /index.php
-        php_fastcgi app:9000
-    }
+    file_server
 }

@@ -1,0 +1,77 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Sign Up — Kai{% endblock %}
+
+{% block content %}
+<section class="auth-page">
+    <div class="auth-card">
+        <h1 class="auth-card__title">Create your account</h1>
+        <p class="auth-card__sub">Already have an account? <a href="/signin">Sign in</a></p>
+
+        <form method="post" action="/signup" novalidate>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+
+            <div class="form-group {% if errors.name is defined %}form-group--error{% endif %}">
+                <label for="name">Full name</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value="{{ old.name ?? '' }}"
+                    autocomplete="name"
+                    required
+                    {% if errors.name is defined %}aria-describedby="name-error"{% endif %}
+                >
+                {% if errors.name is defined %}
+                    <span class="form-error" id="name-error">{{ errors.name }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group {% if errors.email is defined %}form-group--error{% endif %}">
+                <label for="email">Email address</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{{ old.email ?? '' }}"
+                    autocomplete="email"
+                    required
+                    {% if errors.email is defined %}aria-describedby="email-error"{% endif %}
+                >
+                {% if errors.email is defined %}
+                    <span class="form-error" id="email-error">{{ errors.email }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group {% if errors.password is defined %}form-group--error{% endif %}">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    autocomplete="new-password"
+                    minlength="6"
+                    required
+                    {% if errors.password is defined %}aria-describedby="password-error"{% endif %}
+                >
+                <span class="form-hint">Minimum 6 characters</span>
+                {% if errors.password is defined %}
+                    <span class="form-error" id="password-error">{{ errors.password }}</span>
+                {% endif %}
+            </div>
+
+            {% include 'partials/city_widget.html.twig' %}
+
+            <div class="form-group form-group--checkbox">
+                <label>
+                    <input type="checkbox" name="remember" value="1">
+                    Remember me for 30 days
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--full">Create account</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
