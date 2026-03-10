@@ -14,7 +14,7 @@ final class CreateUsersTable extends AbstractMigration
             ->addColumn('email', 'string', ['null' => false])
             ->addColumn('city_id', 'integer', ['null' => false])
             ->addColumn('password', 'string', ['null' => false])
-            ->addColumn('created_at', 'string', ['null' => false, 'default' => 'datetime(\'now\')'])
+            ->addColumn('created_at', 'datetime', ['null' => false, 'default' => 'CURRENT_TIMESTAMP'])
             ->addIndex(['email'], ['unique' => true])
             ->addForeignKey('city_id', 'cities', 'id', ['delete' => 'RESTRICT', 'update' => 'NO_ACTION'])
             ->create();

@@ -64,7 +64,7 @@ class SignUpSubmitAction
                 $userId = $this->authService->registerUser($name, $email, $password, $cityId);
                 $this->authService->loginUser($userId);
                 if ($remember) {
-                    $this->authService->setRememberMeCookie($userId);
+                    $this->authService->setRememberMeCookie($userId, $request->getUri()->getScheme() === 'https');
                 }
                 $this->flash->addMessage('success', 'Welcome to Kai, ' . $name . '!');
                 return $this->redirect($response, $request, $next !== '' ? $next : '/dashboard');

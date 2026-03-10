@@ -12,7 +12,7 @@ final class CreateGroupMembersTable extends AbstractMigration
         $table
             ->addColumn('group_id', 'integer', ['null' => false])
             ->addColumn('user_id', 'integer', ['null' => false])
-            ->addColumn('joined_at', 'string', ['null' => false, 'default' => 'datetime(\'now\')'])
+            ->addColumn('joined_at', 'datetime', ['null' => false, 'default' => 'CURRENT_TIMESTAMP'])
             ->addIndex(['group_id', 'user_id'], ['unique' => true])
             ->addIndex(['group_id'])
             ->addIndex(['user_id'])

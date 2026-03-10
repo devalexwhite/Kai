@@ -88,7 +88,14 @@ class EventCreateSubmitAction
         return $this->twig->render($response, 'events/create.html.twig', [
             'group'  => $group,
             'errors' => $errors,
-            'old'    => compact('title', 'desc', 'eventDate', 'eventTime', 'location', 'meetingUrl'),
+            'old'    => [
+                'title'       => $title,
+                'description' => $desc,
+                'event_date'  => $eventDate,
+                'event_time'  => $eventTime,
+                'location'    => $location,
+                'meeting_url' => $meetingUrl,
+            ],
         ]);
     }
 }

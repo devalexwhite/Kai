@@ -77,15 +77,21 @@ class EventViewAction
         $isPast = $event['event_date'] < $today ||
                   ($event['event_date'] === $today && $event['event_time'] < $now);
 
+        $eventDateTime  = \DateTimeImmutable::createFromFormat('!Y-m-d H:i', $event['event_date'] . ' ' . $event['event_time']);
+        $formattedDate  = $eventDateTime ? $eventDateTime->format('F j, Y') : $event['event_date'];
+        $formattedTime  = $eventDateTime ? $eventDateTime->format('g:i A') : $event['event_time'];
+
         return $this->twig->render($response, 'events/view.html.twig', [
-            'event'        => $event,
-            'rsvpCount'    => $rsvpCount,
-            'isAttendee'   => $isAttendee,
-            'isMember'     => $isMember,
-            'isEventOwner' => $isEventOwner,
-            'isGroupOwner' => $isGroupOwner,
-            'isPast'       => $isPast,
-            'attendees'    => $attendeesStmt->fetchAll(),
+            'event'         => $event,
+            'rsvpCount'     => $rsvpCount,
+            'isAttendee'    => $isAttendee,
+            'isMember'      => $isMember,
+            'isEventOwner'  => $isEventOwner,
+            'isGroupOwner'  => $isGroupOwner,
+            'isPast'        => $isPast,
+            'attendees'     => $attendeesStmt->fetchAll(),
+            'formattedDate' => $formattedDate,
+            'formattedTime' => $formattedTime,
         ]);
     }
 }

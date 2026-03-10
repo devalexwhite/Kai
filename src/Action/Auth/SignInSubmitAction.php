@@ -32,7 +32,7 @@ class SignInSubmitAction
         if ($user) {
             $this->authService->loginUser((int) $user['id']);
             if ($remember) {
-                $this->authService->setRememberMeCookie((int) $user['id']);
+                $this->authService->setRememberMeCookie((int) $user['id'], $request->getUri()->getScheme() === 'https');
             }
             $this->flash->addMessage('success', 'Welcome back, ' . $user['name'] . '!');
             return $this->redirect($response, $request, '/dashboard');

@@ -11,7 +11,7 @@ return [
         'default_environment'     => 'development',
         'development' => [
             'adapter' => 'sqlite',
-            'name'    => __DIR__ . '/database/kai',
+            'name'    => __DIR__ . '/database/kai.sqlite3',
         ],
     ],
     'version_order' => 'creation',

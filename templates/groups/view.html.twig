@@ -96,13 +96,17 @@
 
             {% if pastCount > 0 %}
                 <div id="past-events-section" class="group-events__past">
-                    <a href="/groups/{{ group.id }}?show_past=1"
-                       class="btn btn--ghost btn--sm"
-                       hx-get="/groups/{{ group.id }}/past-events"
-                       hx-target="#past-events-section"
-                       hx-swap="outerHTML">
-                        Show past events ({{ pastCount }})
-                    </a>
+                    {% if showPast %}
+                        {% include 'partials/past_events.html.twig' %}
+                    {% else %}
+                        <a href="/groups/{{ group.id }}?show_past=1"
+                           class="btn btn--ghost btn--sm"
+                           hx-get="/groups/{{ group.id }}/past-events"
+                           hx-target="#past-events-section"
+                           hx-swap="outerHTML">
+                            Show past events ({{ pastCount }})
+                        </a>
+                    {% endif %}
                 </div>
             {% endif %}
         </div>
