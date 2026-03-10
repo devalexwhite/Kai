@@ -1,0 +1,115 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ event.title }} — Kai{% endblock %}
+
+{% block content %}
+<section class="event-detail">
+    <div class="container">
+        <p class="event-detail__back">
+            <a href="/groups/{{ event.group_id }}">← {{ event.group_name }}</a>
+        </p>
+
+        <div class="event-detail__layout">
+            <div class="event-detail__main">
+                <div class="event-detail__card">
+                    {% if isPast %}
+                        <span class="event-badge event-badge--past">Past event</span>
+                    {% else %}
+                        <span class="event-badge event-badge--upcoming">Upcoming</span>
+                    {% endif %}
+
+                    <h1>{{ event.title }}</h1>
+
+                    <div class="event-detail__meta">
+                        <div class="event-meta-item">
+                            <span class="event-meta-item__label">When</span>
+                            <span>{{ formattedDate }} at {{ formattedTime }}</span>
+                        </div>
+                        {% if event.location != '' %}
+                            <div class="event-meta-item">
+                                <span class="event-meta-item__label">Where</span>
+                                <span>{{ event.location }}</span>
+                            </div>
+                        {% endif %}
+                        {% if event.meeting_url != '' %}
+                            <div class="event-meta-item">
+                                <span class="event-meta-item__label">Online</span>
+                                <a href="{{ event.meeting_url }}" rel="noopener noreferrer">{{ event.meeting_url }}</a>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    {% if event.description != '' %}
+                        <div class="event-detail__description">
+                            {{ event.description|nl2br }}
+                        </div>
+                    {% endif %}
+
+                    <div class="event-detail__actions">
+                        {% if current_user %}
+                            {% if not isAttendee and not isPast %}
+                                <form method="post" action="/events/{{ event.id }}/rsvp">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                    <input type="hidden" name="rsvp_action" value="rsvp">
+                                    <button type="submit" class="btn btn--primary">RSVP</button>
+                                </form>
+                            {% elseif isAttendee and not isPast %}
+                                <form method="post" action="/events/{{ event.id }}/rsvp">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                    <input type="hidden" name="rsvp_action" value="cancel">
+                                    <button type="submit" class="btn btn--ghost">Cancel RSVP</button>
+                                </form>
+                            {% elseif isAttendee and isPast %}
+                                <p class="event-attended-note">You attended this event.</p>
+                            {% endif %}
+                            {% if isEventOwner or isGroupOwner %}
+                                <a href="/events/{{ event.id }}/edit" class="btn btn--ghost">Edit event</a>
+                                <form method="post" action="/events/{{ event.id }}/delete">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                    <button type="submit" class="btn btn--danger">Delete event</button>
+                                </form>
+                            {% endif %}
+                        {% elseif not isPast %}
+                            <a href="/signin" class="btn btn--primary">Sign in to RSVP</a>
+                        {% endif %}
+                    </div>
+
+                    {% if isAttendee and not isMember %}
+                        <div class="event-join-prompt">
+                            <p>Want to stay connected? Join the group to get future events.</p>
+                            <form method="post" action="/groups/{{ event.group_id }}/join">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                <button type="submit" class="btn btn--primary btn--sm">Join {{ event.group_name }}</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <aside class="event-detail__aside">
+                <div class="event-attendees">
+                    <h2 class="event-attendees__heading">
+                        {{ rsvpCount }} {{ rsvpCount == 1 ? 'attendee' : 'attendees' }}
+                    </h2>
+                    {% if attendees is empty %}
+                        <p class="event-attendees__empty">No RSVPs yet.</p>
+                    {% else %}
+                        <ul class="event-attendees__list">
+                            {% for attendee in attendees %}
+                                <li class="attendee-card">
+                                    <span class="attendee-card__name">{{ attendee.name }}</span>
+                                    {% if attendee.is_member %}
+                                        <span class="attendee-card__badge attendee-card__badge--member">Member</span>
+                                    {% else %}
+                                        <span class="attendee-card__badge attendee-card__badge--guest">Guest</span>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+{% endblock %}

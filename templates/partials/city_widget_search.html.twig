@@ -1,0 +1,19 @@
+<div id="city-widget" class="city-widget">
+    <input
+        type="text"
+        class="city-widget__input"
+        name="city_q"
+        placeholder="Search cities…"
+        autocomplete="off"
+        autofocus
+        hx-get="/city-search{{ modeParam ? '?' ~ modeParam|trim('&') : '' }}"
+        hx-trigger="input changed delay:300ms"
+        hx-target="#city-results"
+        hx-swap="outerHTML"
+        aria-label="Search for a city"
+        aria-autocomplete="list"
+        aria-controls="city-results"
+    >
+    <input type="hidden" name="city_id" value="">
+    <div id="city-results" class="city-widget__results" role="listbox"></div>
+</div>

@@ -1,0 +1,10 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Not Found — Kai{% endblock %}
+
+{% block content %}
+<section class="error-page container">
+    <h1>{{ title ?? 'Page not found' }}</h1>
+    <p><a href="{{ back.href ?? '/' }}">{{ back.label ?? 'Return home' }}</a></p>
+</section>
+{% endblock %}

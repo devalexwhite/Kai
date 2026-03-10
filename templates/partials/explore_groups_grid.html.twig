@@ -1,0 +1,47 @@
+<div id="explore-groups" class="explore-groups" {% if oob %}hx-swap-oob="true"{% endif %}>
+    {% if groups is empty %}
+        <p class="explore-groups__empty">No groups in this city yet. <a href="/groups/create">Be the first to start one!</a></p>
+    {% else %}
+        <div class="group-grid">
+            {% for group in groups %}
+                {% set today = "now"|date("Y-m-d") %}
+                {% set event_label = null %}
+                {% if group.next_event_date %}
+                    {% if group.next_event_date == today %}
+                        {% set event_label = 'Event today' %}
+                    {% else %}
+                        {% set days = max(1, ((group.next_event_date|date('U') - today|date('U')) / 86400)|round(0, 'ceil')) %}
+                        {% set event_label = 'Event in ' ~ days ~ ' ' ~ (days == 1 ? 'day' : 'days') %}
+                    {% endif %}
+                {% endif %}
+                <article class="group-card">
+                    <div class="group-card__cover" style="background-size: 40px; background-image: url('{{ group_background(group.id) }}');" aria-hidden="true"></div>
+                    <div class="group-card__body">
+                        <h3>{{ group.name }}</h3>
+                        <p class="group-card__meta">
+                            {{ group.member_count }} {{ group.member_count == 1 ? 'member' : 'members' }}
+                            {% if event_label %}
+                                &middot; <span class="group-card__event-badge">{{ event_label }}</span>
+                            {% endif %}
+                        </p>
+                        <div id="group-actions-{{ group.id }}" class="group-card__actions">
+                            {% if current_user and group.is_member %}
+                                <a href="/groups/{{ group.id }}" class="btn btn--ghost btn--sm">View group</a>
+                            {% elseif current_user %}
+                                <form method="post" action="/groups/{{ group.id }}/join"
+                                      hx-post="/groups/{{ group.id }}/join"
+                                      hx-target="#group-actions-{{ group.id }}"
+                                      hx-swap="outerHTML">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                    <button type="submit" class="btn btn--primary btn--sm">Join</button>
+                                </form>
+                            {% else %}
+                                <a href="/signup?next={{ ('/groups/' ~ group.id)|url_encode }}" class="btn btn--primary btn--sm">Join</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

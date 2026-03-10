@@ -1,0 +1,44 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Groups — Kai{% endblock %}
+
+{% block content %}
+<section class="groups-page">
+    <div class="container">
+        <div class="groups-page__header">
+            <h1>Groups</h1>
+            {% if current_user %}
+                <a href="/groups/create" class="btn btn--primary">Start a group</a>
+            {% else %}
+                <a href="/signin" class="btn btn--primary">Sign in to start a group</a>
+            {% endif %}
+        </div>
+
+        {% if groups is empty %}
+            <div class="placeholder-card placeholder-card--empty">
+                <p>No groups yet. Be the first to start one!</p>
+                {% if current_user %}
+                    <a href="/groups/create" class="btn btn--primary btn--sm">Start a group</a>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="group-grid">
+                {% for group in groups %}
+                    <article class="group-card">
+                        <div class="group-card__cover" style="background-size: 40px; background-image: url('{{ group_background(group.id) }}');" aria-hidden="true"></div>
+                        <div class="group-card__body">
+                            <h3>{{ group.name }}</h3>
+                            <p>
+                                {{ group.city_name }}, {{ group.city_state }}
+                                &middot;
+                                {{ group.member_count }} {{ group.member_count == 1 ? 'member' : 'members' }}
+                            </p>
+                            <a href="/groups/{{ group.id }}" class="btn btn--ghost btn--sm">View group</a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Kai{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+{# hx-headers sends the CSRF token with every HTMX request automatically #}
+<body hx-headers='{"X-CSRF-Token": "{{ csrf_token }}"}'>
+
+    {% include 'partials/nav.html.twig' %}
+
+    {% set flash_messages = flash.getMessages() %}
+    {% for type in ['success', 'error', 'info'] %}
+        {% for msg in (flash_messages[type] ?? []) %}
+            <div class="flash flash--{{ type }}" role="alert">{{ msg }}</div>
+        {% endfor %}
+    {% endfor %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; {{ "now"|date("Y") }} Kai &mdash; Find your people.</p>
+        </div>
+    </footer>
+
+    <script src="/htmx.min.js"></script>
+</body>
+</html>
