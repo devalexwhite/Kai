@@ -951,6 +951,48 @@ input:focus-visible {
     margin-top: 1.75rem;
 }
 
+.group-detail__links {
+    margin-top: 1.25rem;
+}
+
+.group-links {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.group-links__item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9375rem;
+}
+
+.group-links__item a {
+    color: var(--color-moss);
+}
+
+.group-links__delete {
+    display: inline;
+    margin: 0;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 0.8125rem;
+    text-decoration: underline;
+}
+
+.btn-link--danger {
+    color: #9a3020;
+}
+
 /* --- Create / Edit group form page --------------------------- */
 
 .form-page {

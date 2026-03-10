@@ -1,0 +1,57 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Add Link — {{ group.name }} — Kai{% endblock %}
+
+{% block content %}
+<section class="form-page">
+    <div class="container">
+        <div class="form-card">
+            <h1>Add a link</h1>
+            <p class="form-card__sub"><a href="/groups/{{ group.id }}">← Back to group</a></p>
+
+            <form method="post" action="/groups/{{ group.id }}/links" novalidate>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                <div class="form-group {% if errors.title is defined %}form-group--error{% endif %}">
+                    <label for="title">Link title</label>
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value="{{ old.title ?? '' }}"
+                        maxlength="100"
+                        required
+                        {% if errors.title is defined %}aria-describedby="title-error"{% endif %}
+                    >
+                    {% if errors.title is defined %}
+                        <span class="form-error" id="title-error">{{ errors.title }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group {% if errors.url is defined %}form-group--error{% endif %}">
+                    <label for="url">URL</label>
+                    <input
+                        type="url"
+                        id="url"
+                        name="url"
+                        value="{{ old.url ?? '' }}"
+                        maxlength="2048"
+                        placeholder="https://"
+                        required
+                        {% if errors.url is defined %}aria-describedby="url-error"{% endif %}
+                    >
+                    <span class="form-hint">Must start with http:// or https://</span>
+                    {% if errors.url is defined %}
+                        <span class="form-error" id="url-error">{{ errors.url }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn--primary">Add link</button>
+                    <a href="/groups/{{ group.id }}" class="btn btn--ghost">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
