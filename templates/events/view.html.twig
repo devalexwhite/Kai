@@ -99,7 +99,11 @@
                                 <li class="attendee-card">
                                     <span class="attendee-card__name">{{ attendee.name }}</span>
                                     {% if attendee.is_member %}
-                                        <span class="attendee-card__badge attendee-card__badge--member">Member</span>
+                                        {% if attendee.is_organizer %}
+                                            <span class="attendee-card__badge attendee-card__badge--organizer">Organizer</span>
+                                        {% else %}
+                                            <span class="attendee-card__badge attendee-card__badge--member">Member</span>
+                                        {% endif %}
                                     {% else %}
                                         <span class="attendee-card__badge attendee-card__badge--guest">Guest</span>
                                     {% endif %}
