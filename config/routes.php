@@ -80,7 +80,7 @@ return function (App $app): void {
     $app->post("/groups/{id:[0-9]+}/edit", GroupEditSubmitAction::class)->add(
         AuthMiddleware::class,
     );
-    $app->post("/groups/{id:[0-9]+}/delete", GroupDeleteAction::class)->add(
+    $app->delete("/groups/{id:[0-9]+}/delete", GroupDeleteAction::class)->add(
         AuthMiddleware::class,
     );
     $app->get("/groups/{id:[0-9]+}/past-events", PastEventsAction::class);
@@ -112,7 +112,7 @@ return function (App $app): void {
     $app->post("/events/{id:[0-9]+}/edit", EventEditSubmitAction::class)->add(
         AuthMiddleware::class,
     );
-    $app->post("/events/{id:[0-9]+}/delete", EventDeleteAction::class)->add(
+    $app->delete("/events/{id:[0-9]+}/delete", EventDeleteAction::class)->add(
         AuthMiddleware::class,
     );
 
