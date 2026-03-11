@@ -2,6 +2,18 @@
 
 {% block title %}{{ event.title }} — Kai{% endblock %}
 
+{% set page_description = event.description != '' ? event.description|striptags|slice(0, 160) : event.title ~ ' — ' ~ formattedDate ~ ' at ' ~ formattedTime ~ (event.location != '' ? ', ' ~ event.location : '') %}
+
+{% block meta_description %}{{ page_description }}{% endblock %}
+
+{% block og_title %}{{ event.title }} — Kai{% endblock %}
+{% block og_description %}{{ page_description }}{% endblock %}
+
+{% block twitter_title %}{{ event.title }} — Kai{% endblock %}
+{% block twitter_description %}{{ page_description }}{% endblock %}
+
+{% block canonical %}https://kaimeet.com/events/{{ event.id }}{% endblock %}
+
 {% block content %}
 <section class="event-detail">
     <div class="container">
