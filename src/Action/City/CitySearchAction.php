@@ -88,15 +88,15 @@ class CitySearchAction
                 return $response;
             }
 
-            $escaped       = str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $raw);
+            $escaped       = str_replace(['!', '%', '_'], ['!!', '!%', '!_'], $raw);
             $likePattern   = '%' . $escaped . '%';
             $prefixPattern = $escaped . '%';
 
             $stmt = $this->db->prepare("
                 SELECT id, name, state FROM cities
-                WHERE name LIKE ? ESCAPE '\\' OR state LIKE ? ESCAPE '\\'
+                WHERE name LIKE ? ESCAPE '!' OR state LIKE ? ESCAPE '!'
                 ORDER BY
-                    CASE WHEN name LIKE ? ESCAPE '\\' THEN 0 ELSE 1 END,
+                    CASE WHEN name LIKE ? ESCAPE '!' THEN 0 ELSE 1 END,
                     state, name
                 LIMIT 10
             ");
