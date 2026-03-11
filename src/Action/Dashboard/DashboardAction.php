@@ -40,7 +40,7 @@ class DashboardAction
             LEFT JOIN group_members m2 ON m2.group_id = g.id
             WHERE m.user_id = ?
             GROUP BY g.id
-            ORDER BY m.joined_at DESC
+            ORDER BY MAX(m.joined_at) DESC
         ");
         $joinedGroups->execute([$user['id']]);
 
