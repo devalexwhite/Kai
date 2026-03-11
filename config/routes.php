@@ -32,48 +32,90 @@ use App\Action\Groups\PastEventsAction;
 use App\Action\Home\HomeAction;
 use App\Middleware\AuthMiddleware;
 use Slim\App;
+use Slim\Psr7\Request;
+use Slim\Psr7\Response;
+use Slim\Views\Twig;
 
 return function (App $app): void {
-    $app->get('/', HomeAction::class);
+    $app->get("/", HomeAction::class);
+    $app->get("/privacy-policy", function (
+        Request $request,
+        Response $response,
+        array $args,
+    ) use ($app) {
+        $twig = $app->getContainer()->get(Twig::class);
+
+        return $twig->render($response, "privacy-policy.twig");
+    });
 
     // Auth
-    $app->get('/signin',  SignInAction::class);
-    $app->post('/signin', SignInSubmitAction::class);
-    $app->get('/signup',  SignUpAction::class);
-    $app->post('/signup', SignUpSubmitAction::class);
-    $app->post('/signout', SignOutAction::class);
+    $app->get("/signin", SignInAction::class);
+    $app->post("/signin", SignInSubmitAction::class);
+    $app->get("/signup", SignUpAction::class);
+    $app->post("/signup", SignUpSubmitAction::class);
+    $app->post("/signout", SignOutAction::class);
 
     // Dashboard (auth-gated)
-    $app->get('/dashboard', DashboardAction::class)
-        ->add(AuthMiddleware::class);
+    $app->get("/dashboard", DashboardAction::class)->add(AuthMiddleware::class);
 
     // Groups
-    $app->get('/groups', GroupListAction::class);
-    $app->get('/groups/create',  GroupCreateAction::class)->add(AuthMiddleware::class);
-    $app->post('/groups/create', GroupCreateSubmitAction::class)->add(AuthMiddleware::class);
+    $app->get("/groups", GroupListAction::class);
+    $app->get("/groups/create", GroupCreateAction::class)->add(
+        AuthMiddleware::class,
+    );
+    $app->post("/groups/create", GroupCreateSubmitAction::class)->add(
+        AuthMiddleware::class,
+    );
 
-    $app->get('/groups/{id:[0-9]+}', GroupViewAction::class);
-    $app->post('/groups/{id:[0-9]+}/join',   GroupJoinAction::class)->add(AuthMiddleware::class);
-    $app->post('/groups/{id:[0-9]+}/leave',  GroupLeaveAction::class)->add(AuthMiddleware::class);
-    $app->get('/groups/{id:[0-9]+}/edit',    GroupEditAction::class)->add(AuthMiddleware::class);
-    $app->post('/groups/{id:[0-9]+}/edit',   GroupEditSubmitAction::class)->add(AuthMiddleware::class);
-    $app->post('/groups/{id:[0-9]+}/delete', GroupDeleteAction::class)->add(AuthMiddleware::class);
-    $app->get('/groups/{id:[0-9]+}/past-events', PastEventsAction::class);
-    $app->post('/groups/{id:[0-9]+}/links',               GroupLinkAddAction::class)->add(AuthMiddleware::class);
-    $app->post('/groups/{id:[0-9]+}/links/{link_id:[0-9]+}/delete', GroupLinkDeleteAction::class)->add(AuthMiddleware::class);
+    $app->get("/groups/{id:[0-9]+}", GroupViewAction::class);
+    $app->post("/groups/{id:[0-9]+}/join", GroupJoinAction::class)->add(
+        AuthMiddleware::class,
+    );
+    $app->post("/groups/{id:[0-9]+}/leave", GroupLeaveAction::class)->add(
+        AuthMiddleware::class,
+    );
+    $app->get("/groups/{id:[0-9]+}/edit", GroupEditAction::class)->add(
+        AuthMiddleware::class,
+    );
+    $app->post("/groups/{id:[0-9]+}/edit", GroupEditSubmitAction::class)->add(
+        AuthMiddleware::class,
+    );
+    $app->post("/groups/{id:[0-9]+}/delete", GroupDeleteAction::class)->add(
+        AuthMiddleware::class,
+    );
+    $app->get("/groups/{id:[0-9]+}/past-events", PastEventsAction::class);
+    $app->post("/groups/{id:[0-9]+}/links", GroupLinkAddAction::class)->add(
+        AuthMiddleware::class,
+    );
+    $app->post(
+        "/groups/{id:[0-9]+}/links/{link_id:[0-9]+}/delete",
+        GroupLinkDeleteAction::class,
+    )->add(AuthMiddleware::class);
 
     // Events
-    $app->get('/events/create',  EventCreateAction::class)->add(AuthMiddleware::class);
-    $app->post('/events/create', EventCreateSubmitAction::class)->add(AuthMiddleware::class);
+    $app->get("/events/create", EventCreateAction::class)->add(
+        AuthMiddleware::class,
+    );
+    $app->post("/events/create", EventCreateSubmitAction::class)->add(
+        AuthMiddleware::class,
+    );
 
-    $app->get('/events', BrowseEventsAction::class);
-    $app->get('/events/{id:[0-9]+}',        EventViewAction::class);
-    $app->get('/events/{id:[0-9]+}/ical',   EventIcalAction::class);
-    $app->post('/events/{id:[0-9]+}/rsvp',  EventRsvpAction::class)->add(AuthMiddleware::class);
-    $app->get('/events/{id:[0-9]+}/edit',   EventEditAction::class)->add(AuthMiddleware::class);
-    $app->post('/events/{id:[0-9]+}/edit',  EventEditSubmitAction::class)->add(AuthMiddleware::class);
-    $app->post('/events/{id:[0-9]+}/delete', EventDeleteAction::class)->add(AuthMiddleware::class);
+    $app->get("/events", BrowseEventsAction::class);
+    $app->get("/events/{id:[0-9]+}", EventViewAction::class);
+    $app->get("/events/{id:[0-9]+}/ical", EventIcalAction::class);
+    $app->post("/events/{id:[0-9]+}/rsvp", EventRsvpAction::class)->add(
+        AuthMiddleware::class,
+    );
+    $app->get("/events/{id:[0-9]+}/edit", EventEditAction::class)->add(
+        AuthMiddleware::class,
+    );
+    $app->post("/events/{id:[0-9]+}/edit", EventEditSubmitAction::class)->add(
+        AuthMiddleware::class,
+    );
+    $app->post("/events/{id:[0-9]+}/delete", EventDeleteAction::class)->add(
+        AuthMiddleware::class,
+    );
 
     // HTMX endpoints
-    $app->get('/city-search', CitySearchAction::class);
+    $app->get("/city-search", CitySearchAction::class);
 };
