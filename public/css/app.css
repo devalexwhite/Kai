@@ -1514,3 +1514,24 @@ input:focus-visible {
     background: var(--color-paper);
     font-style: italic;
 }
+
+.site-footer .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.site-footer__actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .site-footer .container {
+        flex-direction: column;
+    }
+    .site-footer__actions {
+        flex-direction: column;
+    }
+}
