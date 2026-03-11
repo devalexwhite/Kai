@@ -30,7 +30,7 @@ class BrowseEventsAction
                 JOIN group_events e ON e.id = r.event_id
                 JOIN user_groups g  ON g.id = e.group_id
                 WHERE r.user_id = ?
-                  AND (e.event_date > date('now') OR (e.event_date = date('now') AND e.event_time >= time('now')))
+                  AND (e.event_date > CURDATE() OR (e.event_date = CURDATE() AND e.event_time >= CURTIME()))
                 ORDER BY e.event_date ASC, e.event_time ASC
             ");
             $stmt->execute([$user['id']]);
@@ -46,8 +46,8 @@ class BrowseEventsAction
                     OR g.creator_id = ?
                 )
                   AND NOT EXISTS (SELECT 1 FROM event_rsvps r WHERE r.event_id = e.id AND r.user_id = ?)
-                  AND (e.event_date > date('now') OR (e.event_date = date('now') AND e.event_time >= time('now')))
-                  AND e.event_date <= date('now', '+3 months')
+                  AND (e.event_date > CURDATE() OR (e.event_date = CURDATE() AND e.event_time >= CURTIME()))
+                  AND e.event_date <= DATE_ADD(CURDATE(), INTERVAL 3 MONTH)
                 ORDER BY e.event_date ASC, e.event_time ASC
             ");
             $stmt->execute([$user['id'], $user['id'], $user['id']]);
@@ -62,8 +62,8 @@ class BrowseEventsAction
                   AND g.creator_id != ?
                   AND NOT EXISTS (SELECT 1 FROM group_members gm WHERE gm.group_id = g.id AND gm.user_id = ?)
                   AND NOT EXISTS (SELECT 1 FROM event_rsvps r WHERE r.event_id = e.id AND r.user_id = ?)
-                  AND (e.event_date > date('now') OR (e.event_date = date('now') AND e.event_time >= time('now')))
-                  AND e.event_date <= date('now', '+3 months')
+                  AND (e.event_date > CURDATE() OR (e.event_date = CURDATE() AND e.event_time >= CURTIME()))
+                  AND e.event_date <= DATE_ADD(CURDATE(), INTERVAL 3 MONTH)
                 ORDER BY e.event_date ASC, e.event_time ASC
             ");
             $stmt->execute([$user['city_id'], $user['id'], $user['id'], $user['id']]);

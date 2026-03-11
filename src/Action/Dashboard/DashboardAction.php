@@ -26,7 +26,7 @@ class DashboardAction
             JOIN group_events e ON e.id = r.event_id
             JOIN user_groups g  ON g.id = e.group_id
             WHERE r.user_id = ?
-              AND (e.event_date > date('now') OR (e.event_date = date('now') AND e.event_time >= time('now')))
+              AND (e.event_date > CURDATE() OR (e.event_date = CURDATE() AND e.event_time >= CURTIME()))
             ORDER BY e.event_date ASC, e.event_time ASC
         ");
         $upcomingEvents->execute([$user['id']]);

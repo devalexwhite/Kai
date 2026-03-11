@@ -10,7 +10,7 @@ final class CreateRememberTokensTable extends AbstractMigration
     {
         $table = $this->table('remember_tokens');
         $table
-            ->addColumn('user_id', 'integer', ['null' => false])
+            ->addColumn('user_id', 'integer', ['null' => false, 'signed' => false])
             ->addColumn('selector', 'string', ['null' => false])
             ->addColumn('token_hash', 'string', ['null' => false])
             ->addColumn('expires_at', 'string', ['null' => false])

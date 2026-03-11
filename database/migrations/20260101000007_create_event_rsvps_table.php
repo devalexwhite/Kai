@@ -10,8 +10,8 @@ final class CreateEventRsvpsTable extends AbstractMigration
     {
         $table = $this->table('event_rsvps');
         $table
-            ->addColumn('event_id', 'integer', ['null' => false])
-            ->addColumn('user_id', 'integer', ['null' => false])
+            ->addColumn('event_id', 'integer', ['null' => false, 'signed' => false])
+            ->addColumn('user_id', 'integer', ['null' => false, 'signed' => false])
             ->addColumn('created_at', 'datetime', ['null' => false, 'default' => 'CURRENT_TIMESTAMP'])
             ->addIndex(['event_id', 'user_id'], ['unique' => true])
             ->addIndex(['event_id'])

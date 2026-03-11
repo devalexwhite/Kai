@@ -69,7 +69,7 @@ class SignUpSubmitAction
                 $this->flash->addMessage('success', 'Welcome to Kai, ' . $name . '!');
                 return $this->redirect($response, $request, $next !== '' ? $next : '/dashboard');
             } catch (PDOException $e) {
-                if (str_contains($e->getMessage(), 'UNIQUE constraint')) {
+                if ($e->getCode() === '23000') {
                     $errors['email'] = 'An account with this email already exists.';
                 } else {
                     throw $e;

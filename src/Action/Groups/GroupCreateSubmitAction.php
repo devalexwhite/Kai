@@ -57,7 +57,7 @@ class GroupCreateSubmitAction
             $groupId = (int) $this->db->lastInsertId();
 
             $this->db->prepare(
-                'INSERT OR IGNORE INTO group_members (group_id, user_id) VALUES (?, ?)'
+                'INSERT IGNORE INTO group_members (group_id, user_id) VALUES (?, ?)'
             )->execute([$groupId, $user['id']]);
 
             $this->flash->addMessage('success', 'Your group has been created!');

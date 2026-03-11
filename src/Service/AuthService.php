@@ -176,13 +176,13 @@ class AuthService
 
         // Probabilistic cleanup of expired tokens (~1% of requests)
         if (random_int(1, 100) === 1) {
-            $this->db->query("DELETE FROM remember_tokens WHERE expires_at < datetime('now')");
+            $this->db->query("DELETE FROM remember_tokens WHERE expires_at < NOW()");
         }
 
         $stmt = $this->db->prepare(
             "SELECT id, user_id, token_hash
              FROM remember_tokens
-             WHERE selector = ? AND expires_at > datetime('now')"
+             WHERE selector = ? AND expires_at > NOW()"
         );
         $stmt->execute([$selector]);
         $row = $stmt->fetch();

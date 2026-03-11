@@ -10,8 +10,8 @@ final class CreateGroupMembersTable extends AbstractMigration
     {
         $table = $this->table('group_members');
         $table
-            ->addColumn('group_id', 'integer', ['null' => false])
-            ->addColumn('user_id', 'integer', ['null' => false])
+            ->addColumn('group_id', 'integer', ['null' => false, 'signed' => false])
+            ->addColumn('user_id', 'integer', ['null' => false, 'signed' => false])
             ->addColumn('joined_at', 'datetime', ['null' => false, 'default' => 'CURRENT_TIMESTAMP'])
             ->addIndex(['group_id', 'user_id'], ['unique' => true])
             ->addIndex(['group_id'])

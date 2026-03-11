@@ -9,7 +9,7 @@ final class CreateGroupLinksTable extends AbstractMigration
     {
         $table = $this->table('group_links');
         $table
-            ->addColumn('group_id', 'integer', ['null' => false])
+            ->addColumn('group_id', 'integer', ['null' => false, 'signed' => false])
             ->addColumn('title', 'string', ['limit' => 100, 'null' => false])
             ->addColumn('url', 'string', ['limit' => 2048, 'null' => false])
             ->addColumn('created_at', 'datetime', ['null' => false, 'default' => 'CURRENT_TIMESTAMP'])

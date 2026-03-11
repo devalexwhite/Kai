@@ -1,6 +1,6 @@
 name: Kai
 type: php
-docroot: "public"
+docroot: public
 php_version: "8.4"
 webserver_type: nginx-fpm
 xdebug_enabled: false
@@ -288,7 +288,4 @@ corepack_enable: false
 # See https://docs.ddev.com/en/stable/users/extend/custom-commands/ for more
 # information on the commands that can be extended and the tasks you can define
 # for them. Example:
-hooks:
-  post-start:
-    - exec: vendor/bin/phinx migrate -e development
-    - exec: vendor/bin/phinx seed:run -e development
+#hooks:

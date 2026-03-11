@@ -30,7 +30,7 @@ class GroupJoinAction
         }
 
         $this->db->prepare(
-            'INSERT OR IGNORE INTO group_members (group_id, user_id) VALUES (?, ?)'
+            'INSERT IGNORE INTO group_members (group_id, user_id) VALUES (?, ?)'
         )->execute([$groupId, (int) $user['id']]);
 
         if ($request->getHeaderLine('HX-Request') === 'true') {

@@ -36,7 +36,7 @@ class EventRsvpAction
 
         if ($action === 'rsvp') {
             $this->db->prepare(
-                'INSERT OR IGNORE INTO event_rsvps (event_id, user_id) VALUES (?, ?)'
+                'INSERT IGNORE INTO event_rsvps (event_id, user_id) VALUES (?, ?)'
             )->execute([$id, $user['id']]);
             $this->flash->addMessage('success', "You're going to " . $event['title'] . '!');
         } elseif ($action === 'cancel') {

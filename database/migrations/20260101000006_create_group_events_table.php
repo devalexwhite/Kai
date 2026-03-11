@@ -10,8 +10,8 @@ final class CreateGroupEventsTable extends AbstractMigration
     {
         $table = $this->table('group_events');
         $table
-            ->addColumn('group_id', 'integer', ['null' => false])
-            ->addColumn('creator_id', 'integer', ['null' => false])
+            ->addColumn('group_id', 'integer', ['null' => false, 'signed' => false])
+            ->addColumn('creator_id', 'integer', ['null' => false, 'signed' => false])
             ->addColumn('title', 'string', ['null' => false])
             ->addColumn('description', 'text', ['null' => false, 'default' => ''])
             ->addColumn('event_date', 'string', ['null' => false])

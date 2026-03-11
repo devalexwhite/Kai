@@ -61,7 +61,7 @@ class HomeAction
                        EXISTS (SELECT 1 FROM group_members WHERE group_id = g.id AND user_id = ?) AS is_member
                 FROM user_groups g
                 LEFT JOIN group_members m ON m.group_id = g.id
-                LEFT JOIN group_events e ON e.group_id = g.id AND e.event_date >= date('now')
+                LEFT JOIN group_events e ON e.group_id = g.id AND e.event_date >= CURDATE()
                 WHERE g.city_id = ?
                 GROUP BY g.id
                 ORDER BY
