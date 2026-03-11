@@ -3,11 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Kai{% endblock %}</title>
+    <title>{% block title %}Kai - Find Your People{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Kai helps you find and connect with your people. Join groups, discover events, and build meaningful communities in your city.{% endblock %}">
+    <meta name="keywords" content="community, groups, events, social network, find people, local connections">
+    <meta name="author" content="Kai">
+    <meta property="og:title" content="{% block og_title %}Kai - Find Your People{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Kai helps you find and connect with your people. Join groups, discover events, and build meaningful communities in your city.{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{% block og_image %}/images/meta.png{% endblock %}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}Kai - Find Your People{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Kai helps you find and connect with your people. Join groups, discover events, and build meaningful communities in your city.{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}/images/meta.png{% endblock %}">
+    <link rel="canonical" href="{% block canonical %}https://kaimeet.com{% endblock %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/app.css">
+
 </head>
 {# hx-headers sends the CSRF token with every HTMX request automatically #}
 <body hx-headers='{"X-CSRF-Token": "{{ csrf_token }}"}'>

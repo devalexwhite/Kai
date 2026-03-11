@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 628" width="1200px" height="628px" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <style bx:fonts="Lora">@import url(https://fonts.googleapis.com/css2?family=Lora%3Aital%2Cwght%400%2C400..700%3B1%2C400..700&amp;display=swap);</style>
+    <style bx:fonts="Shippori Mincho B1">@import url(https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1%3Aital%2Cwght%400%2C400%3B0%2C500%3B0%2C600%3B0%2C700%3B0%2C800&amp;display=swap);</style>
+    <bx:export>
+      <bx:file format="png" path="meta.png"/>
+    </bx:export>
+  </defs>
+  <rect x="-3.542" y="-0.566" width="1205.59" height="630.708" style="paint-order: fill; fill: rgb(242, 237, 227);"/>
+  <g transform="matrix(1, 0, 0, 1, -0.000015, 133.216162)">
+    <text style="fill: rgb(51, 51, 51); font-family: Lora; font-size: 36px; font-weight: 560; white-space: pre;" x="349.19" y="124.643">Kai</text>
+    <text style="fill: rgb(51, 51, 51); font-family: &quot;Shippori Mincho B1&quot;; font-size: 46px; white-space: pre;" transform="matrix(1, 0, 0, 1, 16.399647, 67.003581)"><tspan x="332.79" y="137.284">Find your people. </tspan><tspan x="332.79" dy="1.2em">​</tspan><tspan>Build your community.</tspan></text>
+  </g>
+  <rect x="349.19" y="274.677" width="462.686" height="9" style="fill: rgb(61, 92, 53);"/>
+</svg>
