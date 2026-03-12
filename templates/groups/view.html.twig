@@ -2,6 +2,18 @@
 
 {% block title %}{{ group.name }} — Kai{% endblock %}
 
+{% set page_description = group.description != '' ? group.description|striptags|slice(0, 160) : group.name ~ ' — a community group in ' ~ group.city_name ~ ', ' ~ group.city_state %}
+
+{% block meta_description %}{{ page_description }}{% endblock %}
+
+{% block og_title %}{{ group.name }} — Kai{% endblock %}
+{% block og_description %}{{ page_description }}{% endblock %}
+
+{% block twitter_title %}{{ group.name }} — Kai{% endblock %}
+{% block twitter_description %}{{ page_description }}{% endblock %}
+
+{% block canonical %}https://kaimeet.com/groups/{{ group.id }}{% endblock %}
+
 {% block content %}
 <section class="group-detail">
     <div class="container">
