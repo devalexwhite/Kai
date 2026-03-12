@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100px" height="100px" xmlns:bx="https://boxy-svg.com">
+  <ellipse style="fill: rgb(61, 92, 53);" cx="50" cy="50" rx="45.319" ry="45.319"/>
+  <text style="fill: rgb(242, 237, 227); font-family: Lora; font-size: 28px; white-space: pre;" x="29.28" y="60.158">Kai</text>
+  <defs>
+    <style bx:fonts="Lora">@import url(https://fonts.googleapis.com/css2?family=Lora%3Aital%2Cwght%400%2C400..700%3B1%2C400..700&amp;display=swap);</style>
+  </defs>
+</svg>
