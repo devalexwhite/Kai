@@ -18,7 +18,6 @@
 <section class="group-detail">
     <div class="container">
         <div class="group-detail__layout">
-        <div class="group-detail__main">
         <div class="group-detail__card">
             <div class="group-detail__cover" style="background-size: 40px; background-image: url('{{ group_background(group.id) }}');" aria-hidden="true"></div>
             <div class="group-detail__body">
@@ -69,6 +68,14 @@
                 </div>
             </div>
         </div>
+
+        <aside class="group-detail__sidebar">
+            <div class="sidebar-card">
+                <h2 class="sidebar-card__title">Discussions</h2>
+                <p class="sidebar-card__meta">{{ topicCount }} {{ topicCount == 1 ? 'topic' : 'topics' }}</p>
+                <a href="/groups/{{ group.id }}/discussions" class="btn btn--ghost btn--sm btn--full">View discussions</a>
+            </div>
+        </aside>
 
         <div class="group-events">
             <div class="group-events__header">
@@ -142,15 +149,6 @@
                 </div>
             {% endif %}
         </div>{# /.group-events #}
-        </div>{# /.group-detail__main #}
-
-        <aside class="group-detail__sidebar">
-            <div class="sidebar-card">
-                <h2 class="sidebar-card__title">Discussions</h2>
-                <p class="sidebar-card__meta">{{ topicCount }} {{ topicCount == 1 ? 'topic' : 'topics' }}</p>
-                <a href="/groups/{{ group.id }}/discussions" class="btn btn--ghost btn--sm btn--full">View discussions</a>
-            </div>
-        </aside>
 
         </div>{# /.group-detail__layout #}
     </div>
