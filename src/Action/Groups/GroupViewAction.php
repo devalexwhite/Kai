@@ -17,18 +17,18 @@ class GroupViewAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $id = (int) $args['id'];
+        $slug = $args['slug'];
 
         $stmt = $this->db->prepare("
-            SELECT g.id, g.name, g.description, g.creator_id, g.created_at,
+            SELECT g.id, g.slug, g.name, g.description, g.creator_id, g.created_at,
                    c.name AS city_name, c.state AS city_state,
                    u.name AS creator_name
             FROM user_groups g
             JOIN cities c ON c.id = g.city_id
             JOIN users u  ON u.id = g.creator_id
-            WHERE g.id = ?
+            WHERE g.slug = ?
         ");
-        $stmt->execute([$id]);
+        $stmt->execute([$slug]);
         $group = $stmt->fetch();
 
         if (!$group) {
@@ -38,6 +38,8 @@ class GroupViewAction
                 ['title' => 'Group not found', 'back' => ['href' => '/groups', 'label' => 'Browse groups']]
             );
         }
+
+        $id = (int) $group['id'];
 
         $countStmt = $this->db->prepare('SELECT COUNT(*) FROM group_members WHERE group_id = ?');
         $countStmt->execute([$id]);

@@ -32,7 +32,7 @@ class DashboardAction
         $upcomingEvents->execute([$user['id']]);
 
         $joinedGroups = $this->db->prepare("
-            SELECT g.id, g.name, c.name AS city_name, c.state AS city_state,
+            SELECT g.id, g.slug, g.name, c.name AS city_name, c.state AS city_state,
                    COUNT(m2.id) AS member_count
             FROM group_members m
             JOIN user_groups g  ON g.id = m.group_id
@@ -45,7 +45,7 @@ class DashboardAction
         $joinedGroups->execute([$user['id']]);
 
         $suggestedGroups = $this->db->prepare("
-            SELECT g.id, g.name, c.name AS city_name, c.state AS city_state,
+            SELECT g.id, g.slug, g.name, c.name AS city_name, c.state AS city_state,
                    COUNT(m.id) AS member_count
             FROM user_groups g
             JOIN cities c ON c.id = g.city_id

@@ -25,7 +25,7 @@ class EventCreateAction
         $groupId = (int) ($request->getQueryParams()['group_id'] ?? 0);
         $user    = $request->getAttribute('user');
 
-        $stmt = $this->db->prepare('SELECT id, name, creator_id FROM user_groups WHERE id = ?');
+        $stmt = $this->db->prepare('SELECT id, slug, name, creator_id FROM user_groups WHERE id = ?');
         $stmt->execute([$groupId]);
         $group = $stmt->fetch();
 
@@ -35,7 +35,7 @@ class EventCreateAction
 
         if ((int) $group['creator_id'] !== (int) $user['id']) {
             $this->flash->addMessage('error', 'Only the group owner can create events.');
-            return $this->redirect($response, $request, '/groups/' . $groupId);
+            return $this->redirect($response, $request, '/groups/' . $group['slug']);
         }
 
         return $this->twig->render($response, 'events/create.html.twig', [

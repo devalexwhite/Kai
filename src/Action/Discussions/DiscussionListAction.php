@@ -17,12 +17,12 @@ final class DiscussionListAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $id = (int) $args['id'];
+        $slug = $args['slug'];
 
         $stmt = $this->db->prepare(
-            'SELECT id, name, creator_id FROM user_groups WHERE id = ?'
+            'SELECT id, slug, name, creator_id FROM user_groups WHERE slug = ?'
         );
-        $stmt->execute([$id]);
+        $stmt->execute([$slug]);
         $group = $stmt->fetch();
 
         if (!$group) {
@@ -33,6 +33,7 @@ final class DiscussionListAction
             );
         }
 
+        $id        = (int) $group['id'];
         $user      = $request->getAttribute('user');
         $isMember  = false;
         $isCreator = false;

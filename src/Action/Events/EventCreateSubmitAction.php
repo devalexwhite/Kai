@@ -29,7 +29,7 @@ class EventCreateSubmitAction
         $user = $request->getAttribute("user");
 
         $stmt = $this->db->prepare(
-            "SELECT id, name, creator_id FROM user_groups WHERE id = ?",
+            "SELECT id, slug, name, creator_id FROM user_groups WHERE id = ?",
         );
         $stmt->execute([$groupId]);
         $group = $stmt->fetch();

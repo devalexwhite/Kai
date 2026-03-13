@@ -22,25 +22,27 @@ class GroupLinkDeleteAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $groupId = (int) $args['id'];
-        $linkId  = (int) $args['link_id'];
-        $user    = $request->getAttribute('user');
+        $slug   = $args['slug'];
+        $linkId = (int) $args['link_id'];
+        $user   = $request->getAttribute('user');
 
-        $stmt = $this->db->prepare('SELECT id, creator_id FROM user_groups WHERE id = ?');
-        $stmt->execute([$groupId]);
+        $stmt = $this->db->prepare('SELECT id, slug, creator_id FROM user_groups WHERE slug = ?');
+        $stmt->execute([$slug]);
         $group = $stmt->fetch();
 
         if (!$group || (int) $group['creator_id'] !== (int) $user['id']) {
             $this->flash->addMessage('error', 'Group not found or you do not have permission to delete links.');
-            return $this->redirect($response, $request, '/groups/' . $groupId . '/edit');
+            return $this->redirect($response, $request, '/groups/' . $slug . '/edit');
         }
+
+        $groupId = (int) $group['id'];
 
         $linkStmt = $this->db->prepare('SELECT id FROM group_links WHERE id = ? AND group_id = ?');
         $linkStmt->execute([$linkId, $groupId]);
 
         if (!$linkStmt->fetch()) {
             $this->flash->addMessage('error', 'Link not found.');
-            return $this->redirect($response, $request, '/groups/' . $groupId . '/edit');
+            return $this->redirect($response, $request, '/groups/' . $slug . '/edit');
         }
 
         $this->db->prepare('DELETE FROM group_links WHERE id = ?')->execute([$linkId]);
@@ -53,14 +55,14 @@ class GroupLinkDeleteAction
             );
             $linksStmt->execute([$groupId]);
             return $this->twig->render($response, 'partials/group_links_edit.html.twig', [
-                'group_id' => $groupId,
-                'links'    => $linksStmt->fetchAll(),
-                'errors'   => [],
-                'old'      => [],
+                'group_slug' => $slug,
+                'links'      => $linksStmt->fetchAll(),
+                'errors'     => [],
+                'old'        => [],
             ]);
         }
 
         $this->flash->addMessage('success', 'Link removed.');
-        return $this->redirect($response, $request, '/groups/' . $groupId . '/edit');
+        return $this->redirect($response, $request, '/groups/' . $slug . '/edit');
     }
 }

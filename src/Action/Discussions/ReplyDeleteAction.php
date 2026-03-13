@@ -22,15 +22,15 @@ final class ReplyDeleteAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $groupId  = (int) $args['id'];
-        $topicId  = (int) $args['topic_id'];
-        $replyId  = (int) $args['reply_id'];
-        $user     = $request->getAttribute('user');
+        $slug    = $args['slug'];
+        $topicId = (int) $args['topic_id'];
+        $replyId = (int) $args['reply_id'];
+        $user    = $request->getAttribute('user');
 
         $stmt = $this->db->prepare(
-            'SELECT id, creator_id FROM user_groups WHERE id = ?'
+            'SELECT id, slug, creator_id FROM user_groups WHERE slug = ?'
         );
-        $stmt->execute([$groupId]);
+        $stmt->execute([$slug]);
         $group = $stmt->fetch();
 
         if (!$group) {
@@ -51,7 +51,7 @@ final class ReplyDeleteAction
             return $this->twig->render(
                 $response->withStatus(404),
                 '404.html.twig',
-                ['title' => 'Reply not found', 'back' => ['href' => '/groups/' . $groupId . '/discussions/' . $topicId, 'label' => 'Discussion']]
+                ['title' => 'Reply not found', 'back' => ['href' => '/groups/' . $slug . '/discussions/' . $topicId, 'label' => 'Discussion']]
             );
         }
 
@@ -60,7 +60,7 @@ final class ReplyDeleteAction
 
         if (!$isAuthor && !$isCreator) {
             $this->flash->addMessage('error', 'You do not have permission to delete this reply.');
-            return $this->redirect($response, $request, '/groups/' . $groupId . '/discussions/' . $topicId);
+            return $this->redirect($response, $request, '/groups/' . $slug . '/discussions/' . $topicId);
         }
 
         $this->db->prepare(
@@ -84,6 +84,6 @@ final class ReplyDeleteAction
             return $response->withStatus(200)->withHeader('Content-Type', 'text/html');
         }
 
-        return $this->redirect($response, $request, '/groups/' . $groupId . '/discussions/' . $topicId);
+        return $this->redirect($response, $request, '/groups/' . $slug . '/discussions/' . $topicId);
     }
 }

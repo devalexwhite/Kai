@@ -50,7 +50,7 @@ class CitySearchAction
                 if ($exploreMode) {
                     $userId = $user ? (int) $user['id'] : 0;
                     $groupsStmt = $this->db->prepare("
-                        SELECT g.id, g.name,
+                        SELECT g.id, g.slug, g.name,
                                COUNT(DISTINCT m.id) AS member_count,
                                MIN(e.event_date) AS next_event_date,
                                EXISTS (SELECT 1 FROM group_members WHERE group_id = g.id AND user_id = ?) AS is_member

@@ -50,9 +50,11 @@ class GroupCreateSubmitAction
         }
 
         if (empty($errors)) {
+            $slug = $this->generateUniqueSlug($name);
+
             $this->db->prepare(
-                'INSERT INTO user_groups (name, description, city_id, creator_id) VALUES (?, ?, ?, ?)'
-            )->execute([$name, $desc, $cityId, $user['id']]);
+                'INSERT INTO user_groups (name, slug, description, city_id, creator_id) VALUES (?, ?, ?, ?, ?)'
+            )->execute([$name, $slug, $desc, $cityId, $user['id']]);
 
             $groupId = (int) $this->db->lastInsertId();
 
@@ -61,7 +63,7 @@ class GroupCreateSubmitAction
             )->execute([$groupId, $user['id']]);
 
             $this->flash->addMessage('success', 'Your group has been created!');
-            return $this->redirect($response, $request, '/groups/' . $groupId);
+            return $this->redirect($response, $request, '/groups/' . $slug);
         }
 
         $preselected = null;
@@ -79,5 +81,30 @@ class GroupCreateSubmitAction
             'preselected' => $preselected,
             'cities'      => $cities,
         ]);
+    }
+
+    private function generateUniqueSlug(string $name): string
+    {
+        $base = strtolower($name);
+        $base = (string) preg_replace('/[^a-z0-9]+/', '-', $base);
+        $base = trim($base, '-');
+
+        if ($base === '') {
+            $base = 'group';
+        }
+
+        $slug = $base;
+        $i    = 2;
+
+        while (true) {
+            $check = $this->db->prepare('SELECT id FROM user_groups WHERE slug = ?');
+            $check->execute([$slug]);
+            if (!$check->fetch()) {
+                break;
+            }
+            $slug = $base . '-' . $i++;
+        }
+
+        return $slug;
     }
 }

@@ -20,22 +20,22 @@ class GroupLeaveAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $groupId = (int) $args['id'];
-        $user    = $request->getAttribute('user');
+        $slug = $args['slug'];
+        $user = $request->getAttribute('user');
 
-        $stmt = $this->db->prepare('SELECT id, name, creator_id FROM user_groups WHERE id = ?');
-        $stmt->execute([$groupId]);
+        $stmt = $this->db->prepare('SELECT id, slug, name, creator_id FROM user_groups WHERE slug = ?');
+        $stmt->execute([$slug]);
         $group = $stmt->fetch();
 
         if (!$group || (int) $group['creator_id'] === (int) $user['id']) {
-            return $this->redirect($response, $request, '/groups/' . $groupId);
+            return $this->redirect($response, $request, '/groups/' . $slug);
         }
 
         $this->db->prepare(
             'DELETE FROM group_members WHERE group_id = ? AND user_id = ?'
-        )->execute([$groupId, (int) $user['id']]);
+        )->execute([(int) $group['id'], (int) $user['id']]);
 
         $this->flash->addMessage('success', 'You left ' . $group['name'] . '.');
-        return $this->redirect($response, $request, '/groups/' . $groupId);
+        return $this->redirect($response, $request, '/groups/' . $slug);
     }
 }

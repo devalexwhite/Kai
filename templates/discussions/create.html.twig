@@ -7,9 +7,9 @@
     <div class="container">
         <div class="form-card">
             <div class="discussions-page__breadcrumb" style="margin-bottom: 1.25rem;">
-                <a href="/groups/{{ group.id }}">{{ group.name }}</a>
+                <a href="/groups/{{ group.slug }}">{{ group.name }}</a>
                 <span aria-hidden="true">&rsaquo;</span>
-                <a href="/groups/{{ group.id }}/discussions">Discussions</a>
+                <a href="/groups/{{ group.slug }}/discussions">Discussions</a>
                 <span aria-hidden="true">&rsaquo;</span>
                 <span>New topic</span>
             </div>
@@ -17,7 +17,7 @@
             <h1>Start a discussion</h1>
             <p class="form-card__sub">Share something with {{ group.name }}.</p>
 
-            <form method="post" action="/groups/{{ group.id }}/discussions/create" novalidate>
+            <form method="post" action="/groups/{{ group.slug }}/discussions/create" novalidate>
                 <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
                 <div class="form-group {% if errors.title is defined %}form-group--error{% endif %}">
@@ -52,7 +52,7 @@
 
                 <div class="form-actions">
                     <button type="submit" class="btn btn--primary">Post topic</button>
-                    <a href="/groups/{{ group.id }}/discussions" class="btn btn--ghost">Cancel</a>
+                    <a href="/groups/{{ group.slug }}/discussions" class="btn btn--ghost">Cancel</a>
                 </div>
             </form>
         </div>

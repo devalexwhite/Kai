@@ -8,8 +8,8 @@
                         <span class="group-links__url-preview">{{ link.url }}</span>
                     </span>
                     <form method="post"
-                          action="/groups/{{ group_id }}/links/{{ link.id }}/delete"
-                          hx-post="/groups/{{ group_id }}/links/{{ link.id }}/delete"
+                          action="/groups/{{ group_slug }}/links/{{ link.id }}/delete"
+                          hx-post="/groups/{{ group_slug }}/links/{{ link.id }}/delete"
                           hx-target="#group-links-section"
                           hx-swap="outerHTML"
                           class="group-links__delete">
@@ -23,8 +23,8 @@
 
     <div class="group-links__add">
         <form method="post"
-              action="/groups/{{ group_id }}/links"
-              hx-post="/groups/{{ group_id }}/links"
+              action="/groups/{{ group_slug }}/links"
+              hx-post="/groups/{{ group_slug }}/links"
               hx-target="#group-links-section"
               hx-swap="outerHTML"
               novalidate>

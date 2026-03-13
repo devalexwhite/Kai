@@ -17,13 +17,13 @@ final class DiscussionViewAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $groupId = (int) $args['id'];
+        $slug    = $args['slug'];
         $topicId = (int) $args['topic_id'];
 
         $stmt = $this->db->prepare(
-            'SELECT id, name, creator_id FROM user_groups WHERE id = ?'
+            'SELECT id, slug, name, creator_id FROM user_groups WHERE slug = ?'
         );
-        $stmt->execute([$groupId]);
+        $stmt->execute([$slug]);
         $group = $stmt->fetch();
 
         if (!$group) {
@@ -33,6 +33,8 @@ final class DiscussionViewAction
                 ['title' => 'Group not found', 'back' => ['href' => '/groups', 'label' => 'Browse groups']]
             );
         }
+
+        $groupId = (int) $group['id'];
 
         $topicStmt = $this->db->prepare("
             SELECT t.id, t.title, t.body, t.created_at,
@@ -48,7 +50,7 @@ final class DiscussionViewAction
             return $this->twig->render(
                 $response->withStatus(404),
                 '404.html.twig',
-                ['title' => 'Topic not found', 'back' => ['href' => '/groups/' . $groupId . '/discussions', 'label' => 'Discussions']]
+                ['title' => 'Topic not found', 'back' => ['href' => '/groups/' . $slug . '/discussions', 'label' => 'Discussions']]
             );
         }
 

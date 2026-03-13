@@ -16,16 +16,16 @@ class GroupFeedAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $id = (int) $args['id'];
+        $slug = $args['slug'];
 
         $stmt = $this->db->prepare("
-            SELECT g.id, g.name, g.description,
+            SELECT g.id, g.slug, g.name, g.description,
                    c.name AS city_name, c.state AS city_state
             FROM user_groups g
             JOIN cities c ON c.id = g.city_id
-            WHERE g.id = ?
+            WHERE g.slug = ?
         ");
-        $stmt->execute([$id]);
+        $stmt->execute([$slug]);
         $group = $stmt->fetch();
 
         if (!$group) {
@@ -43,7 +43,7 @@ class GroupFeedAction
             WHERE e.group_id = ?
             ORDER BY e.event_date DESC, e.event_time DESC
         ");
-        $eventsStmt->execute([$id]);
+        $eventsStmt->execute([(int) $group['id']]);
         $events = $eventsStmt->fetchAll();
 
         $xml = $this->buildFeed($group, $events);
@@ -55,7 +55,7 @@ class GroupFeedAction
 
     private function buildFeed(array $group, array $events): string
     {
-        $groupUrl = self::BASE_URL . '/groups/' . $group['id'];
+        $groupUrl = self::BASE_URL . '/groups/' . $group['slug'];
         $feedUrl  = $groupUrl . '/feed.xml';
         $title    = $this->xmlEscape($group['name']) . ' — Events';
         $desc     = $group['description'] !== ''

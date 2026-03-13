@@ -22,7 +22,7 @@ class EventViewAction
         $stmt = $this->db->prepare("
             SELECT e.id, e.group_id, e.creator_id, e.title, e.description,
                    e.event_date, e.event_time, e.location, e.meeting_url,
-                   g.name AS group_name, g.creator_id AS group_creator_id
+                   g.name AS group_name, g.slug AS group_slug, g.creator_id AS group_creator_id
             FROM group_events e
             JOIN user_groups g ON g.id = e.group_id
             WHERE e.id = ?

@@ -25,7 +25,7 @@ class BrowseEventsAction
         if ($user !== null) {
             $stmt = $this->db->prepare("
                 SELECT e.id, e.title, e.event_date, e.event_time, e.location, e.meeting_url,
-                       g.id AS group_id, g.name AS group_name
+                       g.id AS group_id, g.slug AS group_slug, g.name AS group_name
                 FROM event_rsvps r
                 JOIN group_events e ON e.id = r.event_id
                 JOIN user_groups g  ON g.id = e.group_id
@@ -38,7 +38,7 @@ class BrowseEventsAction
 
             $stmt = $this->db->prepare("
                 SELECT e.id, e.title, e.event_date, e.event_time, e.location, e.meeting_url,
-                       g.id AS group_id, g.name AS group_name
+                       g.id AS group_id, g.slug AS group_slug, g.name AS group_name
                 FROM group_events e
                 JOIN user_groups g ON g.id = e.group_id
                 WHERE (
@@ -55,7 +55,7 @@ class BrowseEventsAction
 
             $stmt = $this->db->prepare("
                 SELECT e.id, e.title, e.event_date, e.event_time, e.location, e.meeting_url,
-                       g.id AS group_id, g.name AS group_name
+                       g.id AS group_id, g.slug AS group_slug, g.name AS group_name
                 FROM group_events e
                 JOIN user_groups g ON g.id = e.group_id
                 WHERE g.city_id = ?

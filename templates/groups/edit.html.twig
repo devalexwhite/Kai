@@ -7,9 +7,9 @@
     <div class="container">
         <div class="form-card">
             <h1>Edit group</h1>
-            <p class="form-card__sub"><a href="/groups/{{ group.id }}">← Back to group</a></p>
+            <p class="form-card__sub"><a href="/groups/{{ group.slug }}">← Back to group</a></p>
 
-            <form method="post" action="/groups/{{ group.id }}/edit" novalidate>
+            <form method="post" action="/groups/{{ group.slug }}/edit" novalidate>
                 <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
                 <div class="form-group {% if errors.name is defined %}form-group--error{% endif %}">
@@ -46,14 +46,14 @@
 
                 <div class="form-actions">
                     <button type="submit" class="btn btn--primary">Save changes</button>
-                    <a href="/groups/{{ group.id }}" class="btn btn--ghost">Cancel</a>
+                    <a href="/groups/{{ group.slug }}" class="btn btn--ghost">Cancel</a>
                 </div>
             </form>
 
             <div class="form-section">
                 <h2 class="form-section__heading">Links</h2>
                 <p class="form-section__hint">Add external links to display on your group page.</p>
-                {% include 'partials/group_links_edit.html.twig' with { 'group_id': group.id, 'links': links, 'errors': {}, 'old': {} } %}
+                {% include 'partials/group_links_edit.html.twig' with { 'group_slug': group.slug, 'links': links, 'errors': {}, 'old': {} } %}
             </div>
         </div>
     </div>

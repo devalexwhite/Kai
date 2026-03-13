@@ -22,14 +22,14 @@ final class ReplyCreateAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $groupId = (int) $args['id'];
+        $slug    = $args['slug'];
         $topicId = (int) $args['topic_id'];
         $user    = $request->getAttribute('user');
 
         $stmt = $this->db->prepare(
-            'SELECT id, name, creator_id FROM user_groups WHERE id = ?'
+            'SELECT id, slug, name, creator_id FROM user_groups WHERE slug = ?'
         );
-        $stmt->execute([$groupId]);
+        $stmt->execute([$slug]);
         $group = $stmt->fetch();
 
         if (!$group) {
@@ -40,6 +40,8 @@ final class ReplyCreateAction
             );
         }
 
+        $groupId = (int) $group['id'];
+
         $topicStmt = $this->db->prepare(
             'SELECT id FROM group_discussion_topics WHERE id = ? AND group_id = ?'
         );
@@ -48,7 +50,7 @@ final class ReplyCreateAction
             return $this->twig->render(
                 $response->withStatus(404),
                 '404.html.twig',
-                ['title' => 'Topic not found', 'back' => ['href' => '/groups/' . $groupId . '/discussions', 'label' => 'Discussions']]
+                ['title' => 'Topic not found', 'back' => ['href' => '/groups/' . $slug . '/discussions', 'label' => 'Discussions']]
             );
         }
 
@@ -62,7 +64,7 @@ final class ReplyCreateAction
 
         if (!$isMember && !$isCreator) {
             $this->flash->addMessage('error', 'You must be a group member to reply.');
-            return $this->redirect($response, $request, '/groups/' . $groupId . '/discussions/' . $topicId);
+            return $this->redirect($response, $request, '/groups/' . $slug . '/discussions/' . $topicId);
         }
 
         $body   = (array) $request->getParsedBody();
@@ -77,13 +79,13 @@ final class ReplyCreateAction
 
         if (!empty($errors)) {
             $this->flash->addMessage('error', implode(' ', $errors));
-            return $this->redirect($response, $request, '/groups/' . $groupId . '/discussions/' . $topicId);
+            return $this->redirect($response, $request, '/groups/' . $slug . '/discussions/' . $topicId);
         }
 
         $this->db->prepare(
             'INSERT INTO group_discussion_replies (topic_id, user_id, body) VALUES (?, ?, ?)'
         )->execute([$topicId, $user['id'], $text]);
 
-        return $this->redirect($response, $request, '/groups/' . $groupId . '/discussions/' . $topicId);
+        return $this->redirect($response, $request, '/groups/' . $slug . '/discussions/' . $topicId);
     }
 }

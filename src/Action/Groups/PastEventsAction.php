@@ -20,14 +20,23 @@ class PastEventsAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $groupId = (int) $args['id'];
+        $slug = $args['slug'];
 
         if ($request->getHeaderLine('HX-Request') !== 'true') {
-            return $this->redirect($response, $request, '/groups/' . $groupId . '?show_past=1');
+            return $this->redirect($response, $request, '/groups/' . $slug . '?show_past=1');
         }
 
-        $today = date('Y-m-d');
-        $now   = date('H:i');
+        $groupStmt = $this->db->prepare('SELECT id FROM user_groups WHERE slug = ?');
+        $groupStmt->execute([$slug]);
+        $group = $groupStmt->fetch();
+
+        if (!$group) {
+            return $response->withStatus(404);
+        }
+
+        $groupId = (int) $group['id'];
+        $today   = date('Y-m-d');
+        $now     = date('H:i');
 
         $stmt = $this->db->prepare("
             SELECT e.id, e.title, e.event_date, e.event_time, e.location, e.meeting_url,

@@ -6,9 +6,9 @@
 <section class="discussions-page">
     <div class="container">
         <div class="discussions-page__breadcrumb" style="margin-bottom: 1.5rem;">
-            <a href="/groups/{{ group.id }}">{{ group.name }}</a>
+            <a href="/groups/{{ group.slug }}">{{ group.name }}</a>
             <span aria-hidden="true">&rsaquo;</span>
-            <a href="/groups/{{ group.id }}/discussions">Discussions</a>
+            <a href="/groups/{{ group.slug }}/discussions">Discussions</a>
             <span aria-hidden="true">&rsaquo;</span>
             <span>{{ topic.title }}</span>
         </div>
@@ -26,7 +26,7 @@
                     <time datetime="{{ topic.created_at }}">{{ topic.created_at|date('M j, Y \a\t g:i A') }}</time>
                     {% if current_user and (current_user.id == topic.author_id or isCreator) %}
                         <button class="btn-link btn-link--danger"
-                                hx-delete="/groups/{{ group.id }}/discussions/{{ topic.id }}"
+                                hx-delete="/groups/{{ group.slug }}/discussions/{{ topic.id }}"
                                 hx-confirm="Delete this topic and all its replies?">Delete topic</button>
                     {% endif %}
                 </div>
@@ -57,7 +57,7 @@
                                     <time datetime="{{ reply.created_at }}">{{ reply.created_at|date('M j, Y \a\t g:i A') }}</time>
                                     {% if current_user and (current_user.id == reply.author_id or isCreator) %}
                                         <button class="btn-link btn-link--danger"
-                                                hx-delete="/groups/{{ group.id }}/discussions/{{ topic.id }}/replies/{{ reply.id }}"
+                                                hx-delete="/groups/{{ group.slug }}/discussions/{{ topic.id }}/replies/{{ reply.id }}"
                                                 hx-target="#reply-{{ reply.id }}"
                                                 hx-swap="outerHTML"
                                                 hx-confirm="Delete this reply?">Delete</button>
@@ -88,8 +88,8 @@
             {% if isMember or isCreator %}
                 <div class="discussion-reply-form">
                     <h2 class="discussion-reply-form__heading">Add a reply</h2>
-                    <form method="post" action="/groups/{{ group.id }}/discussions/{{ topic.id }}/replies"
-                          hx-post="/groups/{{ group.id }}/discussions/{{ topic.id }}/replies"
+                    <form method="post" action="/groups/{{ group.slug }}/discussions/{{ topic.id }}/replies"
+                          hx-post="/groups/{{ group.slug }}/discussions/{{ topic.id }}/replies"
                           novalidate>
                         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                         <div class="form-group">
@@ -109,7 +109,7 @@
                 </div>
             {% else %}
                 <p class="discussion-join-prompt">
-                    <a href="/groups/{{ group.id }}">Join this group</a> to participate in discussions.
+                    <a href="/groups/{{ group.slug }}">Join this group</a> to participate in discussions.
                 </p>
             {% endif %}
         {% else %}

@@ -18,7 +18,7 @@
 <section class="event-detail">
     <div class="container">
         <p class="event-detail__back">
-            <a href="/groups/{{ event.group_id }}">← {{ event.group_name }}</a>
+            <a href="/groups/{{ event.group_slug }}">← {{ event.group_name }}</a>
         </p>
 
         <div class="event-detail__layout">
@@ -86,7 +86,7 @@
                     {% if isAttendee and not isMember %}
                         <div class="event-join-prompt">
                             <p>Want to stay connected? Join the group to get future events.</p>
-                            <form method="post" action="/groups/{{ event.group_id }}/join">
+                            <form method="post" action="/groups/{{ event.group_slug }}/join">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                                 <button type="submit" class="btn btn--primary btn--sm">Join {{ event.group_name }}</button>
                             </form>

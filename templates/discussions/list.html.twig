@@ -7,13 +7,13 @@
     <div class="container">
         <div class="discussions-page__header">
             <div class="discussions-page__breadcrumb">
-                <a href="/groups/{{ group.id }}">{{ group.name }}</a>
+                <a href="/groups/{{ group.slug }}">{{ group.name }}</a>
                 <span aria-hidden="true">&rsaquo;</span>
                 <span>Discussions</span>
             </div>
             <div class="discussions-page__header-actions">
                 {% if isMember or isCreator %}
-                    <a href="/groups/{{ group.id }}/discussions/create" class="btn btn--primary btn--sm">New topic</a>
+                    <a href="/groups/{{ group.slug }}/discussions/create" class="btn btn--primary btn--sm">New topic</a>
                 {% endif %}
             </div>
         </div>
@@ -22,7 +22,7 @@
             <div class="placeholder-card placeholder-card--empty">
                 <p>No discussions yet.{% if isMember or isCreator %} Start one to get the conversation going.{% endif %}</p>
                 {% if isMember or isCreator %}
-                    <a href="/groups/{{ group.id }}/discussions/create" class="btn btn--primary btn--sm">New topic</a>
+                    <a href="/groups/{{ group.slug }}/discussions/create" class="btn btn--primary btn--sm">New topic</a>
                 {% endif %}
             </div>
         {% else %}
@@ -31,7 +31,7 @@
                     <article class="discussion-topic{% if topic.author_id == group.creator_id %} discussion-topic--organizer{% endif %}" id="topic-{{ topic.id }}">
                         <div class="discussion-topic__body">
                             <h2 class="discussion-topic__title">
-                                <a href="/groups/{{ group.id }}/discussions/{{ topic.id }}">{{ topic.title }}</a>
+                                <a href="/groups/{{ group.slug }}/discussions/{{ topic.id }}">{{ topic.title }}</a>
                             </h2>
                             <div class="discussion-topic__meta">
                                 <span>{{ topic.author_name }}</span>
@@ -47,7 +47,7 @@
                         <div class="discussion-topic__actions">
                             {% if current_user and (current_user.id == topic.author_id or isCreator) %}
                                 <button class="btn-link btn-link--danger"
-                                        hx-delete="/groups/{{ group.id }}/discussions/{{ topic.id }}"
+                                        hx-delete="/groups/{{ group.slug }}/discussions/{{ topic.id }}"
                                         hx-confirm="Delete this topic and all its replies?">Delete</button>
                             {% endif %}
                         </div>

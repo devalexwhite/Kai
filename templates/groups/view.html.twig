@@ -12,7 +12,7 @@
 {% block twitter_title %}{{ group.name }} — Kai{% endblock %}
 {% block twitter_description %}{{ page_description }}{% endblock %}
 
-{% block canonical %}https://kaimeet.com/groups/{{ group.id }}{% endblock %}
+{% block canonical %}https://kaimeet.com/groups/{{ group.slug }}{% endblock %}
 
 {% block content %}
 <section class="group-detail">
@@ -47,20 +47,20 @@
                 <div class="group-detail__actions">
                     {% if current_user %}
                         {% if isMember and not isCreator %}
-                            <form method="post" action="/groups/{{ group.id }}/leave">
+                            <form method="post" action="/groups/{{ group.slug }}/leave">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                                 <button type="submit" class="btn btn--ghost">Leave group</button>
                             </form>
                         {% endif %}
                         {% if not isMember %}
-                            <form method="post" action="/groups/{{ group.id }}/join">
+                            <form method="post" action="/groups/{{ group.slug }}/join">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                                 <button type="submit" class="btn btn--primary">Join group</button>
                             </form>
                         {% endif %}
                         {% if isCreator %}
-                            <a href="/groups/{{ group.id }}/edit" class="btn btn--ghost">Edit group</a>
-                            <button type="submit" class="btn btn--danger" hx-delete="/groups/{{ group.id }}/delete" hx-confirm="Are you sure you want to delete this event?">Delete group</button>
+                            <a href="/groups/{{ group.slug }}/edit" class="btn btn--ghost">Edit group</a>
+                            <button type="submit" class="btn btn--danger" hx-delete="/groups/{{ group.slug }}/delete" hx-confirm="Are you sure you want to delete this event?">Delete group</button>
                         {% endif %}
                     {% else %}
                         <a href="/signin" class="btn btn--primary">Sign in to join</a>
@@ -73,7 +73,7 @@
             <div class="sidebar-card">
                 <h2 class="sidebar-card__title">Discussions</h2>
                 <p class="sidebar-card__meta">{{ topicCount }} {{ topicCount == 1 ? 'topic' : 'topics' }}</p>
-                <a href="/groups/{{ group.id }}/discussions" class="btn btn--ghost btn--sm btn--full">View discussions</a>
+                <a href="/groups/{{ group.slug }}/discussions" class="btn btn--ghost btn--sm btn--full">View discussions</a>
             </div>
         </aside>
 
@@ -81,7 +81,7 @@
             <div class="group-events__header">
                 <h2>Events</h2>
                 <div class="group-events__header-actions">
-                    <a href="/groups/{{ group.id }}/feed.xml" class="btn btn--ghost btn--sm" title="Events RSS Feed">
+                    <a href="/groups/{{ group.slug }}/feed.xml" class="btn btn--ghost btn--sm" title="Events RSS Feed">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
                             <path d="M3.75 3a.75.75 0 0 0-.75.75v.5c0 .414.336.75.75.75H4c6.075 0 11 4.925 11 11v.25c0 .414.336.75.75.75h.5a.75.75 0 0 0 .75-.75V16C17 8.82 11.18 3 4 3h-.25Z" />
                             <path d="M3 8.75A.75.75 0 0 1 3.75 8H4a8 8 0 0 1 8 8v.25a.75.75 0 0 1-.75.75h-.5a.75.75 0 0 1-.75-.75V16a6 6 0 0 0-6-6h-.25A.75.75 0 0 1 3 9.25v-.5ZM7 15a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
@@ -138,9 +138,9 @@
                     {% if showPast %}
                         {% include 'partials/past_events.html.twig' %}
                     {% else %}
-                        <a href="/groups/{{ group.id }}?show_past=1"
+                        <a href="/groups/{{ group.slug }}?show_past=1"
                            class="btn btn--ghost btn--sm"
-                           hx-get="/groups/{{ group.id }}/past-events"
+                           hx-get="/groups/{{ group.slug }}/past-events"
                            hx-target="#past-events-section"
                            hx-swap="outerHTML">
                             Show past events ({{ pastCount }})

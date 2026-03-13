@@ -33,7 +33,7 @@
                                     <a href="/events/{{ ev.id }}">{{ ev.title }}</a>
                                 </h3>
                                 <p class="event-card__meta">
-                                    <a href="/groups/{{ ev.group_id }}">{{ ev.group_name }}</a>
+                                    <a href="/groups/{{ ev.group_slug }}">{{ ev.group_name }}</a>
                                     {% if ev.location != '' %}&middot; {{ ev.location }}{% endif %}
                                     {% if ev.meeting_url != '' %}&middot; Online{% endif %}
                                 </p>
@@ -62,7 +62,7 @@
                                     <a href="/events/{{ ev.id }}">{{ ev.title }}</a>
                                 </h3>
                                 <p class="event-card__meta">
-                                    <a href="/groups/{{ ev.group_id }}">{{ ev.group_name }}</a>
+                                    <a href="/groups/{{ ev.group_slug }}">{{ ev.group_name }}</a>
                                     {% if ev.location != '' %}&middot; {{ ev.location }}{% endif %}
                                     {% if ev.meeting_url != '' %}&middot; Online{% endif %}
                                 </p>
@@ -91,7 +91,7 @@
                                     <a href="/events/{{ ev.id }}">{{ ev.title }}</a>
                                 </h3>
                                 <p class="event-card__meta">
-                                    <a href="/groups/{{ ev.group_id }}">{{ ev.group_name }}</a>
+                                    <a href="/groups/{{ ev.group_slug }}">{{ ev.group_name }}</a>
                                     {% if ev.location != '' %}&middot; {{ ev.location }}{% endif %}
                                     {% if ev.meeting_url != '' %}&middot; Online{% endif %}
                                 </p>

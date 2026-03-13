@@ -18,7 +18,7 @@ class GroupListAction
     public function __invoke(Request $request, Response $response): Response
     {
         $groups = $this->db->query("
-            SELECT g.id, g.name, g.description,
+            SELECT g.id, g.slug, g.name, g.description,
                    c.name AS city_name, c.state AS city_state,
                    COUNT(m.id) AS member_count
             FROM user_groups g

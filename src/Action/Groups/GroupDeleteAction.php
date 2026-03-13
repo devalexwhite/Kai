@@ -20,11 +20,11 @@ class GroupDeleteAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $id   = (int) $args['id'];
+        $slug = $args['slug'];
         $user = $request->getAttribute('user');
 
-        $stmt = $this->db->prepare('SELECT id, name, creator_id FROM user_groups WHERE id = ?');
-        $stmt->execute([$id]);
+        $stmt = $this->db->prepare('SELECT id, name, creator_id FROM user_groups WHERE slug = ?');
+        $stmt->execute([$slug]);
         $group = $stmt->fetch();
 
         if (!$group || (int) $group['creator_id'] !== (int) $user['id']) {
@@ -32,7 +32,7 @@ class GroupDeleteAction
             return $this->redirect($response, $request, '/groups');
         }
 
-        $this->db->prepare('DELETE FROM user_groups WHERE id = ?')->execute([$id]);
+        $this->db->prepare('DELETE FROM user_groups WHERE id = ?')->execute([(int) $group['id']]);
 
         $this->flash->addMessage('success', 'Group deleted.');
         return $this->redirect($response, $request, '/groups');

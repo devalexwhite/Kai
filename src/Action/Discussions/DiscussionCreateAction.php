@@ -22,13 +22,13 @@ final class DiscussionCreateAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $id   = (int) $args['id'];
+        $slug = $args['slug'];
         $user = $request->getAttribute('user');
 
         $stmt = $this->db->prepare(
-            'SELECT id, name, creator_id FROM user_groups WHERE id = ?'
+            'SELECT id, slug, name, creator_id FROM user_groups WHERE slug = ?'
         );
-        $stmt->execute([$id]);
+        $stmt->execute([$slug]);
         $group = $stmt->fetch();
 
         if (!$group) {
@@ -39,6 +39,7 @@ final class DiscussionCreateAction
             );
         }
 
+        $id        = (int) $group['id'];
         $isCreator = ((int) $group['creator_id'] === (int) $user['id']);
 
         $memberStmt = $this->db->prepare(
@@ -49,7 +50,7 @@ final class DiscussionCreateAction
 
         if (!$isMember && !$isCreator) {
             $this->flash->addMessage('error', 'You must be a group member to start a discussion.');
-            return $this->redirect($response, $request, '/groups/' . $id . '/discussions');
+            return $this->redirect($response, $request, '/groups/' . $slug . '/discussions');
         }
 
         return $this->twig->render($response, 'discussions/create.html.twig', [

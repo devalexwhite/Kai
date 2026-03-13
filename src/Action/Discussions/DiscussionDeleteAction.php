@@ -22,14 +22,14 @@ final class DiscussionDeleteAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $groupId  = (int) $args['id'];
-        $topicId  = (int) $args['topic_id'];
-        $user     = $request->getAttribute('user');
+        $slug    = $args['slug'];
+        $topicId = (int) $args['topic_id'];
+        $user    = $request->getAttribute('user');
 
         $stmt = $this->db->prepare(
-            'SELECT id, creator_id FROM user_groups WHERE id = ?'
+            'SELECT id, slug, creator_id FROM user_groups WHERE slug = ?'
         );
-        $stmt->execute([$groupId]);
+        $stmt->execute([$slug]);
         $group = $stmt->fetch();
 
         if (!$group) {
@@ -39,6 +39,8 @@ final class DiscussionDeleteAction
                 ['title' => 'Group not found', 'back' => ['href' => '/groups', 'label' => 'Browse groups']]
             );
         }
+
+        $groupId = (int) $group['id'];
 
         $topicStmt = $this->db->prepare(
             'SELECT id, user_id FROM group_discussion_topics WHERE id = ? AND group_id = ?'
@@ -50,7 +52,7 @@ final class DiscussionDeleteAction
             return $this->twig->render(
                 $response->withStatus(404),
                 '404.html.twig',
-                ['title' => 'Topic not found', 'back' => ['href' => '/groups/' . $groupId . '/discussions', 'label' => 'Discussions']]
+                ['title' => 'Topic not found', 'back' => ['href' => '/groups/' . $slug . '/discussions', 'label' => 'Discussions']]
             );
         }
 
@@ -59,7 +61,7 @@ final class DiscussionDeleteAction
 
         if (!$isAuthor && !$isCreator) {
             $this->flash->addMessage('error', 'You do not have permission to delete this topic.');
-            return $this->redirect($response, $request, '/groups/' . $groupId . '/discussions');
+            return $this->redirect($response, $request, '/groups/' . $slug . '/discussions');
         }
 
         $this->db->prepare(
@@ -67,6 +69,6 @@ final class DiscussionDeleteAction
         )->execute([$topicId]);
 
         $this->flash->addMessage('success', 'Topic deleted.');
-        return $this->redirect($response, $request, '/groups/' . $groupId . '/discussions');
+        return $this->redirect($response, $request, '/groups/' . $slug . '/discussions');
     }
 }

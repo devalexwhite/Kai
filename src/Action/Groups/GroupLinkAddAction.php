@@ -22,11 +22,11 @@ class GroupLinkAddAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $id   = (int) $args['id'];
+        $slug = $args['slug'];
         $user = $request->getAttribute('user');
 
-        $stmt = $this->db->prepare('SELECT id, name, creator_id FROM user_groups WHERE id = ?');
-        $stmt->execute([$id]);
+        $stmt = $this->db->prepare('SELECT id, slug, name, creator_id FROM user_groups WHERE slug = ?');
+        $stmt->execute([$slug]);
         $group = $stmt->fetch();
 
         if (!$group) {
@@ -39,9 +39,10 @@ class GroupLinkAddAction
 
         if ((int) $group['creator_id'] !== (int) $user['id']) {
             $this->flash->addMessage('error', 'You do not have permission to add links to this group.');
-            return $this->redirect($response, $request, '/groups/' . $id . '/edit');
+            return $this->redirect($response, $request, '/groups/' . $slug . '/edit');
         }
 
+        $id     = (int) $group['id'];
         $body   = (array) $request->getParsedBody();
         $title  = trim($body['title'] ?? '');
         $url    = trim($body['url'] ?? '');
@@ -73,14 +74,14 @@ class GroupLinkAddAction
                 );
                 $linksStmt->execute([$id]);
                 return $this->twig->render($response, 'partials/group_links_edit.html.twig', [
-                    'group_id' => $id,
-                    'links'    => $linksStmt->fetchAll(),
-                    'errors'   => $errors,
-                    'old'      => ['title' => $title, 'url' => $url],
+                    'group_slug' => $slug,
+                    'links'      => $linksStmt->fetchAll(),
+                    'errors'     => $errors,
+                    'old'        => ['title' => $title, 'url' => $url],
                 ]);
             }
             $this->flash->addMessage('error', implode(' ', $errors));
-            return $this->redirect($response, $request, '/groups/' . $id . '/edit');
+            return $this->redirect($response, $request, '/groups/' . $slug . '/edit');
         }
 
         $this->db->prepare(
@@ -93,14 +94,14 @@ class GroupLinkAddAction
             );
             $linksStmt->execute([$id]);
             return $this->twig->render($response, 'partials/group_links_edit.html.twig', [
-                'group_id' => $id,
-                'links'    => $linksStmt->fetchAll(),
-                'errors'   => [],
-                'old'      => [],
+                'group_slug' => $slug,
+                'links'      => $linksStmt->fetchAll(),
+                'errors'     => [],
+                'old'        => [],
             ]);
         }
 
         $this->flash->addMessage('success', 'Link added.');
-        return $this->redirect($response, $request, '/groups/' . $id . '/edit');
+        return $this->redirect($response, $request, '/groups/' . $slug . '/edit');
     }
 }

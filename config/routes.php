@@ -31,6 +31,7 @@ use App\Action\Groups\GroupEditAction;
 use App\Action\Groups\GroupEditSubmitAction;
 use App\Action\Groups\GroupJoinAction;
 use App\Action\Groups\GroupLeaveAction;
+use App\Action\Groups\GroupLegacyRedirectAction;
 use App\Action\Groups\GroupLinkAddAction;
 use App\Action\Groups\GroupLinkDeleteAction;
 use App\Action\Groups\GroupListAction;
@@ -75,40 +76,43 @@ return function (App $app): void {
         AuthMiddleware::class,
     );
 
-    $app->get("/groups/{id:[0-9]+}", GroupViewAction::class);
-    $app->post("/groups/{id:[0-9]+}/join", GroupJoinAction::class)->add(
+    // Legacy numeric ID redirect (301 to slug URL)
+    $app->get("/groups/{id:[0-9]+}", GroupLegacyRedirectAction::class);
+
+    $app->get("/groups/{slug:[a-z0-9][a-z0-9-]*}", GroupViewAction::class);
+    $app->post("/groups/{slug:[a-z0-9][a-z0-9-]*}/join", GroupJoinAction::class)->add(
         AuthMiddleware::class,
     );
-    $app->post("/groups/{id:[0-9]+}/leave", GroupLeaveAction::class)->add(
+    $app->post("/groups/{slug:[a-z0-9][a-z0-9-]*}/leave", GroupLeaveAction::class)->add(
         AuthMiddleware::class,
     );
-    $app->get("/groups/{id:[0-9]+}/edit", GroupEditAction::class)->add(
+    $app->get("/groups/{slug:[a-z0-9][a-z0-9-]*}/edit", GroupEditAction::class)->add(
         AuthMiddleware::class,
     );
-    $app->post("/groups/{id:[0-9]+}/edit", GroupEditSubmitAction::class)->add(
+    $app->post("/groups/{slug:[a-z0-9][a-z0-9-]*}/edit", GroupEditSubmitAction::class)->add(
         AuthMiddleware::class,
     );
-    $app->delete("/groups/{id:[0-9]+}/delete", GroupDeleteAction::class)->add(
+    $app->delete("/groups/{slug:[a-z0-9][a-z0-9-]*}/delete", GroupDeleteAction::class)->add(
         AuthMiddleware::class,
     );
-    $app->get("/groups/{id:[0-9]+}/feed.xml", GroupFeedAction::class);
-    $app->get("/groups/{id:[0-9]+}/past-events", PastEventsAction::class);
-    $app->post("/groups/{id:[0-9]+}/links", GroupLinkAddAction::class)->add(
+    $app->get("/groups/{slug:[a-z0-9][a-z0-9-]*}/feed.xml", GroupFeedAction::class);
+    $app->get("/groups/{slug:[a-z0-9][a-z0-9-]*}/past-events", PastEventsAction::class);
+    $app->post("/groups/{slug:[a-z0-9][a-z0-9-]*}/links", GroupLinkAddAction::class)->add(
         AuthMiddleware::class,
     );
     $app->post(
-        "/groups/{id:[0-9]+}/links/{link_id:[0-9]+}/delete",
+        "/groups/{slug:[a-z0-9][a-z0-9-]*}/links/{link_id:[0-9]+}/delete",
         GroupLinkDeleteAction::class,
     )->add(AuthMiddleware::class);
 
     // Discussions
-    $app->get("/groups/{id:[0-9]+}/discussions", DiscussionListAction::class);
-    $app->get("/groups/{id:[0-9]+}/discussions/create", DiscussionCreateAction::class)->add(AuthMiddleware::class);
-    $app->post("/groups/{id:[0-9]+}/discussions/create", DiscussionCreateSubmitAction::class)->add(AuthMiddleware::class);
-    $app->get("/groups/{id:[0-9]+}/discussions/{topic_id:[0-9]+}", DiscussionViewAction::class);
-    $app->delete("/groups/{id:[0-9]+}/discussions/{topic_id:[0-9]+}", DiscussionDeleteAction::class)->add(AuthMiddleware::class);
-    $app->post("/groups/{id:[0-9]+}/discussions/{topic_id:[0-9]+}/replies", ReplyCreateAction::class)->add(AuthMiddleware::class);
-    $app->delete("/groups/{id:[0-9]+}/discussions/{topic_id:[0-9]+}/replies/{reply_id:[0-9]+}", ReplyDeleteAction::class)->add(AuthMiddleware::class);
+    $app->get("/groups/{slug:[a-z0-9][a-z0-9-]*}/discussions", DiscussionListAction::class);
+    $app->get("/groups/{slug:[a-z0-9][a-z0-9-]*}/discussions/create", DiscussionCreateAction::class)->add(AuthMiddleware::class);
+    $app->post("/groups/{slug:[a-z0-9][a-z0-9-]*}/discussions/create", DiscussionCreateSubmitAction::class)->add(AuthMiddleware::class);
+    $app->get("/groups/{slug:[a-z0-9][a-z0-9-]*}/discussions/{topic_id:[0-9]+}", DiscussionViewAction::class);
+    $app->delete("/groups/{slug:[a-z0-9][a-z0-9-]*}/discussions/{topic_id:[0-9]+}", DiscussionDeleteAction::class)->add(AuthMiddleware::class);
+    $app->post("/groups/{slug:[a-z0-9][a-z0-9-]*}/discussions/{topic_id:[0-9]+}/replies", ReplyCreateAction::class)->add(AuthMiddleware::class);
+    $app->delete("/groups/{slug:[a-z0-9][a-z0-9-]*}/discussions/{topic_id:[0-9]+}/replies/{reply_id:[0-9]+}", ReplyDeleteAction::class)->add(AuthMiddleware::class);
 
     // Events
     $app->get("/events/create", EventCreateAction::class)->add(

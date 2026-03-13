@@ -26,17 +26,17 @@
                         </p>
                         <div id="group-actions-{{ group.id }}" class="group-card__actions">
                             {% if current_user and group.is_member %}
-                                <a href="/groups/{{ group.id }}" class="btn btn--ghost btn--sm">View group</a>
+                                <a href="/groups/{{ group.slug }}" class="btn btn--ghost btn--sm">View group</a>
                             {% elseif current_user %}
-                                <form method="post" action="/groups/{{ group.id }}/join"
-                                      hx-post="/groups/{{ group.id }}/join"
+                                <form method="post" action="/groups/{{ group.slug }}/join"
+                                      hx-post="/groups/{{ group.slug }}/join"
                                       hx-target="#group-actions-{{ group.id }}"
                                       hx-swap="outerHTML">
                                     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                                     <button type="submit" class="btn btn--primary btn--sm">Join</button>
                                 </form>
                             {% else %}
-                                <a href="/signup?next={{ ('/groups/' ~ group.id)|url_encode }}" class="btn btn--primary btn--sm">Join</a>
+                                <a href="/signup?next={{ ('/groups/' ~ group.slug)|url_encode }}" class="btn btn--primary btn--sm">Join</a>
                             {% endif %}
                         </div>
                     </div>

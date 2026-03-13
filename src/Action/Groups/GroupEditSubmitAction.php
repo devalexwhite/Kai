@@ -22,13 +22,13 @@ class GroupEditSubmitAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $id   = (int) $args['id'];
+        $slug = $args['slug'];
         $user = $request->getAttribute('user');
 
         $stmt = $this->db->prepare(
-            'SELECT id, name, description, city_id, creator_id FROM user_groups WHERE id = ?'
+            'SELECT id, slug, name, description, city_id, creator_id FROM user_groups WHERE slug = ?'
         );
-        $stmt->execute([$id]);
+        $stmt->execute([$slug]);
         $group = $stmt->fetch();
 
         if (!$group) {
@@ -41,9 +41,10 @@ class GroupEditSubmitAction
 
         if ((int) $group['creator_id'] !== (int) $user['id']) {
             $this->flash->addMessage('error', 'You do not have permission to edit this group.');
-            return $this->redirect($response, $request, '/groups/' . $id);
+            return $this->redirect($response, $request, '/groups/' . $slug);
         }
 
+        $id     = (int) $group['id'];
         $body   = (array) $request->getParsedBody();
         $name   = trim($body['name'] ?? '');
         $desc   = trim($body['description'] ?? '');
@@ -76,7 +77,7 @@ class GroupEditSubmitAction
             )->execute([$name, $desc, $cityId, $id]);
 
             $this->flash->addMessage('success', 'Group updated.');
-            return $this->redirect($response, $request, '/groups/' . $id);
+            return $this->redirect($response, $request, '/groups/' . $slug);
         }
 
         $preselected = null;
