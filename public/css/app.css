@@ -1513,22 +1513,35 @@ input:focus-visible {
 .group-detail__layout {
     display: grid;
     grid-template-columns: 1fr 260px;
+    grid-template-areas:
+        "card    sidebar"
+        "events  sidebar";
     gap: 2rem;
     align-items: start;
 }
 
-.group-detail__main .group-detail__card,
-.group-detail__main .group-events {
+.group-detail__layout > .group-detail__card {
+    grid-area: card;
     max-width: none;
+}
+
+.group-detail__layout > .group-detail__sidebar {
+    grid-area: sidebar;
+}
+
+.group-detail__layout > .group-events {
+    grid-area: events;
+    max-width: none;
+    margin-top: 0;
 }
 
 @media (max-width: 768px) {
     .group-detail__layout {
         grid-template-columns: 1fr;
-    }
-
-    .group-detail__sidebar {
-        order: -1;
+        grid-template-areas:
+            "card"
+            "sidebar"
+            "events";
     }
 }
 
