@@ -23,17 +23,18 @@ class EventEditSubmitAction
     public function __invoke(Request $request, Response $response, array $args): Response
     {
         $id   = (int) $args['id'];
+        $slug = $args['slug'];
         $user = $request->getAttribute('user');
 
         $stmt = $this->db->prepare("
             SELECT e.id, e.group_id, e.creator_id, e.title, e.description,
                    e.event_date, e.event_time, e.location, e.meeting_url,
-                   g.name AS group_name, g.creator_id AS group_creator_id
+                   g.name AS group_name, g.slug AS group_slug, g.creator_id AS group_creator_id
             FROM group_events e
             JOIN user_groups g ON g.id = e.group_id
-            WHERE e.id = ?
+            WHERE e.id = ? AND g.slug = ?
         ");
-        $stmt->execute([$id]);
+        $stmt->execute([$id, $slug]);
         $event = $stmt->fetch();
 
         if (!$event) {
@@ -49,7 +50,7 @@ class EventEditSubmitAction
 
         if (!$isEventOwner && !$isGroupOwner) {
             $this->flash->addMessage('error', 'You do not have permission to edit this event.');
-            return $this->redirect($response, $request, '/events/' . $id);
+            return $this->redirect($response, $request, '/groups/' . $slug . '/events/' . $id);
         }
 
         $body       = (array) $request->getParsedBody();
@@ -100,11 +101,12 @@ class EventEditSubmitAction
             ")->execute([$title, $desc, $eventDate, $eventTime, $location, $meetingUrl, $id]);
 
             $this->flash->addMessage('success', 'Event updated.');
-            return $this->redirect($response, $request, '/events/' . $id);
+            return $this->redirect($response, $request, '/groups/' . $slug . '/events/' . $id);
         }
 
         return $this->twig->render($response, 'events/edit.html.twig', [
             'event'  => $event,
+            'slug'   => $slug,
             'errors' => $errors,
             'old'    => [
                 'title'       => $title,

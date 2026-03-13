@@ -52,6 +52,7 @@ class PastEventsAction
 
         return $this->twig->render($response, 'partials/past_events.html.twig', [
             'pastEvents' => $stmt->fetchAll(),
+            'group'      => ['slug' => $slug],
         ]);
     }
 }

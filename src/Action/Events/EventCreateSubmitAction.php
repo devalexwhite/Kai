@@ -25,13 +25,13 @@ class EventCreateSubmitAction
         Response $response,
         array $args,
     ): Response {
-        $groupId = (int) ($request->getQueryParams()["group_id"] ?? 0);
+        $slug = $args["slug"];
         $user = $request->getAttribute("user");
 
         $stmt = $this->db->prepare(
-            "SELECT id, slug, name, creator_id FROM user_groups WHERE id = ?",
+            "SELECT id, slug, name, creator_id FROM user_groups WHERE slug = ?",
         );
-        $stmt->execute([$groupId]);
+        $stmt->execute([$slug]);
         $group = $stmt->fetch();
 
         if (!$group || (int) $group["creator_id"] !== (int) $user["id"]) {
@@ -96,7 +96,7 @@ class EventCreateSubmitAction
             ",
                 )
                 ->execute([
-                    $groupId,
+                    $group["id"],
                     $user["id"],
                     $title,
                     $desc,
@@ -119,7 +119,7 @@ class EventCreateSubmitAction
                 ->execute([$eventId, $user["id"]]);
 
             $this->flash->addMessage("success", "Event created!");
-            return $this->redirect($response, $request, "/events/" . $eventId);
+            return $this->redirect($response, $request, "/groups/" . $group["slug"] . "/events/" . $eventId);
         }
 
         return $this->twig->render($response, "events/create.html.twig", [

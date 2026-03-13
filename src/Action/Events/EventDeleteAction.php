@@ -21,15 +21,16 @@ class EventDeleteAction
     public function __invoke(Request $request, Response $response, array $args): Response
     {
         $id   = (int) $args['id'];
+        $slug = $args['slug'];
         $user = $request->getAttribute('user');
 
         $stmt = $this->db->prepare("
-            SELECT e.id, e.group_id, e.creator_id, g.creator_id AS group_creator_id
+            SELECT e.id, e.creator_id, g.creator_id AS group_creator_id, g.slug AS group_slug
             FROM group_events e
             JOIN user_groups g ON g.id = e.group_id
-            WHERE e.id = ?
+            WHERE e.id = ? AND g.slug = ?
         ");
-        $stmt->execute([$id]);
+        $stmt->execute([$id, $slug]);
         $event = $stmt->fetch();
 
         if (!$event ||
@@ -39,10 +40,9 @@ class EventDeleteAction
             return $this->redirect($response, $request, '/groups');
         }
 
-        $groupId = (int) $event['group_id'];
         $this->db->prepare('DELETE FROM group_events WHERE id = ?')->execute([$id]);
 
         $this->flash->addMessage('success', 'Event deleted.');
-        return $this->redirect($response, $request, '/groups/' . $groupId);
+        return $this->redirect($response, $request, '/groups/' . $event['group_slug']);
     }
 }

@@ -21,10 +21,16 @@ class EventRsvpAction
     public function __invoke(Request $request, Response $response, array $args): Response
     {
         $id   = (int) $args['id'];
+        $slug = $args['slug'];
         $user = $request->getAttribute('user');
 
-        $stmt = $this->db->prepare('SELECT id, title FROM group_events WHERE id = ?');
-        $stmt->execute([$id]);
+        $stmt = $this->db->prepare('
+            SELECT e.id, e.title, g.slug AS group_slug
+            FROM group_events e
+            JOIN user_groups g ON g.id = e.group_id
+            WHERE e.id = ? AND g.slug = ?
+        ');
+        $stmt->execute([$id, $slug]);
         $event = $stmt->fetch();
 
         if (!$event) {
@@ -46,6 +52,6 @@ class EventRsvpAction
             $this->flash->addMessage('success', 'Your RSVP has been cancelled.');
         }
 
-        return $this->redirect($response, $request, '/events/' . $id);
+        return $this->redirect($response, $request, '/groups/' . $event['group_slug'] . '/events/' . $id);
     }
 }

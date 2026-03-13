@@ -22,11 +22,11 @@ class EventCreateAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $groupId = (int) ($request->getQueryParams()['group_id'] ?? 0);
-        $user    = $request->getAttribute('user');
+        $slug = $args['slug'];
+        $user = $request->getAttribute('user');
 
-        $stmt = $this->db->prepare('SELECT id, slug, name, creator_id FROM user_groups WHERE id = ?');
-        $stmt->execute([$groupId]);
+        $stmt = $this->db->prepare('SELECT id, slug, name, creator_id FROM user_groups WHERE slug = ?');
+        $stmt->execute([$slug]);
         $group = $stmt->fetch();
 
         if (!$group) {

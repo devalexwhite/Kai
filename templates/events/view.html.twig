@@ -12,7 +12,7 @@
 {% block twitter_title %}{{ event.title }} — Kai{% endblock %}
 {% block twitter_description %}{{ page_description }}{% endblock %}
 
-{% block canonical %}https://kaimeet.com/events/{{ event.id }}{% endblock %}
+{% block canonical %}https://kaimeet.com/groups/{{ event.group_slug }}/events/{{ event.id }}{% endblock %}
 
 {% block content %}
 <section class="event-detail">
@@ -35,7 +35,7 @@
                     <div class="event-detail__meta">
                         <div class="event-meta-item">
                             <span class="event-meta-item__label">When</span>
-                            <a href="/events/{{ event.id }}/ical">{{ formattedDate }} at {{ formattedTime }}</a>
+                            <a href="/groups/{{ event.group_slug }}/events/{{ event.id }}/ical">{{ formattedDate }} at {{ formattedTime }}</a>
                         </div>
                         {% if event.location != '' %}
                             <div class="event-meta-item">
@@ -60,13 +60,13 @@
                     <div class="event-detail__actions">
                         {% if current_user %}
                             {% if not isAttendee and not isPast %}
-                                <form method="post" action="/events/{{ event.id }}/rsvp">
+                                <form method="post" action="/groups/{{ event.group_slug }}/events/{{ event.id }}/rsvp">
                                     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                                     <input type="hidden" name="rsvp_action" value="rsvp">
                                     <button type="submit" class="btn btn--primary">RSVP</button>
                                 </form>
                             {% elseif isAttendee and not isPast %}
-                                <form method="post" action="/events/{{ event.id }}/rsvp">
+                                <form method="post" action="/groups/{{ event.group_slug }}/events/{{ event.id }}/rsvp">
                                     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                                     <input type="hidden" name="rsvp_action" value="cancel">
                                     <button type="submit" class="btn btn--ghost">Cancel RSVP</button>
@@ -75,8 +75,8 @@
                                 <p class="event-attended-note">You attended this event.</p>
                             {% endif %}
                             {% if isEventOwner or isGroupOwner %}
-                                <a href="/events/{{ event.id }}/edit" class="btn btn--ghost">Edit event</a>
-                                <button type="submit" class="btn btn--danger" hx-delete="/events/{{ event.id }}/delete" hx-confirm="Are you sure you want to delete this event?">Delete event</button>
+                                <a href="/groups/{{ event.group_slug }}/events/{{ event.id }}/edit" class="btn btn--ghost">Edit event</a>
+                                <button type="submit" class="btn btn--danger" hx-delete="/groups/{{ event.group_slug }}/events/{{ event.id }}/delete" hx-confirm="Are you sure you want to delete this event?">Delete event</button>
                             {% endif %}
                         {% elseif not isPast %}
                             <a href="/signin" class="btn btn--primary">Sign in to RSVP</a>

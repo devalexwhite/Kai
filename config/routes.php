@@ -16,6 +16,7 @@ use App\Action\Events\EventEditAction;
 use App\Action\Events\EventEditSubmitAction;
 use App\Action\Events\EventIcalAction;
 use App\Action\Events\EventRsvpAction;
+use App\Action\Events\EventLegacyRedirectAction;
 use App\Action\Events\EventViewAction;
 use App\Action\Discussions\DiscussionCreateAction;
 use App\Action\Discussions\DiscussionCreateSubmitAction;
@@ -114,29 +115,33 @@ return function (App $app): void {
     $app->post("/groups/{slug:[a-z0-9][a-z0-9-]*}/discussions/{topic_id:[0-9]+}/replies", ReplyCreateAction::class)->add(AuthMiddleware::class);
     $app->delete("/groups/{slug:[a-z0-9][a-z0-9-]*}/discussions/{topic_id:[0-9]+}/replies/{reply_id:[0-9]+}", ReplyDeleteAction::class)->add(AuthMiddleware::class);
 
-    // Events
-    $app->get("/events/create", EventCreateAction::class)->add(
+    // Events (nested under groups)
+    $app->get("/groups/{slug:[a-z0-9][a-z0-9-]*}/events/create", EventCreateAction::class)->add(
         AuthMiddleware::class,
     );
-    $app->post("/events/create", EventCreateSubmitAction::class)->add(
+    $app->post("/groups/{slug:[a-z0-9][a-z0-9-]*}/events/create", EventCreateSubmitAction::class)->add(
+        AuthMiddleware::class,
+    );
+    $app->get("/groups/{slug:[a-z0-9][a-z0-9-]*}/events/{id:[0-9]+}", EventViewAction::class);
+    $app->get("/groups/{slug:[a-z0-9][a-z0-9-]*}/events/{id:[0-9]+}/ical", EventIcalAction::class);
+    $app->post("/groups/{slug:[a-z0-9][a-z0-9-]*}/events/{id:[0-9]+}/rsvp", EventRsvpAction::class)->add(
+        AuthMiddleware::class,
+    );
+    $app->get("/groups/{slug:[a-z0-9][a-z0-9-]*}/events/{id:[0-9]+}/edit", EventEditAction::class)->add(
+        AuthMiddleware::class,
+    );
+    $app->post("/groups/{slug:[a-z0-9][a-z0-9-]*}/events/{id:[0-9]+}/edit", EventEditSubmitAction::class)->add(
+        AuthMiddleware::class,
+    );
+    $app->delete("/groups/{slug:[a-z0-9][a-z0-9-]*}/events/{id:[0-9]+}/delete", EventDeleteAction::class)->add(
         AuthMiddleware::class,
     );
 
+    // Browse events (cross-group discovery page)
     $app->get("/events", BrowseEventsAction::class);
-    $app->get("/events/{id:[0-9]+}", EventViewAction::class);
-    $app->get("/events/{id:[0-9]+}/ical", EventIcalAction::class);
-    $app->post("/events/{id:[0-9]+}/rsvp", EventRsvpAction::class)->add(
-        AuthMiddleware::class,
-    );
-    $app->get("/events/{id:[0-9]+}/edit", EventEditAction::class)->add(
-        AuthMiddleware::class,
-    );
-    $app->post("/events/{id:[0-9]+}/edit", EventEditSubmitAction::class)->add(
-        AuthMiddleware::class,
-    );
-    $app->delete("/events/{id:[0-9]+}/delete", EventDeleteAction::class)->add(
-        AuthMiddleware::class,
-    );
+
+    // Legacy event URL redirects (301 to group-scoped URLs)
+    $app->get("/events/{id:[0-9]+}", EventLegacyRedirectAction::class);
 
     // HTMX endpoints
     $app->get("/city-search", CitySearchAction::class);

@@ -51,7 +51,7 @@
                             </div>
                             <div class="event-card__body">
                                 <h3 class="event-card__title">
-                                    <a href="/events/{{ ev.id }}">{{ ev.title }}</a>
+                                    <a href="/groups/{{ ev.group_slug }}/events/{{ ev.id }}">{{ ev.title }}</a>
                                 </h3>
                                 <p class="event-card__meta">
                                     {{ ev.group_name }}
@@ -60,7 +60,7 @@
                                 </p>
                             </div>
                             <div class="event-card__actions">
-                                <a href="/events/{{ ev.id }}">
+                                <a href="/groups/{{ ev.group_slug }}/events/{{ ev.id }}">
                                     View
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                       <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />

@@ -7,9 +7,9 @@
     <div class="container">
         <div class="form-card">
             <h1>Edit event</h1>
-            <p class="form-card__sub"><a href="/events/{{ event.id }}">← Back to event</a></p>
+            <p class="form-card__sub"><a href="/groups/{{ event.group_slug }}/events/{{ event.id }}">← Back to event</a></p>
 
-            <form method="post" action="/events/{{ event.id }}/edit" novalidate>
+            <form method="post" action="/groups/{{ event.group_slug }}/events/{{ event.id }}/edit" novalidate>
                 <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
                 <div class="form-group {% if errors.title is defined %}form-group--error{% endif %}">
@@ -108,7 +108,7 @@
 
                 <div class="form-actions">
                     <button type="submit" class="btn btn--primary">Save changes</button>
-                    <a href="/events/{{ event.id }}" class="btn btn--ghost">Cancel</a>
+                    <a href="/groups/{{ event.group_slug }}/events/{{ event.id }}" class="btn btn--ghost">Cancel</a>
                 </div>
             </form>
         </div>

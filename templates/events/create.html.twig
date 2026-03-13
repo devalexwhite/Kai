@@ -9,7 +9,7 @@
             <h1>Create an event</h1>
             <p class="form-card__sub"><a href="/groups/{{ group.slug }}">← Back to {{ group.name }}</a></p>
 
-            <form method="post" action="/events/create?group_id={{ group.id }}" novalidate>
+            <form method="post" action="/groups/{{ group.slug }}/events/create" novalidate>
                 <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
                 <div class="form-group {% if errors.title is defined %}form-group--error{% endif %}">

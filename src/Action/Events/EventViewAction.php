@@ -17,7 +17,8 @@ class EventViewAction
         Response $response,
         array $args,
     ): Response {
-        $id = (int) $args["id"];
+        $id   = (int) $args["id"];
+        $slug = $args["slug"];
 
         $stmt = $this->db->prepare("
             SELECT e.id, e.group_id, e.creator_id, e.title, e.description,
@@ -25,9 +26,9 @@ class EventViewAction
                    g.name AS group_name, g.slug AS group_slug, g.creator_id AS group_creator_id
             FROM group_events e
             JOIN user_groups g ON g.id = e.group_id
-            WHERE e.id = ?
+            WHERE e.id = ? AND g.slug = ?
         ");
-        $stmt->execute([$id]);
+        $stmt->execute([$id, $slug]);
         $event = $stmt->fetch();
 
         if (!$event) {
