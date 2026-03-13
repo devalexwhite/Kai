@@ -27,6 +27,7 @@ use App\Action\Groups\GroupLeaveAction;
 use App\Action\Groups\GroupLinkAddAction;
 use App\Action\Groups\GroupLinkDeleteAction;
 use App\Action\Groups\GroupListAction;
+use App\Action\Groups\GroupFeedAction;
 use App\Action\Groups\GroupViewAction;
 use App\Action\Groups\PastEventsAction;
 use App\Action\Home\HomeAction;
@@ -83,6 +84,7 @@ return function (App $app): void {
     $app->delete("/groups/{id:[0-9]+}/delete", GroupDeleteAction::class)->add(
         AuthMiddleware::class,
     );
+    $app->get("/groups/{id:[0-9]+}/feed.xml", GroupFeedAction::class);
     $app->get("/groups/{id:[0-9]+}/past-events", PastEventsAction::class);
     $app->post("/groups/{id:[0-9]+}/links", GroupLinkAddAction::class)->add(
         AuthMiddleware::class,

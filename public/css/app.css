@@ -1096,6 +1096,12 @@ input:focus-visible {
     font-size: 1.25rem;
 }
 
+.group-events__header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 .group-events__past {
     margin-top: 1.25rem;
 }
