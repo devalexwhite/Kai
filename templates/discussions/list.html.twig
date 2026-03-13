@@ -1,0 +1,72 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Discussions — {{ group.name }} — Kai{% endblock %}
+
+{% block content %}
+<section class="discussions-page">
+    <div class="container">
+        <div class="discussions-page__header">
+            <div class="discussions-page__breadcrumb">
+                <a href="/groups/{{ group.id }}">{{ group.name }}</a>
+                <span aria-hidden="true">&rsaquo;</span>
+                <span>Discussions</span>
+            </div>
+            <div class="discussions-page__header-actions">
+                {% if isMember or isCreator %}
+                    <a href="/groups/{{ group.id }}/discussions/create" class="btn btn--primary btn--sm">New topic</a>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if topics is empty %}
+            <div class="placeholder-card placeholder-card--empty">
+                <p>No discussions yet.{% if isMember or isCreator %} Start one to get the conversation going.{% endif %}</p>
+                {% if isMember or isCreator %}
+                    <a href="/groups/{{ group.id }}/discussions/create" class="btn btn--primary btn--sm">New topic</a>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="discussion-list">
+                {% for topic in topics %}
+                    <article class="discussion-topic{% if topic.author_id == group.creator_id %} discussion-topic--organizer{% endif %}" id="topic-{{ topic.id }}">
+                        <div class="discussion-topic__body">
+                            <h2 class="discussion-topic__title">
+                                <a href="/groups/{{ group.id }}/discussions/{{ topic.id }}">{{ topic.title }}</a>
+                            </h2>
+                            <div class="discussion-topic__meta">
+                                <span>{{ topic.author_name }}</span>
+                                {% if topic.author_id == group.creator_id %}
+                                    <span class="discussion-topic__organizer-badge">Organizer</span>
+                                {% endif %}
+                                <span>&middot;</span>
+                                <span>{{ topic.created_at|date('M j, Y') }}</span>
+                                <span>&middot;</span>
+                                <span>{{ topic.reply_count }} {{ topic.reply_count == 1 ? 'reply' : 'replies' }}</span>
+                            </div>
+                        </div>
+                        <div class="discussion-topic__actions">
+                            {% if current_user and (current_user.id == topic.author_id or isCreator) %}
+                                <button class="btn-link btn-link--danger"
+                                        hx-delete="/groups/{{ group.id }}/discussions/{{ topic.id }}"
+                                        hx-confirm="Delete this topic and all its replies?">Delete</button>
+                            {% endif %}
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+
+            {% if totalPages > 1 %}
+                <nav class="pagination" aria-label="Topics pagination">
+                    {% if page > 1 %}
+                        <a href="?page={{ page - 1 }}" class="btn btn--ghost btn--sm">&larr; Previous</a>
+                    {% endif %}
+                    <span class="pagination__info">Page {{ page }} of {{ totalPages }}</span>
+                    {% if page < totalPages %}
+                        <a href="?page={{ page + 1 }}" class="btn btn--ghost btn--sm">Next &rarr;</a>
+                    {% endif %}
+                </nav>
+            {% endif %}
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -89,6 +89,12 @@ class GroupViewAction
         $linksStmt->execute([$id]);
         $links = $linksStmt->fetchAll();
 
+        $topicCountStmt = $this->db->prepare(
+            'SELECT COUNT(*) FROM group_discussion_topics WHERE group_id = ?'
+        );
+        $topicCountStmt->execute([$id]);
+        $topicCount = (int) $topicCountStmt->fetchColumn();
+
         return $this->twig->render($response, 'groups/view.html.twig', [
             'group'          => $group,
             'memberCount'    => $memberCount,
@@ -99,6 +105,7 @@ class GroupViewAction
             'pastCount'      => count($pastEvents),
             'showPast'       => isset($request->getQueryParams()['show_past']),
             'links'          => $links,
+            'topicCount'     => $topicCount,
         ]);
     }
 }

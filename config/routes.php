@@ -17,6 +17,13 @@ use App\Action\Events\EventEditSubmitAction;
 use App\Action\Events\EventIcalAction;
 use App\Action\Events\EventRsvpAction;
 use App\Action\Events\EventViewAction;
+use App\Action\Discussions\DiscussionCreateAction;
+use App\Action\Discussions\DiscussionCreateSubmitAction;
+use App\Action\Discussions\DiscussionDeleteAction;
+use App\Action\Discussions\DiscussionListAction;
+use App\Action\Discussions\DiscussionViewAction;
+use App\Action\Discussions\ReplyCreateAction;
+use App\Action\Discussions\ReplyDeleteAction;
 use App\Action\Groups\GroupCreateAction;
 use App\Action\Groups\GroupCreateSubmitAction;
 use App\Action\Groups\GroupDeleteAction;
@@ -93,6 +100,15 @@ return function (App $app): void {
         "/groups/{id:[0-9]+}/links/{link_id:[0-9]+}/delete",
         GroupLinkDeleteAction::class,
     )->add(AuthMiddleware::class);
+
+    // Discussions
+    $app->get("/groups/{id:[0-9]+}/discussions", DiscussionListAction::class);
+    $app->get("/groups/{id:[0-9]+}/discussions/create", DiscussionCreateAction::class)->add(AuthMiddleware::class);
+    $app->post("/groups/{id:[0-9]+}/discussions/create", DiscussionCreateSubmitAction::class)->add(AuthMiddleware::class);
+    $app->get("/groups/{id:[0-9]+}/discussions/{topic_id:[0-9]+}", DiscussionViewAction::class);
+    $app->delete("/groups/{id:[0-9]+}/discussions/{topic_id:[0-9]+}", DiscussionDeleteAction::class)->add(AuthMiddleware::class);
+    $app->post("/groups/{id:[0-9]+}/discussions/{topic_id:[0-9]+}/replies", ReplyCreateAction::class)->add(AuthMiddleware::class);
+    $app->delete("/groups/{id:[0-9]+}/discussions/{topic_id:[0-9]+}/replies/{reply_id:[0-9]+}", ReplyDeleteAction::class)->add(AuthMiddleware::class);
 
     // Events
     $app->get("/events/create", EventCreateAction::class)->add(

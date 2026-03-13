@@ -1,0 +1,61 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}New Discussion — {{ group.name }} — Kai{% endblock %}
+
+{% block content %}
+<section class="form-page">
+    <div class="container">
+        <div class="form-card">
+            <div class="discussions-page__breadcrumb" style="margin-bottom: 1.25rem;">
+                <a href="/groups/{{ group.id }}">{{ group.name }}</a>
+                <span aria-hidden="true">&rsaquo;</span>
+                <a href="/groups/{{ group.id }}/discussions">Discussions</a>
+                <span aria-hidden="true">&rsaquo;</span>
+                <span>New topic</span>
+            </div>
+
+            <h1>Start a discussion</h1>
+            <p class="form-card__sub">Share something with {{ group.name }}.</p>
+
+            <form method="post" action="/groups/{{ group.id }}/discussions/create" novalidate>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                <div class="form-group {% if errors.title is defined %}form-group--error{% endif %}">
+                    <label for="title">Title</label>
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value="{{ old.title ?? '' }}"
+                        maxlength="255"
+                        {% if errors.title is defined %}aria-describedby="title-error"{% endif %}
+                        autofocus
+                    >
+                    {% if errors.title is defined %}
+                        <span class="form-error" id="title-error">{{ errors.title }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group {% if errors.body is defined %}form-group--error{% endif %}">
+                    <label for="body">Body</label>
+                    <textarea
+                        id="body"
+                        name="body"
+                        rows="8"
+                        maxlength="10000"
+                        {% if errors.body is defined %}aria-describedby="body-error"{% endif %}
+                    >{{ old.body ?? '' }}</textarea>
+                    {% if errors.body is defined %}
+                        <span class="form-error" id="body-error">{{ errors.body }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn--primary">Post topic</button>
+                    <a href="/groups/{{ group.id }}/discussions" class="btn btn--ghost">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

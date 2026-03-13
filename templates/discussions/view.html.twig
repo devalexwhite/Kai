@@ -1,0 +1,122 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ topic.title }} — {{ group.name }} — Kai{% endblock %}
+
+{% block content %}
+<section class="discussions-page">
+    <div class="container">
+        <div class="discussions-page__breadcrumb" style="margin-bottom: 1.5rem;">
+            <a href="/groups/{{ group.id }}">{{ group.name }}</a>
+            <span aria-hidden="true">&rsaquo;</span>
+            <a href="/groups/{{ group.id }}/discussions">Discussions</a>
+            <span aria-hidden="true">&rsaquo;</span>
+            <span>{{ topic.title }}</span>
+        </div>
+
+        {# Original topic post #}
+        <article class="discussion-post discussion-post--topic {% if topic.author_id == group.creator_id %}discussion-post--organizer{% endif %}">
+            <div class="discussion-post__header">
+                <div class="discussion-post__author">
+                    <span class="discussion-post__author-name">{{ topic.author_name }}</span>
+                    {% if topic.author_id == group.creator_id %}
+                        <span class="badge badge--organizer">Organizer</span>
+                    {% endif %}
+                </div>
+                <div class="discussion-post__meta">
+                    <time datetime="{{ topic.created_at }}">{{ topic.created_at|date('M j, Y \a\t g:i A') }}</time>
+                    {% if current_user and (current_user.id == topic.author_id or isCreator) %}
+                        <button class="btn-link btn-link--danger"
+                                hx-delete="/groups/{{ group.id }}/discussions/{{ topic.id }}"
+                                hx-confirm="Delete this topic and all its replies?">Delete topic</button>
+                    {% endif %}
+                </div>
+            </div>
+            <h1 class="discussion-post__title">{{ topic.title }}</h1>
+            <div class="discussion-post__body">{{ topic.body|nl2br }}</div>
+        </article>
+
+        {# Replies #}
+        <div class="discussion-replies">
+            <h2 id="replies-count" class="discussion-replies__heading">
+                {{ total }} {{ total == 1 ? 'reply' : 'replies' }}
+            </h2>
+
+            {% if replies is not empty %}
+                <div class="discussion-reply-list">
+                    {% for reply in replies %}
+                        <article class="discussion-post {% if reply.author_id == group.creator_id %}discussion-post--organizer{% endif %}"
+                                 id="reply-{{ reply.id }}">
+                            <div class="discussion-post__header">
+                                <div class="discussion-post__author">
+                                    <span class="discussion-post__author-name">{{ reply.author_name }}</span>
+                                    {% if reply.author_id == group.creator_id %}
+                                        <span class="badge badge--organizer">Organizer</span>
+                                    {% endif %}
+                                </div>
+                                <div class="discussion-post__meta">
+                                    <time datetime="{{ reply.created_at }}">{{ reply.created_at|date('M j, Y \a\t g:i A') }}</time>
+                                    {% if current_user and (current_user.id == reply.author_id or isCreator) %}
+                                        <button class="btn-link btn-link--danger"
+                                                hx-delete="/groups/{{ group.id }}/discussions/{{ topic.id }}/replies/{{ reply.id }}"
+                                                hx-target="#reply-{{ reply.id }}"
+                                                hx-swap="outerHTML"
+                                                hx-confirm="Delete this reply?">Delete</button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="discussion-post__body">{{ reply.body|nl2br }}</div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if totalPages > 1 %}
+                <nav class="pagination" aria-label="Replies pagination">
+                    {% if page > 1 %}
+                        <a href="?page={{ page - 1 }}" class="btn btn--ghost btn--sm">&larr; Previous</a>
+                    {% endif %}
+                    <span class="pagination__info">Page {{ page }} of {{ totalPages }}</span>
+                    {% if page < totalPages %}
+                        <a href="?page={{ page + 1 }}" class="btn btn--ghost btn--sm">Next &rarr;</a>
+                    {% endif %}
+                </nav>
+            {% endif %}
+        </div>
+
+        {# Reply form #}
+        {% if current_user %}
+            {% if isMember or isCreator %}
+                <div class="discussion-reply-form">
+                    <h2 class="discussion-reply-form__heading">Add a reply</h2>
+                    <form method="post" action="/groups/{{ group.id }}/discussions/{{ topic.id }}/replies"
+                          hx-post="/groups/{{ group.id }}/discussions/{{ topic.id }}/replies"
+                          novalidate>
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <div class="form-group">
+                            <label for="reply-body" class="sr-only">Your reply</label>
+                            <textarea
+                                id="reply-body"
+                                name="body"
+                                rows="5"
+                                maxlength="10000"
+                                placeholder="Write your reply…"
+                            ></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn--primary">Post reply</button>
+                        </div>
+                    </form>
+                </div>
+            {% else %}
+                <p class="discussion-join-prompt">
+                    <a href="/groups/{{ group.id }}">Join this group</a> to participate in discussions.
+                </p>
+            {% endif %}
+        {% else %}
+            <p class="discussion-join-prompt">
+                <a href="/signin">Sign in</a> and join the group to participate in discussions.
+            </p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
