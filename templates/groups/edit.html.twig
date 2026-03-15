@@ -51,6 +51,12 @@
             </form>
 
             <div class="form-section">
+                <h2 class="form-section__heading">Tags</h2>
+                <p class="form-section__hint">Add up to 5 tags to help people find your group.</p>
+                {% include 'partials/group_tags_edit.html.twig' with { 'group_slug': group.slug, 'tags': tags, 'error': null } %}
+            </div>
+
+            <div class="form-section">
                 <h2 class="form-section__heading">Links</h2>
                 <p class="form-section__hint">Add external links to display on your group page.</p>
                 {% include 'partials/group_links_edit.html.twig' with { 'group_slug': group.slug, 'links': links, 'errors': {}, 'old': {} } %}

@@ -32,6 +32,14 @@
                     <p class="group-detail__description">{{ group.description|nl2br }}</p>
                 {% endif %}
 
+                {% if tags is not empty %}
+                    <div class="tag-pills">
+                        {% for tag in tags %}
+                            <a href="/groups?tag={{ tag.name }}" class="tag-pill tag-pill--link">{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
                 {% if links is not empty %}
                     <div class="group-detail__links">
                         <ul class="group-links">

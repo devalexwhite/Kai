@@ -67,8 +67,8 @@ class GroupCreateSubmitAction
                 )
                 ->execute([$groupId, $user["id"]]);
 
-            $this->flash->addMessage("success", "Your group has been created!");
-            return $this->redirect($response, $request, "/groups/" . $slug);
+            $this->flash->addMessage("success", "Your group has been created! Add tags to help people find it.");
+            return $this->redirect($response, $request, "/groups/" . $slug . "/edit");
         }
 
         $preselected = null;

@@ -97,6 +97,16 @@ class GroupViewAction
         $topicCountStmt->execute([$id]);
         $topicCount = (int) $topicCountStmt->fetchColumn();
 
+        $tagsStmt = $this->db->prepare('
+            SELECT t.id, t.name
+            FROM tags t
+            JOIN group_tags gt ON gt.tag_id = t.id
+            WHERE gt.group_id = ?
+            ORDER BY gt.created_at ASC
+        ');
+        $tagsStmt->execute([$id]);
+        $tags = $tagsStmt->fetchAll();
+
         return $this->twig->render($response, 'groups/view.html.twig', [
             'group'          => $group,
             'memberCount'    => $memberCount,
@@ -108,6 +118,7 @@ class GroupViewAction
             'showPast'       => isset($request->getQueryParams()['show_past']),
             'links'          => $links,
             'topicCount'     => $topicCount,
+            'tags'           => $tags,
         ]);
     }
 }

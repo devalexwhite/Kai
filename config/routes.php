@@ -36,6 +36,9 @@ use App\Action\Groups\GroupLegacyRedirectAction;
 use App\Action\Groups\GroupLinkAddAction;
 use App\Action\Groups\GroupLinkDeleteAction;
 use App\Action\Groups\GroupListAction;
+use App\Action\Groups\GroupTagAddAction;
+use App\Action\Groups\GroupTagRemoveAction;
+use App\Action\Groups\TagSearchAction;
 use App\Action\Groups\GroupFeedAction;
 use App\Action\Groups\GroupViewAction;
 use App\Action\Groups\PastEventsAction;
@@ -105,6 +108,13 @@ return function (App $app): void {
         "/groups/{slug:[a-z0-9][a-z0-9-]*}/links/{link_id:[0-9]+}/delete",
         GroupLinkDeleteAction::class,
     )->add(AuthMiddleware::class);
+    $app->post("/groups/{slug:[a-z0-9][a-z0-9-]*}/tags", GroupTagAddAction::class)->add(
+        AuthMiddleware::class,
+    );
+    $app->post(
+        "/groups/{slug:[a-z0-9][a-z0-9-]*}/tags/{tag_id:[0-9]+}/delete",
+        GroupTagRemoveAction::class,
+    )->add(AuthMiddleware::class);
 
     // Discussions
     $app->get("/groups/{slug:[a-z0-9][a-z0-9-]*}/discussions", DiscussionListAction::class);
@@ -145,4 +155,5 @@ return function (App $app): void {
 
     // HTMX endpoints
     $app->get("/city-search", CitySearchAction::class);
+    $app->get("/tag-search", TagSearchAction::class);
 };

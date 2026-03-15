@@ -1,0 +1,59 @@
+<div id="group-tags-section">
+    {% if tags is not empty %}
+        <div class="tag-pills tag-pills--edit">
+            {% for tag in tags %}
+                <span class="tag-pill">
+                    <span class="tag-pill__label">{{ tag.name }}</span>
+                    <form method="post"
+                          action="/groups/{{ group_slug }}/tags/{{ tag.id }}/delete"
+                          hx-post="/groups/{{ group_slug }}/tags/{{ tag.id }}/delete"
+                          hx-target="#group-tags-section"
+                          hx-swap="outerHTML"
+                          class="tag-pill__remove-form">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="tag-pill__remove" aria-label="Remove tag {{ tag.name }}">×</button>
+                    </form>
+                </span>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if tags|length < 5 %}
+        <div class="tag-widget">
+            {% if error is defined and error %}
+                <p class="form-error">{{ error }}</p>
+            {% endif %}
+            <form method="post"
+                  action="/groups/{{ group_slug }}/tags"
+                  hx-post="/groups/{{ group_slug }}/tags"
+                  hx-target="#group-tags-section"
+                  hx-swap="outerHTML"
+                  novalidate>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <div class="tag-widget__row">
+                    <div class="tag-widget__search-wrap">
+                        <input
+                            type="text"
+                            name="name"
+                            class="tag-widget__input"
+                            placeholder="Search or add a tag…"
+                            autocomplete="off"
+                            maxlength="30"
+                            hx-get="/tag-search?group_slug={{ group_slug }}"
+                            hx-trigger="input changed delay:300ms"
+                            hx-target="#tag-results"
+                            hx-swap="outerHTML"
+                            aria-label="Search or add a tag"
+                            aria-autocomplete="list"
+                            aria-controls="tag-results"
+                        >
+                        <div id="tag-results" class="tag-widget__results" role="listbox"></div>
+                    </div>
+                    <button type="submit" class="btn btn--ghost btn--sm">Add</button>
+                </div>
+            </form>
+        </div>
+    {% else %}
+        <p class="form-hint">Maximum 5 tags reached.</p>
+    {% endif %}
+</div>

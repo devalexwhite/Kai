@@ -59,11 +59,22 @@ class GroupEditAction
         $linksStmt->execute([$id]);
         $links = $linksStmt->fetchAll();
 
+        $tagsStmt = $this->db->prepare('
+            SELECT t.id, t.name
+            FROM tags t
+            JOIN group_tags gt ON gt.tag_id = t.id
+            WHERE gt.group_id = ?
+            ORDER BY gt.created_at ASC
+        ');
+        $tagsStmt->execute([$id]);
+        $tags = $tagsStmt->fetchAll();
+
         return $this->twig->render($response, 'groups/edit.html.twig', [
             'group'       => $group,
             'preselected' => $preselected,
             'cities'      => $cities,
             'links'       => $links,
+            'tags'        => $tags,
             'old'         => [
                 'name'        => $group['name'],
                 'description' => $group['description'],

@@ -14,6 +14,13 @@
             {% endif %}
         </div>
 
+        {% if activeTag %}
+            <div class="tag-filter-banner">
+                <span>Showing groups tagged <strong>{{ activeTag }}</strong></span>
+                <a href="/groups" class="btn btn--ghost btn--sm">Clear filter</a>
+            </div>
+        {% endif %}
+
         {% if groups is empty %}
             <div class="placeholder-card placeholder-card--empty">
                 <p>No groups yet. Be the first to start one!</p>
@@ -33,6 +40,13 @@
                                 &middot;
                                 {{ group.member_count }} {{ group.member_count == 1 ? 'member' : 'members' }}
                             </p>
+                            {% if group.tag_names %}
+                                <div class="tag-pills tag-pills--sm">
+                                    {% for tagName in group.tag_names|split(',') %}
+                                        <a href="/groups?tag={{ tagName }}" class="tag-pill tag-pill--link">{{ tagName }}</a>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                             <a href="/groups/{{ group.slug }}" class="btn btn--ghost btn--sm">View group</a>
                         </div>
                     </article>

@@ -1,0 +1,19 @@
+{% if results is empty %}
+<div id="tag-results" class="tag-widget__results tag-widget__results--empty">
+    No matching tags
+</div>
+{% else %}
+<div id="tag-results" class="tag-widget__results" role="listbox">
+    {% for tag in results %}
+        <form method="post"
+              action="/groups/{{ group_slug }}/tags"
+              hx-post="/groups/{{ group_slug }}/tags"
+              hx-target="#group-tags-section"
+              hx-swap="outerHTML">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <input type="hidden" name="name" value="{{ tag.name }}">
+            <button type="submit" class="tag-widget__option" role="option">{{ tag.name }}</button>
+        </form>
+    {% endfor %}
+</div>
+{% endif %}
