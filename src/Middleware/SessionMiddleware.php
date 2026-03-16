@@ -40,6 +40,18 @@ class SessionMiddleware implements MiddlewareInterface
         $user   = $userId !== null ? $this->authService->getUserById((int) $userId) : null;
         $request = $request->withAttribute('user', $user);
 
-        return $handler->handle($request);
+        $response = $handler->handle($request);
+
+        // Write the session to disk now, before the response is emitted.
+        // Without this, PHP flushes the session during shutdown — after Slim
+        // has already sent the redirect to the browser — creating a race where
+        // the next request (e.g. GET /dashboard after login) arrives before the
+        // new session file exists and gets a blank session with a mismatched
+        // CSRF token.
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_write_close();
+        }
+
+        return $response;
     }
 }
