@@ -24,7 +24,6 @@
                 <h1>{{ group.name }}</h1>
                 <div class="group-detail__meta">
                     <span>{{ group.city_name }}, {{ group.city_state }}</span>
-                    <span>{{ memberCount }} {{ memberCount == 1 ? 'member' : 'members' }}</span>
                     <span>Organized by {{ group.creator_name }}</span>
                 </div>
 
@@ -74,6 +73,11 @@
                 <h2 class="sidebar-card__title">Discussions</h2>
                 <p class="sidebar-card__meta">{{ topicCount }} {{ topicCount == 1 ? 'topic' : 'topics' }}</p>
                 <a href="/groups/{{ group.slug }}/discussions" class="btn btn--ghost btn--sm btn--full">View discussions</a>
+            </div>
+            <div class="sidebar-card">
+                <h2 class="sidebar-card__title">Members</h2>
+                <p class="sidebar-card__meta">{{ memberCount }} {{ memberCount == 1 ? 'member' : 'members' }}</p>
+                <a href="/groups/{{ group.slug }}/members" class="btn btn--ghost btn--sm btn--full">View members</a>
             </div>
         </aside>
 

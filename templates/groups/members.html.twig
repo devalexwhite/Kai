@@ -1,0 +1,41 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Members — {{ group.name }} — Kai{% endblock %}
+
+{% block content %}
+<section class="members-page">
+    <div class="container">
+        <div class="members-page__header">
+            <div class="members-page__breadcrumb">
+                <a href="/groups/{{ group.slug }}">{{ group.name }}</a>
+                <span aria-hidden="true">&rsaquo;</span>
+                <span>Members</span>
+            </div>
+        </div>
+
+        {% if members is empty %}
+            <div class="placeholder-card placeholder-card--empty">
+                <p>No members yet.</p>
+            </div>
+        {% else %}
+            <div class="member-list">
+                {% for member in members %}
+                    <div class="member-card">
+                        <div class="member-card__info">
+                            <span class="member-card__name">{{ member.name }}</span>
+                            {% if member.id == group.creator_id %}
+                                <span class="discussion-topic__organizer-badge">Organizer</span>
+                            {% endif %}
+                        </div>
+                        <div class="member-card__meta">
+                            <span>{{ member.rsvp_count }} {{ member.rsvp_count == 1 ? 'event RSVP' : 'event RSVPs' }}</span>
+                            <span class="member-card__separator" aria-hidden="true">&middot;</span>
+                            <span>Member for {{ member.member_duration }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

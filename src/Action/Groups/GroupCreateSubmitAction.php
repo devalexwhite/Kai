@@ -105,6 +105,7 @@ class GroupCreateSubmitAction
         "edit",
         "discussions",
         "events",
+        "members",
     ];
 
     private function generateUniqueSlug(string $name): string

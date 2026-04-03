@@ -37,6 +37,7 @@ use App\Action\Groups\GroupLinkAddAction;
 use App\Action\Groups\GroupLinkDeleteAction;
 use App\Action\Groups\GroupListAction;
 use App\Action\Groups\GroupFeedAction;
+use App\Action\Groups\GroupMembersAction;
 use App\Action\Groups\GroupViewAction;
 use App\Action\Groups\PastEventsAction;
 use App\Action\Home\HomeAction;
@@ -97,6 +98,7 @@ return function (App $app): void {
         AuthMiddleware::class,
     );
     $app->get("/groups/{slug:[a-z0-9][a-z0-9-]*}/feed.xml", GroupFeedAction::class);
+    $app->get("/groups/{slug:[a-z0-9][a-z0-9-]*}/members", GroupMembersAction::class);
     $app->get("/groups/{slug:[a-z0-9][a-z0-9-]*}/past-events", PastEventsAction::class);
     $app->post("/groups/{slug:[a-z0-9][a-z0-9-]*}/links", GroupLinkAddAction::class)->add(
         AuthMiddleware::class,
