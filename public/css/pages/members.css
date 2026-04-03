@@ -1,0 +1,62 @@
+@import '../components/badge.css';
+
+/* --- Members page -------------------------------------------- */
+
+.members-page {
+    padding: 2.5rem 0 4rem;
+}
+
+.members-page__breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9375rem;
+    color: var(--color-stone);
+    margin-bottom: 1.5rem;
+}
+
+.members-page__breadcrumb a {
+    color: var(--color-forest);
+    text-decoration: none;
+}
+
+.members-page__breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.member-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.member-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.875rem 0;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.member-card__info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.member-card__name {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.member-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+    color: var(--color-stone);
+}
+
+.member-card__separator {
+    color: var(--color-border);
+}

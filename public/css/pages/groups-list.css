@@ -1,0 +1,21 @@
+@import '../components/group-card.css';
+@import '../components/placeholder-card.css';
+
+/* --- Groups list page ---------------------------------------- */
+
+.groups-page {
+    padding: 2.5rem 0 4rem;
+}
+
+.groups-page__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.groups-page__header h1 {
+    font-size: 1.75rem;
+}

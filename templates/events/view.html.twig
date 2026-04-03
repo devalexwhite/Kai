@@ -1,5 +1,7 @@
 {% extends 'layout.html.twig' %}
 
+{% block css %}<link rel="stylesheet" href="/css/pages/events-view.css">{% endblock %}
+
 {% block title %}{{ event.title }} — Kai{% endblock %}
 
 {% set page_description = event.description != '' ? event.description|striptags|slice(0, 160) : event.title ~ ' — ' ~ formattedDate ~ ' at ' ~ formattedTime ~ (event.location != '' ? ', ' ~ event.location : '') %}

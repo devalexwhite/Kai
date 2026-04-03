@@ -1,5 +1,7 @@
 {% extends 'layout.html.twig' %}
 
+{% block css %}<link rel="stylesheet" href="/css/pages/groups-view.css">{% endblock %}
+
 {% block title %}{{ group.name }} — Kai{% endblock %}
 
 {% set page_description = group.description != '' ? group.description|striptags|slice(0, 160) : group.name ~ ' — a community group in ' ~ group.city_name ~ ', ' ~ group.city_state %}

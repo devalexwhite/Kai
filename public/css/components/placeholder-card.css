@@ -1,0 +1,15 @@
+/* --- Placeholder card ---------------------------------------- */
+
+.placeholder-card {
+    border: 1.5px dashed var(--color-border);
+    border-radius: 6px;
+    padding: 2rem;
+    text-align: center;
+    color: var(--color-stone);
+    font-size: 0.9375rem;
+    font-style: italic;
+}
+
+.placeholder-card--empty p {
+    margin-bottom: 1rem;
+}

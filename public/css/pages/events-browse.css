@@ -1,0 +1,16 @@
+@import '../components/event-card.css';
+@import '../components/placeholder-card.css';
+
+/* --- Browse events page -------------------------------------- */
+
+.browse-events {
+    padding: 2.5rem 0 4rem;
+}
+
+.browse-events__header {
+    margin-bottom: 2rem;
+}
+
+.browse-events__header h1 {
+    font-size: 1.75rem;
+}

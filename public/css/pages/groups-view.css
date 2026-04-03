@@ -1,0 +1,150 @@
+@import '../components/event-card.css';
+@import '../components/sidebar-card.css';
+@import '../components/group-links.css';
+@import '../components/placeholder-card.css';
+
+/* --- Group detail page --------------------------------------- */
+
+.group-detail {
+    padding: 2.5rem 0 4rem;
+}
+
+.group-detail__card {
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    overflow: hidden;
+    max-width: 760px;
+    box-shadow: 0 2px 12px rgba(26, 40, 24, 0.07);
+}
+
+.group-detail__cover {
+    height: 160px;
+    color: var(--color-bark);
+    background-color: var(--color-sage);
+}
+
+.group-detail__body {
+    padding: 1.75rem;
+    background: var(--color-paper);
+}
+
+.group-detail__body h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.group-detail__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.85rem;
+    color: var(--color-stone);
+    font-size: 0.9375rem;
+    margin-bottom: 0.25rem;
+    list-style: none;
+    font-style: italic;
+}
+
+.group-detail__description {
+    margin-top: 1.25rem;
+    line-height: 1.7;
+    color: var(--color-stone);
+}
+
+.group-detail__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+}
+
+.group-detail__links {
+    margin-top: 1.25rem;
+}
+
+/* --- Group events section ------------------------------------ */
+
+.group-events {
+    margin-top: 2rem;
+    max-width: 760px;
+}
+
+.group-events__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.group-events__header h2 {
+    font-size: 1.25rem;
+}
+
+.group-events__header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.group-events__past {
+    margin-top: 1.25rem;
+}
+
+.group-events__past-list {
+    margin-top: 1.25rem;
+}
+
+.group-events__past-heading {
+    font-size: 1rem;
+    color: var(--color-stone);
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    font-style: italic;
+}
+
+.group-events__no-past {
+    color: var(--color-stone);
+    font-size: 0.9375rem;
+    font-style: italic;
+}
+
+/* --- Group detail sidebar layout ----------------------------- */
+
+.group-detail__layout {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    grid-template-areas:
+        "card    sidebar"
+        "events  sidebar";
+    gap: 2rem;
+    align-items: start;
+}
+
+.group-detail__layout > .group-detail__card {
+    grid-area: card;
+    max-width: none;
+}
+
+.group-detail__layout > .group-detail__sidebar {
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.group-detail__layout > .group-events {
+    grid-area: events;
+    max-width: none;
+    margin-top: 0;
+}
+
+@media (max-width: 768px) {
+    .group-detail__layout {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "card"
+            "events"
+            "sidebar";
+    }
+}
