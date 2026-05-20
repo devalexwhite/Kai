@@ -1,3 +1,7 @@
+**This repo has been migrated to Codeberg, please find it here [https://codeberg.org/thatalexguy/KaiMeet](https://codeberg.org/thatalexguy/KaiMeet)**
+
+---
+
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a id="readme-top"></a>
 <!--
